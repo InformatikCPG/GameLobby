@@ -1,6 +1,6 @@
 package de.cpg_gilching.informatik11.gamelobby.spiele.pong;
 
-import de.cpg_gilching.informatik11.gamelobby.ServerSpiel;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ServerSpiel;
 
 
 public class PongSpielServer extends ServerSpiel {

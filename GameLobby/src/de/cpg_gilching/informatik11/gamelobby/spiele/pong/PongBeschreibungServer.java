@@ -1,6 +1,6 @@
 package de.cpg_gilching.informatik11.gamelobby.spiele.pong;
 
-import de.cpg_gilching.informatik11.gamelobby.SpielBeschreibungServer;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibungServer;
 
 public class PongBeschreibungServer extends SpielBeschreibungServer {
 	@Override

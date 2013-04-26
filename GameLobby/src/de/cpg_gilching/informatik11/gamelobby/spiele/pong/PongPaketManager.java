@@ -1,7 +1,7 @@
 package de.cpg_gilching.informatik11.gamelobby.spiele.pong;
 
-import de.cpg_gilching.informatik11.gamelobby.PaketManager;
-import de.cpg_gilching.informatik11.gamelobby.PaketLexikon.Paket;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketLexikon.Paket;
 
 public class PongPaketManager extends PaketManager {
 	

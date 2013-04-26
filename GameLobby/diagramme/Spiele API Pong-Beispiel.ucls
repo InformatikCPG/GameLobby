@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.2" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
   realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
-  <class id="1" language="java" name="de.cpg_gilching.informatik11.gamelobby.SpielBeschreibung" project="GameLobby" 
-    file="/GameLobby/src/de/cpg_gilching/informatik11/gamelobby/SpielBeschreibung.java" binary="false" 
+  <class id="1" language="java" name="de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung" 
+    project="GameLobby" 
+    file="/GameLobby/src/de/cpg_gilching/informatik11/gamelobby/shared/spieleapi/SpielBeschreibung.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="845" y="127"/>    
     <display autosize="true" stereotype="true" package="false" initial-value="false" signature="true" accessors="true" 
@@ -11,8 +12,9 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="de.cpg_gilching.informatik11.gamelobby.SpielBeschreibungServer" 
-    project="GameLobby" file="/GameLobby/src/de/cpg_gilching/informatik11/gamelobby/SpielBeschreibungServer.java" 
+  <class id="2" language="java" name="de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibungServer" 
+    project="GameLobby" 
+    file="/GameLobby/src/de/cpg_gilching/informatik11/gamelobby/shared/spieleapi/SpielBeschreibungServer.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="968" y="280"/>    
     <display autosize="true" stereotype="true" package="false" initial-value="false" signature="true" accessors="true" 
@@ -21,8 +23,9 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="de.cpg_gilching.informatik11.gamelobby.ServerSpiel" project="GameLobby" 
-    file="/GameLobby/src/de/cpg_gilching/informatik11/gamelobby/ServerSpiel.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="3" language="java" name="de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ServerSpiel" 
+    project="GameLobby" file="/GameLobby/src/de/cpg_gilching/informatik11/gamelobby/shared/spieleapi/ServerSpiel.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
     <position height="85" width="191" x="637" y="234"/>    
     <display autosize="false" stereotype="true" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
@@ -30,8 +33,9 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="de.cpg_gilching.informatik11.gamelobby.PaketManager" project="GameLobby" 
-    file="/GameLobby/src/de/cpg_gilching/informatik11/gamelobby/PaketManager.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="4" language="java" name="de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager" 
+    project="GameLobby" file="/GameLobby/src/de/cpg_gilching/informatik11/gamelobby/shared/spieleapi/PaketManager.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="463" y="276"/>    
     <display autosize="true" stereotype="true" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      

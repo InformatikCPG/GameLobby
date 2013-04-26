@@ -1,4 +1,4 @@
-package de.cpg_gilching.informatik11.gamelobby;
+package de.cpg_gilching.informatik11.gamelobby.shared.spieleapi;
 
 import java.util.ArrayList;
 import java.util.List;
