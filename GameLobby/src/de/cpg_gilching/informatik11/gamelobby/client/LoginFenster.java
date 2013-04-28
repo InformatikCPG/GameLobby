@@ -3,6 +3,9 @@ package de.cpg_gilching.informatik11.gamelobby.client;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.Inet4Address;
+import java.util.StringTokenizer;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -15,36 +18,40 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
+import de.cpg_gilching.informatik11.gamelobby.shared.net.Connection;
+import de.cpg_gilching.informatik11.gamelobby.shared.net.NetSocket;
 
 /**
- * Hauptklasse des Clients; dient als Einstiegspunkt
+ * Das Fenster des Clients, das den Login-Bildschirm enthält.
+ * Stellt die Verbindung zum Server her und startet bei Erfolg den {@link ControllerClient}.
  */
-public class LobbyClient {
+public class LoginFenster {
 	
+	private JFrame fenster;
 	private JTextField eingabefeldBenutzername;
 	private JTextField eingabefeldIPAdresse;
 	
-	public LobbyClient() {
+	public LoginFenster() {
 		
 		JPanel hauptPanel = new JPanel();
 		hauptPanel.setLayout(new BoxLayout(hauptPanel, BoxLayout.Y_AXIS));
 		hauptPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		verbindungsScreenFüllen(hauptPanel);
+		loginScreenFüllen(hauptPanel);
 		
 		
 		
-		JFrame frame = new JFrame("Lobby-System Client");
+		fenster = new JFrame("Lobby-System Client");
 		//		frame.setResizable(false);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLayout(new BorderLayout());
-		frame.add(hauptPanel, BorderLayout.NORTH);
-		frame.pack();
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
+		fenster.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		fenster.setLayout(new BorderLayout());
+		fenster.add(hauptPanel, BorderLayout.NORTH);
+		fenster.pack();
+		fenster.setLocationRelativeTo(null);
+		fenster.setVisible(true);
 		
 	}
 	
-	private void verbindungsScreenFüllen(JPanel hauptScreen) {
+	private void loginScreenFüllen(JPanel hauptScreen) {
 		//		JPanel hauptScreen = new JPanel();
 		
 		// =========== BENUTZERNAME ===============
@@ -56,7 +63,7 @@ public class LobbyClient {
 		eingabefeldBenutzername.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				verbindungHerstellen();
+				loginAbschicken();
 			}
 		});
 		
@@ -72,7 +79,7 @@ public class LobbyClient {
 		eingabefeldIPAdresse.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				verbindungHerstellen();
+				loginAbschicken();
 			}
 		});
 		
@@ -87,7 +94,7 @@ public class LobbyClient {
 		verbindenBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				verbindungHerstellen();
+				loginAbschicken();
 			}
 		});
 		
@@ -111,11 +118,52 @@ public class LobbyClient {
 		//		hauptScreen.add(hauptScreen, BorderLayout.CENTER);
 	}
 	
-	private void verbindungHerstellen() {
-		String username = eingabefeldBenutzername.getText();
-		String ipAdresse = eingabefeldIPAdresse.getText();
+	private void loginAbschicken() {
+		String username = eingabefeldBenutzername.getText().trim();
+		String ipAdresse = eingabefeldIPAdresse.getText().trim();
 		
-		System.out.println("Verbinde zu " + ipAdresse + " mit Namen " + username + " ...");
+		if (username.isEmpty()) {
+			Helfer.meldungAnzeigen("Du musst einen Benutzernamen eingeben!", true);
+		}
+		else if (ipAdresse.isEmpty()) {
+			Helfer.meldungAnzeigen("Du musst eine IP-Adresse eingeben!", true);
+		}
+		else {
+			// eingegebene IP in Teile zerlegen (um den Port nach dem : einzeln herauszufinden
+			StringTokenizer ipTeile = new StringTokenizer(ipAdresse, ":");
+			String ip = ipTeile.nextToken();
+			int port = 80; // Port 80 ist Standard
+			if (ipTeile.hasMoreTokens()) {
+				try {
+					port = Integer.parseInt(ipTeile.nextToken());
+					if (port < 0)
+						throw new NumberFormatException();
+				} catch (NumberFormatException e) {
+					Helfer.meldungAnzeigen("Dieser Port ist nicht gültig", true);
+					return;
+				}
+			}
+			
+			verbindungHerstellen(ip, port, username);
+		}
+		
+	}
+	
+	public void verbindungHerstellen(String adresse, int port, String username) {
+		System.out.println("Verbinde zu " + adresse + " auf Port " + port + " mit Namen " + username + " ...");
+		
+		try {
+			NetSocket socket = new NetSocket(Inet4Address.getByName(adresse), port);
+			socket.connect();
+			
+			Connection verbindung = new Connection(socket);
+			
+			fenster.dispose();
+			new ControllerClient(verbindung, username);
+		} catch (IOException e) {
+			Helfer.meldungAnzeigen("Es trat ein Fehler beim Herstellen der Verbindung auf!\n" + e.toString(), true);
+			return;
+		}
 	}
 	
 }
