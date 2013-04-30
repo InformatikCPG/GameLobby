@@ -12,6 +12,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -177,6 +178,10 @@ public class FensterServerLobby {
 		p.add(new JButton("Auswählen"), BorderLayout.EAST);
 		
 		return p;
+	}
+	
+	public void spieleDropdownFüllen(Object[] items) {
+		gameDropdown.setModel(new DefaultComboBoxModel(items));
 	}
 	
 	public void fensterSchliessen() {

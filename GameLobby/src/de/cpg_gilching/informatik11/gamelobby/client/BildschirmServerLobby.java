@@ -1,7 +1,10 @@
 package de.cpg_gilching.informatik11.gamelobby.client;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
+
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibungClient;
 
 class SpielerZustand {
 	String name;
@@ -12,8 +15,23 @@ class SpielerZustand {
 	}
 }
 
+class SpielEintrag {
+	String bezeichner;
+	int spielId;
+	
+	public SpielEintrag(SpielBeschreibungClient spiel) {
+		this.bezeichner = spiel.getBezeichnung();
+		this.spielId = spiel.getSpielId();
+	}
+	
+	@Override
+	public String toString() {
+		return bezeichner;
+	}
+}
+
 /**
- * Die View-Komponente der "Server-Lobby".
+ * Die Controller-Komponente der "Server-Lobby".
  */
 public class BildschirmServerLobby {
 	
@@ -47,6 +65,17 @@ public class BildschirmServerLobby {
 	public void spielerEntfernen(String username) {
 		spielerTabelle.remove(username);
 		oberflaeche.spielerListeAktualisieren(spielerTabelle.values());
+	}
+	
+	public void spieleAuswahlAktualisieren(Collection<SpielBeschreibungClient> spiele) {
+		SpielEintrag[] einträge = new SpielEintrag[spiele.size()];
+		
+		int i = 0;
+		for (SpielBeschreibungClient spiel : spiele) {
+			einträge[i++] = new SpielEintrag(spiel);
+		}
+		
+		oberflaeche.spieleDropdownFüllen(einträge);
 	}
 	
 }

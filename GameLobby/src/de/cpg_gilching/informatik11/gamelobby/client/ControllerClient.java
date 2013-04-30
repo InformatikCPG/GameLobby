@@ -1,5 +1,8 @@
 package de.cpg_gilching.informatik11.gamelobby.client;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import de.cpg_gilching.informatik11.gamelobby.shared.AdapterPaketLexikon;
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.PaketListe;
@@ -7,6 +10,9 @@ import de.cpg_gilching.informatik11.gamelobby.shared.net.Connection;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketDisconnect;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketHallo;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketLexikon;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibungClient;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpieleListe;
 
 public class ControllerClient implements Runnable {
 	
@@ -16,6 +22,9 @@ public class ControllerClient implements Runnable {
 	private Connection verbindung;
 	private PaketLexikon paketLexikon;
 	private String username;
+	
+	private SpieleListe geladeneSpiele;
+	private Map<Integer, SpielBeschreibungClient> angemeldeteSpiele = new HashMap<Integer, SpielBeschreibungClient>();
 	
 	private BildschirmServerLobby serverLobby = null;
 	
@@ -33,26 +42,24 @@ public class ControllerClient implements Runnable {
 		verbindung.sendMagicNumber();
 		verbindung.sendPacket(new PacketHallo(username));
 		
+		geladeneSpiele = new SpieleListe();
+		geladeneSpiele.clientSpieleLaden();
+		
 		Thread threadHauptschleife = new Thread(this, "Hauptschleife");
 		threadHauptschleife.start();
 	}
 	
-	/**
-	 * Stoppt die Hauptschleife und beendet damit das Programm. Thread-sicher.
-	 */
-	public synchronized void anhalten() {
-		aktiv = false;
-	}
-	
-	public synchronized boolean istAktiv() {
-		return aktiv;
-	}
-	
-	/**
-	 * Führt ein sauberes Abbauen der Verbindung herbei. Thread-sicher.
-	 */
-	public void verbindungTrennen() {
-		verbindung.sendPacket(new PacketDisconnect("Server verlassen"));
+	public void spielAnmelden(int spielId, String bezeichner) {
+		SpielBeschreibung clientSpiel = geladeneSpiele.getSpielNachBezeichnung(bezeichner);
+		
+		if (clientSpiel == null) {
+			System.err.println("Spiel mit Bezeichnung " + bezeichner + " nicht gefunden!");
+		}
+		else {
+			clientSpiel.setSpielId(spielId);
+			angemeldeteSpiele.put(spielId, (SpielBeschreibungClient) clientSpiel);
+			serverLobby.spieleAuswahlAktualisieren(angemeldeteSpiele.values());
+		}
 	}
 	
 	private void initialisieren() {
@@ -99,6 +106,24 @@ public class ControllerClient implements Runnable {
 		verbindung.close();
 		
 		serverLobby.verlassen();
+	}
+	
+	/**
+	 * Stoppt die Hauptschleife und beendet damit das Programm. Thread-sicher.
+	 */
+	public synchronized void anhalten() {
+		aktiv = false;
+	}
+	
+	public synchronized boolean istAktiv() {
+		return aktiv;
+	}
+	
+	/**
+	 * Führt ein sauberes Abbauen der Verbindung herbei. Thread-sicher.
+	 */
+	public void verbindungTrennen() {
+		verbindung.sendPacket(new PacketDisconnect("Server verlassen"));
 	}
 	
 	public Connection getVerbindung() {

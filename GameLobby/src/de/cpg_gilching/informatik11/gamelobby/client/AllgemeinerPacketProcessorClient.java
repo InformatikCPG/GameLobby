@@ -4,6 +4,7 @@ import de.cpg_gilching.informatik11.gamelobby.shared.net.Packet;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.PacketProcessor;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketChatNachricht;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketDisconnect;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketServerSpielAnmelden;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielerListe;
 
 public class AllgemeinerPacketProcessorClient extends PacketProcessor {
@@ -40,6 +41,10 @@ public class AllgemeinerPacketProcessorClient extends PacketProcessor {
 	
 	public void handle(PacketChatNachricht packet) {
 		client.getServerLobby().chatNachrichtAnzeigen(packet.nachricht);
+	}
+	
+	public void handle(PacketServerSpielAnmelden packet) {
+		client.spielAnmelden(packet.spielId, packet.spielBezeichner);
 	}
 	
 }

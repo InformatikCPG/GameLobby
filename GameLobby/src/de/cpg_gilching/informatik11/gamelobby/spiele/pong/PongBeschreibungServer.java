@@ -14,7 +14,7 @@ public class PongBeschreibungServer extends SpielBeschreibungServer {
 	}
 	
 	@Override
-	public String bezeichnungGeben() {
+	public String getBezeichnung() {
 		return "Pong";
 	}
 	
