@@ -2,6 +2,7 @@ package de.cpg_gilching.informatik11.gamelobby.server;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Packet;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.PacketProcessor;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketChatNachricht;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketDisconnect;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketHallo;
 
@@ -37,6 +38,11 @@ public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 		
 		spieler.setName(packet.username);
 		spieler.getServer().onSpielerBeigetreten(spieler);
+	}
+	
+	public void handle(PacketChatNachricht packet) {
+		// Paket wieder an alle zurücksenden
+		spieler.getServer().paketAnAlle(new PacketChatNachricht("<" + spieler.getName() + "> " + packet.nachricht));
 	}
 	
 	public void handle(PacketDisconnect packet) {
