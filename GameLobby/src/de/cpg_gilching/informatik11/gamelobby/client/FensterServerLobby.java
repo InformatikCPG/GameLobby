@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
@@ -33,6 +34,7 @@ public class FensterServerLobby {
 	
 	private JTextArea chatTextArea;
 	private JScrollPane chatTextScroller;
+	private JTextField chatTextField;
 	private JPanel panelSpieler;
 	
 	public FensterServerLobby(BildschirmServerLobby dieServerLobby) {
@@ -59,10 +61,19 @@ public class FensterServerLobby {
 				chatTextArea.setMargin(new Insets(5, 5, 5, 5));
 				
 				chatTextScroller = new JScrollPane(chatTextArea);
-				chatTextScroller.setBounds(490, 10, 300, 530);
+				chatTextScroller.setBounds(490, 10, 300, 470);
 				chatTextScroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 				hauptPanel.add(chatTextScroller);
 				
+				chatTextField = new JTextField();
+				chatTextField.setBounds(490, 490, 300, 40);
+				chatTextField.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						System.out.println("action");
+					}
+				});
+				hauptPanel.add(chatTextField);
 				
 				JButton trennenBtn = new JButton("Verbindung trennen");
 				trennenBtn.setBounds(590, 550, 200, 40);
