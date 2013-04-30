@@ -51,7 +51,10 @@ public class BildschirmServerLobby {
 	}
 	
 	public void chatNachrichtSenden(String nachricht) {
-		client.getVerbindung().sendPacket(new PacketChatNachricht(nachricht));
+		nachricht = nachricht.trim();
+		if (!nachricht.isEmpty()) {
+			client.getVerbindung().sendPacket(new PacketChatNachricht(nachricht));
+		}
 	}
 	
 	public void verlassen() {
