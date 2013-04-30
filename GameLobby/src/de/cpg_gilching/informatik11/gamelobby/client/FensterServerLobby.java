@@ -66,14 +66,24 @@ public class FensterServerLobby {
 				hauptPanel.add(chatTextScroller);
 				
 				chatTextField = new JTextField();
-				chatTextField.setBounds(490, 490, 300, 40);
+				chatTextField.setBounds(490, 490, 210, 40);
 				chatTextField.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						System.out.println("action");
+						System.out.println("message sent");
 					}
 				});
 				hauptPanel.add(chatTextField);
+				
+				JButton chatSendenBtn = new JButton("Senden");
+				chatSendenBtn.setBounds(705, 490, 85, 40);
+				chatSendenBtn.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						System.out.println("message sent");
+					}
+				});
+				hauptPanel.add(chatSendenBtn);
 				
 				JButton trennenBtn = new JButton("Verbindung trennen");
 				trennenBtn.setBounds(590, 550, 200, 40);
