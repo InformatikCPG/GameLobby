@@ -26,13 +26,13 @@ import de.cpg_gilching.informatik11.gamelobby.shared.net.NetSocket;
  * Das Fenster des Clients, das den Login-Bildschirm enthält.
  * Stellt die Verbindung zum Server her und startet bei Erfolg den {@link ControllerClient}.
  */
-public class LoginFenster {
+public class FensterLogin {
 	
 	private JFrame fenster;
 	private JTextField eingabefeldBenutzername;
 	private JTextField eingabefeldIPAdresse;
 	
-	public LoginFenster() {
+	public FensterLogin() {
 		
 		JPanel hauptPanel = new JPanel();
 		hauptPanel.setLayout(new BoxLayout(hauptPanel, BoxLayout.Y_AXIS));
@@ -76,7 +76,7 @@ public class LoginFenster {
 		ipBox.add(new JLabel("IP-Adresse:"));
 		ipBox.add(Box.createHorizontalStrut(10));
 		
-		eingabefeldIPAdresse = new JTextField(25);
+		eingabefeldIPAdresse = new JTextField("localhost");
 		eingabefeldIPAdresse.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

@@ -2,7 +2,7 @@ package de.cpg_gilching.informatik11.gamelobby;
 
 import javax.swing.UnsupportedLookAndFeelException;
 
-import de.cpg_gilching.informatik11.gamelobby.client.LoginFenster;
+import de.cpg_gilching.informatik11.gamelobby.client.FensterLogin;
 
 public class ClientLauncher {
 	
@@ -13,10 +13,10 @@ public class ClientLauncher {
 		//		}
 		
 		
-		LoginFenster loginFenster = new LoginFenster();
+		FensterLogin fensterLogin = new FensterLogin();
 		
 		if (args.length == 3) {
-			loginFenster.verbindungHerstellen(args[0], Integer.parseInt(args[1]), args[2]);
+			fensterLogin.verbindungHerstellen(args[0], Integer.parseInt(args[1]), args[2]);
 		}
 	}
 	

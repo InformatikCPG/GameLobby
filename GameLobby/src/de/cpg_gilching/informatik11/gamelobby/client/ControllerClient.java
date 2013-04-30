@@ -57,6 +57,7 @@ public class ControllerClient implements Runnable {
 	
 	private void initialisieren() {
 		serverLobby = new BildschirmServerLobby(this);
+		new FensterSessionLobby();
 	}
 	
 	private void tick(int ms) {
