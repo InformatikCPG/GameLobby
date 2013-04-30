@@ -7,8 +7,11 @@ import de.cpg_gilching.informatik11.gamelobby.shared.AdapterPaketLexikon;
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.PaketListe;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Connection;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketServerSpielAnmelden;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielerListe;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketLexikon;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpieleListe;
 
 /**
  * Die Hauptklasse für die Lobby-Logik auf dem Server.
@@ -21,6 +24,8 @@ public class ControllerServer {
 	private PaketLexikon paketLexikon;
 	private List<Spieler> spielerListe = new ArrayList<Spieler>();
 	
+	private SpieleListe geladeneSpiele;
+	
 	public ControllerServer(ServerMain server) {
 		this.server = server;
 		
@@ -28,6 +33,9 @@ public class ControllerServer {
 		PaketListe.normalePaketeAnmelden(adapter);
 		
 		paketLexikon = new PaketLexikon(adapter);
+		
+		geladeneSpiele = new SpieleListe();
+		geladeneSpiele.serverSpieleLaden();
 	}
 	
 	public void onSpielerVerbinden(Connection verbindung) {
@@ -48,6 +56,12 @@ public class ControllerServer {
 		
 		// neuen Spieler Teil der Liste machen
 		spielerListe.add(neuerSpieler);
+		
+		
+		// geladene Spiele senden
+		for (SpielBeschreibung spiel : geladeneSpiele) {
+			neuerSpieler.packetSenden(new PacketServerSpielAnmelden(spiel.getSpielId(), spiel.getBezeichnung()));
+		}
 		
 		
 		// zum debuggen

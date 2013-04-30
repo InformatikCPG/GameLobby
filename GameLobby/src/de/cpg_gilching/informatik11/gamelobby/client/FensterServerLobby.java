@@ -12,7 +12,9 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -36,6 +38,7 @@ public class FensterServerLobby {
 	private JScrollPane chatTextScroller;
 	private JTextField chatTextField;
 	private JPanel panelSpieler;
+	private JComboBox gameDropdown;
 	
 	public FensterServerLobby(BildschirmServerLobby dieServerLobby) {
 		this.serverLobby = dieServerLobby;
@@ -50,9 +53,37 @@ public class FensterServerLobby {
 				panelSpieler = new JPanel();
 				panelSpieler.setLayout(null);
 				
+				JButton trennenBtn = new JButton("Verbindung trennen");
+				trennenBtn.setBounds(590, 550, 200, 40);
+				trennenBtn.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						serverLobby.verbindungTrennen();
+					}
+				});
+				hauptPanel.add(trennenBtn);
+				
 				JScrollPane spielerScroller = new JScrollPane(panelSpieler);
-				spielerScroller.setBounds(10, 10, 400, 400);
+				spielerScroller.setBounds(10, 10, 460, 400);
 				hauptPanel.add(spielerScroller);
+				
+				JLabel gameDropdownLabel = new JLabel("Spiel :");
+				gameDropdownLabel.setBounds(10, 420, 40, 25);
+				hauptPanel.add(gameDropdownLabel);
+				
+				gameDropdown = new JComboBox();
+				gameDropdown.setBounds(50, 420, 250, 25);
+				hauptPanel.add(gameDropdown);
+				
+				JButton gameStartBtn = new JButton("Session starten");
+				gameStartBtn.setBounds(270, 550, 200, 40);
+				gameStartBtn.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						System.out.println("Session started");
+					}
+				});
+				hauptPanel.add(gameStartBtn);
 				
 				
 				chatTextArea = new JTextArea();
@@ -85,15 +116,6 @@ public class FensterServerLobby {
 				});
 				hauptPanel.add(chatSendenBtn);
 				
-				JButton trennenBtn = new JButton("Verbindung trennen");
-				trennenBtn.setBounds(590, 550, 200, 40);
-				trennenBtn.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						serverLobby.verbindungTrennen();
-					}
-				});
-				hauptPanel.add(trennenBtn);
 				
 				fenster = new JFrame("Server-Lobby");
 				fenster.setResizable(false);
@@ -156,6 +178,10 @@ public class FensterServerLobby {
 		p.add(new JButton("Auswählen"), BorderLayout.EAST);
 		
 		return p;
+	}
+	
+	public void spieleDropdownFüllen(Object[] items) {
+		gameDropdown.setModel(new DefaultComboBoxModel(items));
 	}
 	
 	public void fensterSchliessen() {
