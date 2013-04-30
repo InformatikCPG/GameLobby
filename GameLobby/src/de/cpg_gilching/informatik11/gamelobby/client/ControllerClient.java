@@ -13,7 +13,7 @@ public class ControllerClient implements Runnable {
 	private Connection verbindung;
 	private String username;
 	
-	private LobbyServerFenster serverLobby = null;
+	private BildschirmServerLobby serverLobby = null;
 	
 	private boolean aktiv = true;
 	
@@ -49,7 +49,7 @@ public class ControllerClient implements Runnable {
 	}
 	
 	private void initialisieren() {
-		serverLobby = new LobbyServerFenster(this);
+		serverLobby = new BildschirmServerLobby(this);
 	}
 	
 	private void tick(int ms) {
@@ -91,14 +91,14 @@ public class ControllerClient implements Runnable {
 		// Verbindung schließen, falls noch nicht geschehen
 		verbindung.close();
 		
-		serverLobby.fensterSchliessen();
+		serverLobby.verlassen();
 	}
 	
 	public Connection getVerbindung() {
 		return verbindung;
 	}
 	
-	public LobbyServerFenster getServerLobby() {
+	public BildschirmServerLobby getServerLobby() {
 		return serverLobby;
 	}
 	

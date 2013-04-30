@@ -8,8 +8,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketChatNachricht;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketDisconnect;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketHallo;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielerListe;
 
 public abstract class Packet {
 	
@@ -20,6 +22,8 @@ public abstract class Packet {
 	static {
 		addPacket(PacketHallo.class);
 		addPacket(PacketDisconnect.class);
+		addPacket(PacketChatNachricht.class);
+		addPacket(PacketSpielerListe.class);
 		
 		//		addPacket(0x01, PacketHandshake.class);
 		//		addPacket(0x03, PacketCommand.class);

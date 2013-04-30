@@ -25,7 +25,18 @@ public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 	}
 	
 	public void handle(PacketHallo packet) {
+		if (spieler.getServer().getSpielerListe().contains(spieler)) {
+			System.err.println("Spieler " + spieler.getName() + " hat versucht, 2x seinen Namen zu senden!");
+			return;
+		}
+		
+		if (spieler.getServer().getSpieler(packet.username) != null) {
+			spieler.getServer().kickSpieler(spieler, "Name schon vergeben");
+			return;
+		}
+		
 		spieler.setName(packet.username);
+		spieler.getServer().onSpielerBeigetreten(spieler);
 	}
 	
 	public void handle(PacketDisconnect packet) {

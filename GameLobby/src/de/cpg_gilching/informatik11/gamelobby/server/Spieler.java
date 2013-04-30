@@ -1,6 +1,7 @@
 package de.cpg_gilching.informatik11.gamelobby.server;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Connection;
+import de.cpg_gilching.informatik11.gamelobby.shared.net.Packet;
 
 public class Spieler {
 	
@@ -12,6 +13,10 @@ public class Spieler {
 		this.verbindung = verbindung;
 		this.name = name;
 		this.server = server;
+	}
+	
+	public void packetSenden(Packet p) {
+		verbindung.sendPacket(p);
 	}
 	
 	public Connection getVerbindung() {

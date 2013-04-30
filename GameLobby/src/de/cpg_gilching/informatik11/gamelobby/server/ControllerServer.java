@@ -3,7 +3,9 @@ package de.cpg_gilching.informatik11.gamelobby.server;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Connection;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielerListe;
 
 /**
  * Die Hauptklasse für die Lobby-Logik auf dem Server.
@@ -20,9 +22,30 @@ public class ControllerServer {
 	}
 	
 	public void onSpielerVerbinden(Connection verbindung) {
+		// Spieler initialisieren
 		Spieler neuerSpieler = new Spieler(verbindung, "Unbekannt", this);
-		spielerListe.add(neuerSpieler);
 		verbindung.setPacketProcessor(new AllgemeinerPacketProcessorServer(neuerSpieler));
+		
+		// PacketProcessor wartet jetzt auf PacketHallo, mit dem der Spieler richtig betreten wird
+	}
+	
+	public void onSpielerBeigetreten(Spieler neuerSpieler) {
+		// Spielerlisten aktualisieren
+		PacketSpielerListe neuerSpielerPacket = new PacketSpielerListe(neuerSpieler.getName(), true);
+		for (Spieler anderer : spielerListe) {
+			anderer.packetSenden(neuerSpielerPacket);
+			neuerSpieler.packetSenden(new PacketSpielerListe(anderer.getName(), true));
+		}
+		
+		// neuen Spieler Teil der Liste machen
+		spielerListe.add(neuerSpieler);
+		
+		
+		// zum debuggen
+		int zufallsAnzahl = Helfer.zufallsZahl(5, 20);
+		for (int i = 0; i < zufallsAnzahl; i++) {
+			server.broadcast(new PacketSpielerListe("bbb" + Helfer.zufallsZahl(10, 2000), true));
+		}
 	}
 	
 	public void onSpielerVerlassen(Connection verbindung) {
@@ -30,6 +53,12 @@ public class ControllerServer {
 			if (spieler.getVerbindung() == verbindung) {
 				System.out.println("Spieler " + spieler.getName() + " hat den Server verlassen.");
 				spielerListe.remove(spieler);
+				
+				// verbleibende Spieler informieren
+				for (Spieler anderer : spielerListe) {
+					anderer.packetSenden(new PacketSpielerListe(spieler.getName(), false));
+				}
+				
 				break;
 			}
 		}
@@ -45,6 +74,25 @@ public class ControllerServer {
 	
 	public void tick(int ms) {
 		
+	}
+	
+	public List<Spieler> getSpielerListe() {
+		return spielerListe;
+	}
+	
+	/**
+	 * Sucht einen Spieler auf dem Server anhand seines Namens.
+	 * 
+	 * @param username Der exakte Name des Spielers
+	 * @return den Spieler, oder null wenn nicht gefunden
+	 */
+	public Spieler getSpieler(String username) {
+		// TODO performance verbessern
+		for (Spieler s : spielerListe) {
+			if (s.getName().equals(username))
+				return s;
+		}
+		return null;
 	}
 	
 	public ServerMain getServer() {

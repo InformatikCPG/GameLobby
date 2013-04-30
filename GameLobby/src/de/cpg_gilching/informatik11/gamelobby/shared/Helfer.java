@@ -3,6 +3,7 @@ package de.cpg_gilching.informatik11.gamelobby.shared;
 import java.util.Random;
 
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 /**
  * Allgemeine Helfer-Klasse, die nützliche Methoden bereitstellt, um bestimmte Dinge zu vereinfachen.
@@ -67,5 +68,9 @@ public class Helfer {
 			Thread.sleep(ms);
 		} catch (InterruptedException e) {
 		}
+	}
+	
+	public static void alsSwingTask(Runnable runnable) {
+		SwingUtilities.invokeLater(runnable);
 	}
 }
