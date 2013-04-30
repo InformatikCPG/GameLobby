@@ -7,6 +7,7 @@ import de.cpg_gilching.informatik11.gamelobby.shared.AdapterPaketLexikon;
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.PaketListe;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Connection;
+import de.cpg_gilching.informatik11.gamelobby.shared.net.Packet;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketServerSpielAnmelden;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielerListe;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketLexikon;
@@ -65,7 +66,7 @@ public class ControllerServer {
 		
 		
 		// zum debuggen
-		int zufallsAnzahl = Helfer.zufallsZahl(5, 20);
+		int zufallsAnzahl = Helfer.zufallsZahl(5, 10);
 		for (int i = 0; i < zufallsAnzahl; i++) {
 			server.broadcast(new PacketSpielerListe("bbb" + Helfer.zufallsZahl(10, 2000), true));
 		}
@@ -101,6 +102,13 @@ public class ControllerServer {
 	
 	public List<Spieler> getSpielerListe() {
 		return spielerListe;
+	}
+	
+	/**
+	 * Sendet ein {@link Packet} an alle verbundenen Spieler.
+	 */
+	public void paketAnAlle(Packet packet) {
+		server.broadcast(packet);
 	}
 	
 	/**

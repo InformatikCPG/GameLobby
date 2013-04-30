@@ -74,7 +74,7 @@ public class FensterSessionLobby {
 						System.out.println("angenommen");
 					}
 				});
-				hauptPanel.add(annehmenBtn);	
+				hauptPanel.add(annehmenBtn);
 				
 				
 				fenster = new JFrame("Server-Lobby");
@@ -89,7 +89,7 @@ public class FensterSessionLobby {
 				fenster.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowClosing(WindowEvent e) {
-						
+						fenster.dispose();
 					}
 				});
 			}

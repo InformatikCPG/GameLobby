@@ -1,6 +1,7 @@
 package de.cpg_gilching.informatik11.gamelobby.client;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -35,6 +36,7 @@ public class FensterLogin {
 	public FensterLogin() {
 		
 		JPanel hauptPanel = new JPanel();
+		hauptPanel.setMinimumSize(new Dimension(300, 1));
 		hauptPanel.setLayout(new BoxLayout(hauptPanel, BoxLayout.Y_AXIS));
 		hauptPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		loginScreenFüllen(hauptPanel);
@@ -76,7 +78,7 @@ public class FensterLogin {
 		ipBox.add(new JLabel("IP-Adresse:"));
 		ipBox.add(Box.createHorizontalStrut(10));
 		
-		eingabefeldIPAdresse = new JTextField("localhost");
+		eingabefeldIPAdresse = new JTextField(25);
 		eingabefeldIPAdresse.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

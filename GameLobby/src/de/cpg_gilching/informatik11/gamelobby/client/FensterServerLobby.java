@@ -92,26 +92,26 @@ public class FensterServerLobby {
 				chatTextArea.setMargin(new Insets(5, 5, 5, 5));
 				
 				chatTextScroller = new JScrollPane(chatTextArea);
-				chatTextScroller.setBounds(490, 10, 300, 470);
+				chatTextScroller.setBounds(490, 10, 300, 480);
 				chatTextScroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 				hauptPanel.add(chatTextScroller);
 				
 				chatTextField = new JTextField();
-				chatTextField.setBounds(490, 490, 210, 40);
+				chatTextField.setBounds(490, 500, 210, 30);
 				chatTextField.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						System.out.println("message sent");
+						nachrichtSenden();
 					}
 				});
 				hauptPanel.add(chatTextField);
 				
 				JButton chatSendenBtn = new JButton("Senden");
-				chatSendenBtn.setBounds(705, 490, 85, 40);
+				chatSendenBtn.setBounds(705, 500, 85, 30);
 				chatSendenBtn.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						System.out.println("message sent");
+						nachrichtSenden();
 					}
 				});
 				hauptPanel.add(chatSendenBtn);
@@ -182,6 +182,13 @@ public class FensterServerLobby {
 	
 	public void spieleDropdownFüllen(Object[] items) {
 		gameDropdown.setModel(new DefaultComboBoxModel(items));
+	}
+	
+	private void nachrichtSenden() {
+		String nachricht = chatTextField.getText();
+		chatTextField.setText("");
+		
+		serverLobby.chatNachrichtSenden(nachricht);
 	}
 	
 	public void fensterSchliessen() {

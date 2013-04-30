@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketChatNachricht;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibungClient;
 
 class SpielerZustand {
@@ -47,6 +48,10 @@ public class BildschirmServerLobby {
 	
 	public void chatNachrichtAnzeigen(String nachricht) {
 		oberflaeche.chatNachrichtAnzeigen(nachricht);
+	}
+	
+	public void chatNachrichtSenden(String nachricht) {
+		client.getVerbindung().sendPacket(new PacketChatNachricht(nachricht));
 	}
 	
 	public void verlassen() {
