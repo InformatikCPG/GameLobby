@@ -36,10 +36,11 @@ public class FensterLogin {
 	public FensterLogin() {
 		
 		JPanel hauptPanel = new JPanel();
-		hauptPanel.setMinimumSize(new Dimension(300, 1));
 		hauptPanel.setLayout(new BoxLayout(hauptPanel, BoxLayout.Y_AXIS));
 		hauptPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		loginScreenFüllen(hauptPanel);
+		
+		hauptPanel.setPreferredSize(new Dimension(300, hauptPanel.getPreferredSize().height));
 		
 		
 		
@@ -78,7 +79,7 @@ public class FensterLogin {
 		ipBox.add(new JLabel("IP-Adresse:"));
 		ipBox.add(Box.createHorizontalStrut(10));
 		
-		eingabefeldIPAdresse = new JTextField(25);
+		eingabefeldIPAdresse = new JTextField("localhost");
 		eingabefeldIPAdresse.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
