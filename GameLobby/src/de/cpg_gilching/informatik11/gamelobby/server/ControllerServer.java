@@ -3,9 +3,12 @@ package de.cpg_gilching.informatik11.gamelobby.server;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.cpg_gilching.informatik11.gamelobby.shared.AdapterPaketLexikon;
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
+import de.cpg_gilching.informatik11.gamelobby.shared.PaketListe;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Connection;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielerListe;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketLexikon;
 
 /**
  * Die Hauptklasse für die Lobby-Logik auf dem Server.
@@ -15,10 +18,16 @@ import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielerListe;
 public class ControllerServer {
 	
 	private ServerMain server;
+	private PaketLexikon paketLexikon;
 	private List<Spieler> spielerListe = new ArrayList<Spieler>();
 	
 	public ControllerServer(ServerMain server) {
 		this.server = server;
+		
+		AdapterPaketLexikon adapter = new AdapterPaketLexikon();
+		PaketListe.normalePaketeAnmelden(adapter);
+		
+		paketLexikon = new PaketLexikon(adapter);
 	}
 	
 	public void onSpielerVerbinden(Connection verbindung) {
@@ -97,6 +106,10 @@ public class ControllerServer {
 	
 	public ServerMain getServer() {
 		return server;
+	}
+	
+	public PaketLexikon getPaketLexikon() {
+		return paketLexikon;
 	}
 	
 }

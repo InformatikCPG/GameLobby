@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import de.cpg_gilching.informatik11.gamelobby.shared.AdapterPaketLexikon;
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Connection;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.NetSocket;
@@ -156,10 +157,11 @@ public class LoginFenster {
 			NetSocket socket = new NetSocket(Inet4Address.getByName(adresse), port);
 			socket.connect();
 			
-			Connection verbindung = new Connection(socket);
+			AdapterPaketLexikon lexikonAdapter = new AdapterPaketLexikon();
+			Connection verbindung = new Connection(socket, lexikonAdapter);
 			
 			fenster.dispose();
-			new ControllerClient(verbindung, username);
+			new ControllerClient(verbindung, username, lexikonAdapter);
 		} catch (IOException e) {
 			Helfer.meldungAnzeigen("Es trat ein Fehler beim Herstellen der Verbindung auf!\n" + e.toString(), true);
 			return;

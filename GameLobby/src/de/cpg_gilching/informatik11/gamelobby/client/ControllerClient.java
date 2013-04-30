@@ -1,9 +1,12 @@
 package de.cpg_gilching.informatik11.gamelobby.client;
 
+import de.cpg_gilching.informatik11.gamelobby.shared.AdapterPaketLexikon;
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
+import de.cpg_gilching.informatik11.gamelobby.shared.PaketListe;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Connection;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketDisconnect;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketHallo;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketLexikon;
 
 public class ControllerClient implements Runnable {
 	
@@ -11,15 +14,19 @@ public class ControllerClient implements Runnable {
 	private static final int MS_PER_TICK = 1000 / CLIENT_TPS;
 	
 	private Connection verbindung;
+	private PaketLexikon paketLexikon;
 	private String username;
 	
 	private BildschirmServerLobby serverLobby = null;
 	
 	private boolean aktiv = true;
 	
-	public ControllerClient(Connection verbindung, String username) {
+	public ControllerClient(Connection verbindung, String username, AdapterPaketLexikon lexikonAdapter) {
 		this.verbindung = verbindung;
+		this.paketLexikon = new PaketLexikon(lexikonAdapter);
 		this.username = username;
+		
+		PaketListe.normalePaketeAnmelden(lexikonAdapter);
 		
 		verbindung.setPacketProcessor(new AllgemeinerPacketProcessorClient(this));
 		
@@ -100,6 +107,10 @@ public class ControllerClient implements Runnable {
 	
 	public BildschirmServerLobby getServerLobby() {
 		return serverLobby;
+	}
+	
+	public PaketLexikon getPaketLexikon() {
+		return paketLexikon;
 	}
 	
 	public String getUsername() {

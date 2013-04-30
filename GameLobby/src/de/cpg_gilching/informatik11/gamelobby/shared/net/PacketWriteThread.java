@@ -9,14 +9,16 @@ import java.util.LinkedList;
 public class PacketWriteThread extends Thread {
 	
 	private final DataOutputStream outStream;
+	private final IPacketDictionary packetDictionary;
 	private final IStatsListener statsObserver;
 	private final IReadWriteErrorHandler errorHandler;
 	private LinkedList<Packet> outPackets = new LinkedList<Packet>();
 	private volatile boolean running = true;
 	
-	public PacketWriteThread(OutputStream outStream, IStatsListener observer, IReadWriteErrorHandler errorHandler, String name) {
+	public PacketWriteThread(OutputStream outStream, IPacketDictionary packetDictionary, IStatsListener observer, IReadWriteErrorHandler errorHandler, String name) {
 		super(name);
 		this.outStream = new DataOutputStream(outStream);
+		this.packetDictionary = packetDictionary;
 		this.statsObserver = observer;
 		this.errorHandler = errorHandler;
 		this.setDaemon(true);
@@ -92,7 +94,7 @@ public class PacketWriteThread extends Thread {
 			
 			int sizeOld = outStream.size();
 			
-			outStream.writeShort(p.id & 0xFFFF);
+			outStream.writeShort(packetDictionary.getPacketId(p));
 			p.write(outStream);
 			outStream.flush();
 			

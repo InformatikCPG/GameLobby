@@ -15,12 +15,16 @@ public class Connection implements IReadWriteErrorHandler {
 	private PacketWriteThread writeThread;
 	private PacketProcessor netProcessor = null;
 	
+	private IPacketDictionary dictionary;
+	
 	private volatile boolean closed = false;
 	
-	public Connection(PotentialSocket socket) throws IOException {
+	
+	public Connection(PotentialSocket socket, IPacketDictionary dictionary) throws IOException {
 		this.socket = socket;
-		readThread = new PacketReadThread(socket.getInputStream(), null, this, "NetworkReaderThread-" + ++instanceCounter);
-		writeThread = new PacketWriteThread(socket.getOutputStream(), null, this, "NetworkWriterThread-" + instanceCounter);
+		this.dictionary = dictionary;
+		readThread = new PacketReadThread(socket.getInputStream(), dictionary, null, this, "NetworkReaderThread-" + ++instanceCounter);
+		writeThread = new PacketWriteThread(socket.getOutputStream(), dictionary, null, this, "NetworkWriterThread-" + instanceCounter);
 	}
 	
 	/**
@@ -90,6 +94,10 @@ public class Connection implements IReadWriteErrorHandler {
 	
 	public PotentialSocket getSocket() {
 		return socket;
+	}
+	
+	public IPacketDictionary getDictionary() {
+		return dictionary;
 	}
 	
 }

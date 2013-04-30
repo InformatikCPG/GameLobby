@@ -253,7 +253,7 @@ public class ServerMain implements Runnable {
 				if (magicNumber == Packet.MAGIC_NUMBER) {
 					log(socket.getRepresentation() + " validated");
 					
-					Connection connection = new Connection(socket);
+					Connection connection = new Connection(socket, controller.getPaketLexikon().getInternesLexikon());
 					newClients.add(connection);
 				}
 				else {

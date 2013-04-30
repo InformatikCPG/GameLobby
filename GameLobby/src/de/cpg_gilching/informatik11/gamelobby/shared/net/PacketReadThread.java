@@ -11,16 +11,18 @@ public class PacketReadThread extends Thread {
 	
 	private final DataInputStream inStream;
 	private final CountingInputStream inStreamCounting;
+	private final IPacketDictionary packetDictionary;
 	private final IStatsListener statsObserver;
 	private final IReadWriteErrorHandler errorHandler;
 	private LinkedList<Packet> readPackets = new LinkedList<Packet>();
 	private volatile boolean running = true;
 	
-	public PacketReadThread(InputStream inStream, IStatsListener observer, IReadWriteErrorHandler errorHandler, String name) {
+	public PacketReadThread(InputStream inStream, IPacketDictionary packetDictionary, IStatsListener statsObserver, IReadWriteErrorHandler errorHandler, String name) {
 		super(name);
 		this.inStreamCounting = new CountingInputStream(inStream);
 		this.inStream = new DataInputStream(inStreamCounting);
-		this.statsObserver = observer;
+		this.packetDictionary = packetDictionary;
+		this.statsObserver = statsObserver;
 		this.errorHandler = errorHandler;
 		this.setDaemon(true);
 		this.start();
@@ -45,7 +47,8 @@ public class PacketReadThread extends Thread {
 				int oldSize = inStreamCounting.size();
 				
 				int packetId = inStream.readUnsignedShort() & 0xFFFF;
-				Class<? extends Packet> clazz = Packet.byId.get(packetId);
+				Class<? extends Packet> clazz = packetDictionary.getPacketById(packetId);
+				
 				if (clazz == null)
 					System.out.println("#" + Thread.currentThread().getName() + "# invalid packet: " + packetId);
 				else {
