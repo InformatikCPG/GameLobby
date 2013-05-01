@@ -2,7 +2,9 @@ package de.cpg_gilching.informatik11.gamelobby.client;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,6 +31,9 @@ public class PanelSpielerEintrag extends JPanel implements Runnable {
 		auswahlBtn.addActionListener(new SynchronerListener(this, serverLobby.getClient()));
 		
 		setLayout(new BorderLayout());
+		setBorder(BorderFactory.createEmptyBorder(4, 10, 4, 4));
+		setPreferredSize(new Dimension(1, 32));
+		
 		add(new JLabel(spielerModel.getName()), BorderLayout.WEST);
 		add(auswahlBtn, BorderLayout.EAST);
 		

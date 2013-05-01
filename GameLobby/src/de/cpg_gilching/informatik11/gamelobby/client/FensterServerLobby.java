@@ -40,7 +40,7 @@ public class FensterServerLobby {
 	private JTextArea chatTextArea;
 	private JScrollPane chatTextScroller;
 	private JTextField chatTextField;
-	private JPanel panelSpieler;
+	private JPanel panelAlleSpieler;
 	private JComboBox gameDropdown;
 	private JLabel gameAusgewähltLabel;
 	private JButton gameStartBtn;
@@ -55,8 +55,8 @@ public class FensterServerLobby {
 				hauptPanel.setLayout(null);
 				hauptPanel.setPreferredSize(new Dimension(800, 600));
 				
-				panelSpieler = new JPanel();
-				panelSpieler.setLayout(null);
+				panelAlleSpieler = new JPanel();
+				panelAlleSpieler.setLayout(null);
 				
 				JButton trennenBtn = new JButton("Verbindung trennen");
 				trennenBtn.setBounds(590, 550, 200, 40);
@@ -69,7 +69,7 @@ public class FensterServerLobby {
 				hauptPanel.add(trennenBtn);
 				
 				
-				JScrollPane spielerScroller = new JScrollPane(panelSpieler);
+				JScrollPane spielerScroller = new JScrollPane(panelAlleSpieler);
 				spielerScroller.setBounds(10, 10, 460, 400);
 				hauptPanel.add(spielerScroller);
 				
@@ -194,22 +194,22 @@ public class FensterServerLobby {
 		Helfer.alsSwingTask(new Runnable() {
 			@Override
 			public void run() {
-				panelSpieler.removeAll();
+				panelAlleSpieler.removeAll();
 				
 				int hoehe = 5;
 				for (SpielerZustand spieler : alleSpieler) {
 					PanelSpielerEintrag spielerPanel = new PanelSpielerEintrag(spieler, serverLobby);
-					spielerPanel.setBounds(5, hoehe, panelSpieler.getWidth() - 10, 25);
+					spielerPanel.setBounds(5, hoehe, panelAlleSpieler.getWidth() - 10, spielerPanel.getPreferredSize().height);
 					
-					panelSpieler.add(spielerPanel);
+					panelAlleSpieler.add(spielerPanel);
 					
-					hoehe += 30;
+					hoehe += spielerPanel.getPreferredSize().height + 5;
 				}
 				
-				panelSpieler.revalidate();
-				panelSpieler.repaint();
+				panelAlleSpieler.revalidate();
+				panelAlleSpieler.repaint();
 				
-				panelSpieler.setPreferredSize(new Dimension(1, hoehe));
+				panelAlleSpieler.setPreferredSize(new Dimension(1, hoehe));
 			}
 		});
 	}
