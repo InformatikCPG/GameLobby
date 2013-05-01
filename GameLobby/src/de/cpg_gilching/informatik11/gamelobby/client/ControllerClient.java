@@ -66,6 +66,7 @@ public class ControllerClient implements Runnable {
 	
 	private void initialisieren() {
 		serverLobby = new BildschirmServerLobby(this);
+		new FensterGameLobby();
 		new FensterSessionLobby();
 	}
 	
