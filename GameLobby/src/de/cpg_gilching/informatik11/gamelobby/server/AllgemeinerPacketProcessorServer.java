@@ -9,7 +9,9 @@ import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketChatNachricht
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketDisconnect;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketHallo;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketKeepAlive;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionAnnehmen;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionStarten;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionVerlassen;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
 
 public class AllgemeinerPacketProcessorServer extends PacketProcessor {
@@ -76,7 +78,32 @@ public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 			spielerListe.add(eingeladener);
 		}
 		
+		if (spielerListe.size() < beschreibung.minimalspielerGeben() || (beschreibung.maximalspielerGeben() > -1 && spielerListe.size() > beschreibung.maximalspielerGeben())) {
+			System.err.println("Ungültiger Anzahl an Spielern beim Starten der Session: " + spielerListe.size());
+			return;
+		}
+		
 		spieler.getServer().sessionStarten(beschreibung, spielerListe);
+	}
+	
+	public void handle(PacketSessionAnnehmen packet) {
+		Session session = spieler.getServer().getSessionNachId(packet.sessionId);
+		if (session == null) {
+			System.err.println("Session kann nicht angenommen werden: ungültige id " + packet.sessionId);
+			return;
+		}
+		
+		session.spielerBereit(spieler);
+	}
+	
+	public void handle(PacketSessionVerlassen packet) {
+		Session session = spieler.getServer().getSessionNachId(packet.sessionId);
+		if (session == null) {
+			System.err.println("Session kann nicht verlassen werden: ungültige id " + packet.sessionId);
+			return;
+		}
+		
+		session.spielerVerlassen(spieler);
 	}
 	
 	

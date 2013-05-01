@@ -76,12 +76,20 @@ public class ControllerClient implements Runnable {
 		}
 	}
 	
-	public SpielBeschreibung beschreibungSuchen(int spielId) {
+	public SpielBeschreibung getBeschreibungNachId(int spielId) {
 		return angemeldeteBeschreibungen.get(spielId);
 	}
 	
 	public void sessionErstellen(int sessionId, SpielBeschreibung beschreibung, List<String> eingeladeneSpieler) {
-		sessionLobbies.put(sessionId, new BildschirmSessionLobby(sessionId, beschreibung, eingeladeneSpieler));
+		sessionLobbies.put(sessionId, new BildschirmSessionLobby(this, sessionId, beschreibung, eingeladeneSpieler));
+	}
+	
+	public void sessionBeenden(BildschirmSessionLobby sessionLobby) {
+		sessionLobbies.remove(sessionLobby.getSessionId());
+	}
+	
+	public BildschirmSessionLobby getSessionNachId(int sessionId) {
+		return sessionLobbies.get(sessionId);
 	}
 	
 	private void initialisieren() {

@@ -1,6 +1,7 @@
 package de.cpg_gilching.informatik11.gamelobby.client;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -9,6 +10,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -69,7 +72,7 @@ public class FensterSessionLobby {
 				annehmenBtn.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						System.out.println("angenommen");
+						annehmen();
 					}
 				});
 				hauptPanel.add(annehmenBtn);
@@ -79,7 +82,7 @@ public class FensterSessionLobby {
 				ablehnenBtn.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						System.out.println("abgelehnt");
+						sessionLobby.lobbyVerlassen();
 					}
 				});
 				hauptPanel.add(ablehnenBtn);
@@ -97,16 +100,23 @@ public class FensterSessionLobby {
 				fenster.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowClosing(WindowEvent e) {
-						fenster.dispose();
+						sessionLobby.lobbyVerlassen();
 					}
 				});
 			}
 		});
 	}
 	
-	public void spielerListeAktualisieren(Collection<String> spieler) {
-		// unabhängige Liste der Spieler erstellen
+	private void annehmen() {
+		// schon auf Event-Thread
+		annehmenBtn.setEnabled(false);
+		sessionLobby.lobbyAnnehmen();
+	}
+	
+	public void spielerListeAktualisieren(Collection<String> spieler, Collection<String> fertig) {
+		// unabhängige Listen erstellen
 		final Collection<String> alleSpieler = new ArrayList<String>(spieler);
+		final Set<String> fertigeSpieler = new HashSet<String>(fertig);
 		
 		// auf Event-Thread ausführen
 		Helfer.alsSwingTask(new Runnable() {
@@ -117,12 +127,21 @@ public class FensterSessionLobby {
 				spielerPanel.add(Box.createVerticalStrut(10));
 				
 				for (String spielerName : alleSpieler) {
+					JLabel nameLabel = new JLabel(spielerName);
+					nameLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+					
 					Box box = Box.createHorizontalBox();
 					box.add(Box.createHorizontalStrut(10));
-					box.add(new JLabel(spielerName));
+					box.add(nameLabel);
 					box.add(Box.createHorizontalGlue());
-					box.add(new JLabel("Bereit"));
-					box.add(Box.createHorizontalStrut(10));
+					
+					if (fertigeSpieler.contains(spielerName)) {
+						JLabel bereitLabel = new JLabel("Bereit");
+						bereitLabel.setForeground(Color.green);
+						
+						box.add(bereitLabel);
+						box.add(Box.createHorizontalStrut(10));
+					}
 					
 					spielerPanel.add(box);
 					spielerPanel.add(Box.createVerticalStrut(10));

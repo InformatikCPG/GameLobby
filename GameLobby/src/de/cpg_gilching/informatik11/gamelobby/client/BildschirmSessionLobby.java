@@ -1,30 +1,66 @@
 package de.cpg_gilching.informatik11.gamelobby.client;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionAnnehmen;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionVerlassen;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
 
 public class BildschirmSessionLobby {
 	
+	private ControllerClient client;
 	private int sessionId;
 	private SpielBeschreibung beschreibung;
-	private List<String> spieler;
+	
+	private Set<String> teilnehmer;
+	private Set<String> fertigeSpieler = new HashSet<String>();
 	
 	private FensterSessionLobby oberfläche;
 	
-	public BildschirmSessionLobby(int sessionId, SpielBeschreibung beschreibung, List<String> eingeladeneSpieler) {
+	public BildschirmSessionLobby(ControllerClient client, int sessionId, SpielBeschreibung beschreibung, List<String> eingeladeneSpieler) {
+		this.client = client;
 		this.sessionId = sessionId;
 		this.beschreibung = beschreibung;
-		this.spieler = new ArrayList<String>(eingeladeneSpieler);
+		this.teilnehmer = new TreeSet<String>(eingeladeneSpieler);
 		
 		this.oberfläche = new FensterSessionLobby(this);
 		
-		oberfläche.spielerListeAktualisieren(spieler);
+		oberfläche.spielerListeAktualisieren(teilnehmer, fertigeSpieler);
+	}
+	
+	public void lobbyVerlassen() {
+		client.getVerbindung().sendPacket(new PacketSessionVerlassen(sessionId));
+	}
+	
+	public void lobbyAnnehmen() {
+		client.getVerbindung().sendPacket(new PacketSessionAnnehmen(sessionId));
+	}
+	
+	public void jetztBeenden() {
+		client.sessionBeenden(this);
+		oberfläche.fensterSchliessen();
+	}
+	
+	public void spielerBereitSetzen(String spielerName) {
+		fertigeSpieler.add(spielerName);
+		oberfläche.spielerListeAktualisieren(teilnehmer, fertigeSpieler);
+	}
+	
+	public void spielerEntfernen(String spielerName) {
+		fertigeSpieler.remove(spielerName);
+		teilnehmer.remove(spielerName);
+		oberfläche.spielerListeAktualisieren(teilnehmer, fertigeSpieler);
 	}
 	
 	public SpielBeschreibung getBeschreibung() {
 		return beschreibung;
+	}
+	
+	public int getSessionId() {
+		return sessionId;
 	}
 	
 }

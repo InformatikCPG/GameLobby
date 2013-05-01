@@ -35,4 +35,9 @@ public class Spieler {
 		return server;
 	}
 	
+	@Override
+	public String toString() {
+		return name;
+	}
+	
 }

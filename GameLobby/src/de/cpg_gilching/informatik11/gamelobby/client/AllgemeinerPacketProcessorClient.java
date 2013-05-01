@@ -6,7 +6,9 @@ import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketChatNachricht
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketDisconnect;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketKeepAlive;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketServerSpielAnmelden;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionSpielerStatus;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionStarten;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionVerlassen;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielerListe;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
 
@@ -55,13 +57,36 @@ public class AllgemeinerPacketProcessorClient extends PacketProcessor {
 	}
 	
 	public void handle(PacketSessionStarten packet) {
-		SpielBeschreibung beschreibung = client.beschreibungSuchen(packet.spielId);
+		SpielBeschreibung beschreibung = client.getBeschreibungNachId(packet.spielId);
 		if (beschreibung == null) {
 			System.err.println("Session kann nicht gestartet werden: Spielbeschreibung mit ungültiger id " + packet.spielId);
 			return;
 		}
 		
 		client.sessionErstellen(packet.sessionId, beschreibung, packet.eingeladeneSpieler);
+	}
+	
+	public void handle(PacketSessionVerlassen packet) {
+		BildschirmSessionLobby sessionLobby = client.getSessionNachId(packet.sessionId);
+		if (sessionLobby == null) {
+			System.err.println("Ungültige Session id bei SessionVerlassen: " + packet.sessionId);
+			return;
+		}
+		
+		sessionLobby.jetztBeenden();
+	}
+	
+	public void handle(PacketSessionSpielerStatus packet) {
+		BildschirmSessionLobby sessionLobby = client.getSessionNachId(packet.sessionId);
+		if (sessionLobby == null) {
+			System.err.println("Ungültige Session id bei SpielerStatus: " + packet.sessionId);
+			return;
+		}
+		
+		if (packet.istBereit)
+			sessionLobby.spielerBereitSetzen(packet.spielerName);
+		else
+			sessionLobby.spielerEntfernen(packet.spielerName);
 	}
 	
 }

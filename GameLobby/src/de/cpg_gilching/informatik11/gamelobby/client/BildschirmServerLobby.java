@@ -116,7 +116,7 @@ public class BildschirmServerLobby {
 			spielAusgewählt = null;
 		}
 		else {
-			spielAusgewählt = client.beschreibungSuchen(eintrag.spielId);
+			spielAusgewählt = client.getBeschreibungNachId(eintrag.spielId);
 		}
 		
 		spielFormularFüllen();

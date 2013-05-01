@@ -77,6 +77,11 @@ public class ControllerServer {
 				System.out.println("Spieler " + spieler.getName() + " hat den Server verlassen.");
 				spielerListe.remove(spieler);
 				
+				// aus möglichen Sessions werfen
+				for (Session session : offeneSessions.values()) {
+					session.spielerVerlassen(spieler);
+				}
+				
 				// verbleibende Spieler informieren
 				paketAnAlle(new PacketSpielerListe(spieler.getName(), false));
 				paketAnAlle(new PacketChatNachricht(spieler.getName() + " hat die Lobby verlassen."));
@@ -94,22 +99,6 @@ public class ControllerServer {
 	}
 	
 	
-	public void sessionStarten(SpielBeschreibung beschreibung, List<Spieler> teilnehmer) {
-		Session neueSession = new Session(beschreibung, teilnehmer);
-		offeneSessions.put(neueSession.getId(), neueSession);
-	}
-	
-	public void kickSpieler(Spieler spieler, String grund) {
-		server.kickClient(spieler.getVerbindung(), grund);
-	}
-	
-	/**
-	 * Sendet ein {@link Packet} an alle verbundenen Spieler.
-	 */
-	public void paketAnAlle(Packet packet) {
-		server.broadcast(packet);
-	}
-	
 	/**
 	 * Sucht einen Spieler auf dem Server anhand seines Namens.
 	 * 
@@ -123,6 +112,31 @@ public class ControllerServer {
 				return s;
 		}
 		return null;
+	}
+	
+	public void sessionStarten(SpielBeschreibung beschreibung, List<Spieler> teilnehmer) {
+		Session neueSession = new Session(this, beschreibung, teilnehmer);
+		offeneSessions.put(neueSession.getId(), neueSession);
+	}
+	
+	public Session getSessionNachId(int sessionId) {
+		return offeneSessions.get(sessionId);
+	}
+	
+	public void sessionSchließen(Session session) {
+		offeneSessions.remove(session.getId());
+		session.schließen();
+	}
+	
+	public void kickSpieler(Spieler spieler, String grund) {
+		server.kickClient(spieler.getVerbindung(), grund);
+	}
+	
+	/**
+	 * Sendet ein {@link Packet} an alle verbundenen Spieler.
+	 */
+	public void paketAnAlle(Packet packet) {
+		server.broadcast(packet);
 	}
 	
 	public List<Spieler> getAlleSpieler() {
