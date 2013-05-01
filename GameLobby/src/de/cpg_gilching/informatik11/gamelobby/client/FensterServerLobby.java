@@ -3,8 +3,9 @@ package de.cpg_gilching.informatik11.gamelobby.client;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Insets;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -39,6 +40,8 @@ public class FensterServerLobby {
 	private JTextField chatTextField;
 	private JPanel panelSpieler;
 	private JComboBox gameDropdown;
+	private JLabel gameAusgewähltLabel;
+	private JButton gameStartBtn;
 	
 	public FensterServerLobby(BildschirmServerLobby dieServerLobby) {
 		this.serverLobby = dieServerLobby;
@@ -63,9 +66,11 @@ public class FensterServerLobby {
 				});
 				hauptPanel.add(trennenBtn);
 				
+				
 				JScrollPane spielerScroller = new JScrollPane(panelSpieler);
 				spielerScroller.setBounds(10, 10, 460, 400);
 				hauptPanel.add(spielerScroller);
+				
 				
 				JLabel gameDropdownLabel = new JLabel("Spiel :");
 				gameDropdownLabel.setBounds(10, 420, 40, 25);
@@ -75,8 +80,20 @@ public class FensterServerLobby {
 				gameDropdown.setBounds(50, 420, 250, 25);
 				hauptPanel.add(gameDropdown);
 				
-				JButton gameStartBtn = new JButton("Session starten");
-				gameStartBtn.setBounds(270, 550, 200, 40);
+				JLabel ausgewähltBeschriftung = new JLabel("Ausgewählte Spieler:  ");
+				ausgewähltBeschriftung.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
+				gameAusgewähltLabel = new JLabel();
+				gameAusgewähltLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 15));
+				
+				JPanel ausgewähltAnzeige = new JPanel();
+				ausgewähltAnzeige.setBounds(10, 460, 300, 30);
+				ausgewähltAnzeige.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+				ausgewähltAnzeige.add(ausgewähltBeschriftung);
+				ausgewähltAnzeige.add(gameAusgewähltLabel);
+				hauptPanel.add(ausgewähltAnzeige);
+				
+				gameStartBtn = new JButton("Session starten");
+				gameStartBtn.setBounds(10, 500, 200, 40);
 				gameStartBtn.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -86,6 +103,8 @@ public class FensterServerLobby {
 				hauptPanel.add(gameStartBtn);
 				
 				
+				
+				// Chat
 				chatTextArea = new JTextArea();
 				chatTextArea.setEditable(false);
 				chatTextArea.setLineWrap(true);
@@ -115,6 +134,7 @@ public class FensterServerLobby {
 					}
 				});
 				hauptPanel.add(chatSendenBtn);
+				// Chat ENDE
 				
 				
 				fenster = new JFrame("Server-Lobby");
@@ -159,7 +179,8 @@ public class FensterServerLobby {
 				
 				int hoehe = 5;
 				for (SpielerZustand spieler : alleSpieler) {
-					JPanel spielerPanel = spielerPanelErstellen(spieler, new Rectangle(5, hoehe, panelSpieler.getWidth() - 10, 25));
+					PanelSpielerEintrag spielerPanel = new PanelSpielerEintrag(spieler, serverLobby);
+					spielerPanel.setBounds(5, hoehe, panelSpieler.getWidth() - 10, 25);
 					
 					panelSpieler.add(spielerPanel);
 					
@@ -174,22 +195,23 @@ public class FensterServerLobby {
 		});
 	}
 	
-	private JPanel spielerPanelErstellen(SpielerZustand spieler, Rectangle bounds) {
-		JPanel p = new JPanel();
-		p.setBounds(bounds);
-		p.setBackground(new Color(200, 200, 200));
-		p.setLayout(new BorderLayout());
-		p.add(new JLabel(spieler.name), BorderLayout.WEST);
-		p.add(new JButton("Auswählen"), BorderLayout.EAST);
-		
-		return p;
-	}
-	
 	public void spieleDropdownFüllen(final Object[] items) {
 		Helfer.alsSwingTask(new Runnable() {
 			@Override
 			public void run() {
 				gameDropdown.setModel(new DefaultComboBoxModel(items));
+			}
+		});
+	}
+	
+	public void ausgewählteSpielerAnzeigen(final int anzahl, final int maximum, final boolean gültig) {
+		Helfer.alsSwingTask(new Runnable() {
+			@Override
+			public void run() {
+				gameAusgewähltLabel.setText(anzahl + " / " + maximum);
+				gameAusgewähltLabel.setForeground(gültig ? Color.black : Color.red);
+				
+				gameStartBtn.setEnabled(gültig);
 			}
 		});
 	}

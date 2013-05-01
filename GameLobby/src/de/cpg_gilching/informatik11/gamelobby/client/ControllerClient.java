@@ -6,6 +6,7 @@ import java.util.Map;
 import de.cpg_gilching.informatik11.gamelobby.shared.AdapterPaketLexikon;
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.PaketListe;
+import de.cpg_gilching.informatik11.gamelobby.shared.TaskScheduler;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Connection;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketDisconnect;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketHallo;
@@ -24,6 +25,8 @@ public class ControllerClient implements Runnable {
 	private PaketLexikon paketLexikon;
 	private String username;
 	
+	private TaskScheduler scheduler;
+	
 	private SpieleListe geladeneSpiele;
 	private Map<Integer, SpielBeschreibungClient> angemeldeteSpiele = new HashMap<Integer, SpielBeschreibungClient>();
 	
@@ -36,6 +39,8 @@ public class ControllerClient implements Runnable {
 		this.verbindung = verbindung;
 		this.paketLexikon = new PaketLexikon(lexikonAdapter);
 		this.username = username;
+		
+		this.scheduler = new TaskScheduler();
 		
 		PaketListe.normalePaketeAnmelden(lexikonAdapter);
 		
@@ -60,7 +65,7 @@ public class ControllerClient implements Runnable {
 		else {
 			clientSpiel.setSpielId(spielId);
 			angemeldeteSpiele.put(spielId, (SpielBeschreibungClient) clientSpiel);
-			serverLobby.spieleAuswahlAktualisieren(angemeldeteSpiele.values());
+			serverLobby.spielAuswahlAktualisieren(angemeldeteSpiele.values());
 		}
 	}
 	
@@ -86,6 +91,8 @@ public class ControllerClient implements Runnable {
 			anhalten();
 			return;
 		}
+		
+		scheduler.tasksAbarbeiten();
 	}
 	
 	@Override
@@ -148,6 +155,10 @@ public class ControllerClient implements Runnable {
 	
 	public PaketLexikon getPaketLexikon() {
 		return paketLexikon;
+	}
+	
+	public TaskScheduler getScheduler() {
+		return scheduler;
 	}
 	
 	public String getUsername() {

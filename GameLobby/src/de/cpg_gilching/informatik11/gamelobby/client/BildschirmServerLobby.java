@@ -7,15 +7,6 @@ import java.util.TreeMap;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketChatNachricht;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibungClient;
 
-class SpielerZustand {
-	String name;
-	boolean ausgewählt = false;
-	
-	public SpielerZustand(String name) {
-		this.name = name;
-	}
-}
-
 class SpielEintrag {
 	String bezeichner;
 	int spielId;
@@ -36,18 +27,19 @@ class SpielEintrag {
  */
 public class BildschirmServerLobby {
 	
-	private FensterServerLobby oberflaeche = new FensterServerLobby(this);
+	private FensterServerLobby oberfläche = new FensterServerLobby(this);
 	private ControllerClient client;
 	
 	private Map<String, SpielerZustand> spielerTabelle = new TreeMap<String, SpielerZustand>();
+	private int ausgewähltAnzahl = 0;
 	
 	public BildschirmServerLobby(ControllerClient clientController) {
 		this.client = clientController;
-		oberflaeche.spielerListeAktualisieren(spielerTabelle.values());
+		oberfläche.spielerListeAktualisieren(spielerTabelle.values());
 	}
 	
 	public void chatNachrichtAnzeigen(String nachricht) {
-		oberflaeche.chatNachrichtAnzeigen(nachricht);
+		oberfläche.chatNachrichtAnzeigen(nachricht);
 	}
 	
 	public void chatNachrichtSenden(String nachricht) {
@@ -58,7 +50,7 @@ public class BildschirmServerLobby {
 	}
 	
 	public void verlassen() {
-		oberflaeche.fensterSchliessen();
+		oberfläche.fensterSchliessen();
 	}
 	
 	public void verbindungTrennen() {
@@ -67,15 +59,32 @@ public class BildschirmServerLobby {
 	
 	public void spielerAnlegen(String username) {
 		spielerTabelle.put(username, new SpielerZustand(username));
-		oberflaeche.spielerListeAktualisieren(spielerTabelle.values());
+		oberfläche.spielerListeAktualisieren(spielerTabelle.values());
 	}
 	
 	public void spielerEntfernen(String username) {
-		spielerTabelle.remove(username);
-		oberflaeche.spielerListeAktualisieren(spielerTabelle.values());
+		SpielerZustand entfernt = spielerTabelle.remove(username);
+		if (entfernt != null && entfernt.istAusgewählt()) {
+			spielerAuswahlUmschalten(entfernt);
+		}
+		
+		oberfläche.spielerListeAktualisieren(spielerTabelle.values());
 	}
 	
-	public void spieleAuswahlAktualisieren(Collection<SpielBeschreibungClient> spiele) {
+	public void spielerAuswahlUmschalten(SpielerZustand spieler) {
+		if (spieler.istAusgewählt()) {
+			spieler.setAusgewählt(false);
+			ausgewähltAnzahl--;
+		}
+		else {
+			spieler.setAusgewählt(true);
+			ausgewähltAnzahl++;
+		}
+		
+		oberfläche.ausgewählteSpielerAnzeigen(ausgewähltAnzahl, 2, ausgewähltAnzahl <= 2);
+	}
+	
+	public void spielAuswahlAktualisieren(Collection<SpielBeschreibungClient> spiele) {
 		SpielEintrag[] einträge = new SpielEintrag[spiele.size()];
 		
 		int i = 0;
@@ -83,7 +92,11 @@ public class BildschirmServerLobby {
 			einträge[i++] = new SpielEintrag(spiel);
 		}
 		
-		oberflaeche.spieleDropdownFüllen(einträge);
+		oberfläche.spieleDropdownFüllen(einträge);
+	}
+	
+	public ControllerClient getClient() {
+		return client;
 	}
 	
 }
