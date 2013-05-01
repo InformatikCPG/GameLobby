@@ -8,6 +8,7 @@ import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.PaketListe;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Connection;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Packet;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketChatNachricht;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketServerSpielAnmelden;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielerListe;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketLexikon;
@@ -64,6 +65,8 @@ public class ControllerServer {
 			neuerSpieler.packetSenden(new PacketServerSpielAnmelden(spiel.getSpielId(), spiel.getBezeichnung()));
 		}
 		
+		// Chat-Nachricht verbreiten
+		paketAnAlle(new PacketChatNachricht(neuerSpieler.getName() + " ist der Lobby beigetreten."));
 		
 		// zum debuggen
 		int zufallsAnzahl = Helfer.zufallsZahl(5, 10);
@@ -79,10 +82,8 @@ public class ControllerServer {
 				spielerListe.remove(spieler);
 				
 				// verbleibende Spieler informieren
-				for (Spieler anderer : spielerListe) {
-					anderer.packetSenden(new PacketSpielerListe(spieler.getName(), false));
-				}
-				
+				paketAnAlle(new PacketSpielerListe(spieler.getName(), false));
+				paketAnAlle(new PacketChatNachricht(spieler.getName() + " hat die Lobby verlassen."));
 				break;
 			}
 		}
