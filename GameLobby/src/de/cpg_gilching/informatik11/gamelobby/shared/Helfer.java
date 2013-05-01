@@ -42,6 +42,29 @@ public class Helfer {
 	}
 	
 	/**
+	 * Joins all elements of an Iterable with a given delimiter between them.
+	 * 
+	 * @param collection The collection of elements to join
+	 * @param delimiter The delimiter to use between elements
+	 * @return The joined string as a CharSequence
+	 */
+	public static CharSequence verketten(Iterable<?> collection, String delimiter) {
+		StringBuilder output = new StringBuilder();
+		
+		if (collection == null) {
+			output.append("null");
+		}
+		else {
+			for (Object s : collection) {
+				if (output.length() > 0)
+					output.append(delimiter);
+				output.append(s);
+			}
+		}
+		return output;
+	}
+	
+	/**
 	 * Gibt eine zufällige Ganzzahl zwischen zwei Werten zurück.
 	 * 
 	 * @param min die kleinste mögliche Zahl (eingeschlossen)
