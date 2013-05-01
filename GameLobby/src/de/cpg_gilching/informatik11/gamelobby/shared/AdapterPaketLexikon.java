@@ -21,7 +21,11 @@ public class AdapterPaketLexikon implements IPacketDictionary {
 	
 	@Override
 	public int getPacketId(Packet p) {
-		return nachKlasse.get(p.getClass());
+		Integer id = nachKlasse.get(p.getClass());
+		if (id == null)
+			return -1;
+		
+		return id;
 	}
 	
 	public void anmelden(Class<? extends Packet> klasse) {

@@ -92,15 +92,21 @@ public class PacketWriteThread extends Thread {
 			if (p.shouldLog())
 				System.out.println("sending " + p);
 			
-			int sizeOld = outStream.size();
-			
-			outStream.writeShort(packetDictionary.getPacketId(p));
-			p.write(outStream);
-			outStream.flush();
-			
-			if (statsObserver != null) {
-				int sizeNew = outStream.size();
-				statsObserver.packetWritten(sizeNew - sizeOld);
+			int packetId = packetDictionary.getPacketId(p);
+			if (packetId < 0) {
+				System.err.println("#" + Thread.currentThread().getName() + "# packet doesn't have an associated id: " + p.getClass().getName());
+			}
+			else {
+				int sizeOld = outStream.size();
+				
+				outStream.writeShort(packetId);
+				p.write(outStream);
+				outStream.flush();
+				
+				if (statsObserver != null) {
+					int sizeNew = outStream.size();
+					statsObserver.packetWritten(sizeNew - sizeOld);
+				}
 			}
 		}
 		
