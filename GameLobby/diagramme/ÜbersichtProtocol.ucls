@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.2" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true">  
+  <class id="1" language="java" name="de.cpg_gilching.informatik11.gamelobby.shared.net.Packet" project="GameLobby" 
+    file="/GameLobby/src/de/cpg_gilching/informatik11/gamelobby/shared/net/Packet.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1100" y="97"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketHallo" 
+    project="GameLobby" file="/GameLobby/src/de/cpg_gilching/informatik11/gamelobby/shared/packets/PacketHallo.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="162" y="112"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketDisconnect" 
+    project="GameLobby" 
+    file="/GameLobby/src/de/cpg_gilching/informatik11/gamelobby/shared/packets/PacketDisconnect.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="426" y="112"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketKeepAlive" 
+    project="GameLobby" file="/GameLobby/src/de/cpg_gilching/informatik11/gamelobby/shared/packets/PacketKeepAlive.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="701" y="94"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketChatNachricht" 
+    project="GameLobby" 
+    file="/GameLobby/src/de/cpg_gilching/informatik11/gamelobby/shared/packets/PacketChatNachricht.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="162" y="310"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketServerSpielAnmelden" 
+    project="GameLobby" 
+    file="/GameLobby/src/de/cpg_gilching/informatik11/gamelobby/shared/packets/PacketServerSpielAnmelden.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="766" y="319"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielerListe" 
+    project="GameLobby" 
+    file="/GameLobby/src/de/cpg_gilching/informatik11/gamelobby/shared/packets/PacketSpielerListe.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="460" y="319"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionVerlassen" 
+    project="GameLobby" 
+    file="/GameLobby/src/de/cpg_gilching/informatik11/gamelobby/shared/packets/PacketSessionVerlassen.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1026" y="541"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionAnnehmen" 
+    project="GameLobby" 
+    file="/GameLobby/src/de/cpg_gilching/informatik11/gamelobby/shared/packets/PacketSessionAnnehmen.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="745" y="541"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionStarten" 
+    project="GameLobby" 
+    file="/GameLobby/src/de/cpg_gilching/informatik11/gamelobby/shared/packets/PacketSessionStarten.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="168" y="559"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionSpielerStatus" 
+    project="GameLobby" 
+    file="/GameLobby/src/de/cpg_gilching/informatik11/gamelobby/shared/packets/PacketSessionSpielerStatus.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="448" y="559"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <generalization id="12">    
+    <bendpoint x="447" y="423"/>    
+    <bendpoint x="1080" y="423"/>    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="13">    
+    <bendpoint x="570" y="217"/>    
+    <bendpoint x="920" y="204"/>    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="14">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="15">    
+    <bendpoint x="715" y="18"/>    
+    <bendpoint x="923" y="18"/>    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="16">    
+    <bendpoint x="564" y="14"/>    
+    <bendpoint x="934" y="14"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="17">    
+    <bendpoint x="1026" y="432"/>    
+    <bendpoint x="1127" y="432"/>    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="18">    
+    <bendpoint x="744" y="427"/>    
+    <bendpoint x="1102" y="427"/>    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="19">    
+    <bendpoint x="284" y="213"/>    
+    <bendpoint x="913" y="194"/>    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="20">    
+    <bendpoint x="243" y="9"/>    
+    <bendpoint x="955" y="9"/>    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="21">    
+    <bendpoint x="168" y="419"/>    
+    <bendpoint x="1065" y="419"/>    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true"/>    
+    <operations public="true" package="true" protected="true" private="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

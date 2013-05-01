@@ -1,6 +1,7 @@
 package de.cpg_gilching.informatik11.gamelobby.spiele.pong;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ClientSpiel;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketLexikon;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
 
 public class PongBeschreibung extends SpielBeschreibung {
@@ -22,6 +23,11 @@ public class PongBeschreibung extends SpielBeschreibung {
 	@Override
 	public int tickrateGeben() {
 		return 20;
+	}
+	
+	@Override
+	public void paketeAnmelden(PaketLexikon lexikon) {
+		// TODO Auto-generated method stub
 	}
 	
 	@Override
