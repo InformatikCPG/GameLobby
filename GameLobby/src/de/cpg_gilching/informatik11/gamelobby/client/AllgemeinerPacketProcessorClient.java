@@ -6,7 +6,9 @@ import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketChatNachricht
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketDisconnect;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketKeepAlive;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketServerSpielAnmelden;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionStarten;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielerListe;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
 
 public class AllgemeinerPacketProcessorClient extends PacketProcessor {
 	
@@ -50,6 +52,16 @@ public class AllgemeinerPacketProcessorClient extends PacketProcessor {
 	
 	public void handle(PacketServerSpielAnmelden packet) {
 		client.beschreibungAnmelden(packet.spielId, packet.spielBezeichner);
+	}
+	
+	public void handle(PacketSessionStarten packet) {
+		SpielBeschreibung beschreibung = client.beschreibungSuchen(packet.spielId);
+		if (beschreibung == null) {
+			System.err.println("Session kann nicht gestartet werden: Spielbeschreibung mit ungültiger id " + packet.spielId);
+			return;
+		}
+		
+		client.sessionErstellen(packet.sessionId, beschreibung, packet.eingeladeneSpieler);
 	}
 	
 }

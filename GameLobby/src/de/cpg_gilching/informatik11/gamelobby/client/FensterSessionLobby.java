@@ -21,14 +21,17 @@ import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
  */
 public class FensterSessionLobby {
 	
-	private JFrame fenster;
+	private BildschirmSessionLobby sessionLobby;
 	
+	private JFrame fenster;
 	private JLabel labelSpielname;
 	private JPanel panelSpieler;
 	private JButton ablehnenBtn;
 	private JButton annehmenBtn;
 	
-	public FensterSessionLobby() {
+	
+	public FensterSessionLobby(BildschirmSessionLobby lobby) {
+		this.sessionLobby = lobby;
 		
 		Helfer.alsSwingTask(new Runnable() {
 			@Override
@@ -41,7 +44,7 @@ public class FensterSessionLobby {
 				panelSpieler.setLayout(null);
 				
 				labelSpielname = new JLabel();
-				labelSpielname.setText("Spiel Nr. 1337");
+				labelSpielname.setText(sessionLobby.getBeschreibung().getBezeichnung());
 				labelSpielname.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 				labelSpielname.setBounds(0, 0, 250, 50);
 				labelSpielname.setHorizontalAlignment(JLabel.CENTER);

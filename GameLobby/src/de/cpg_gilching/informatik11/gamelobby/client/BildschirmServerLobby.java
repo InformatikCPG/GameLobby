@@ -1,10 +1,13 @@
 package de.cpg_gilching.informatik11.gamelobby.client;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketChatNachricht;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionStarten;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
 
 class SpielEintrag {
@@ -36,7 +39,9 @@ public class BildschirmServerLobby {
 	
 	public BildschirmServerLobby(ControllerClient clientController) {
 		this.client = clientController;
+		
 		oberfläche.spielerListeAktualisieren(spielerTabelle.values());
+		spielFormularFüllen();
 	}
 	
 	public void chatNachrichtAnzeigen(String nachricht) {
@@ -127,6 +132,25 @@ public class BildschirmServerLobby {
 		}
 		
 		oberfläche.spielDropdownFüllen(dropDownEinträge);
+	}
+	
+	public void sessionStartAnfragen() {
+		if (spielAusgewählt == null)
+			return;
+		
+		int spielId = spielAusgewählt.getSpielId();
+		
+		List<String> spielerNamen = new ArrayList<String>();
+		for (SpielerZustand spieler : spielerTabelle.values()) {
+			if (spieler.istAusgewählt()) {
+				spielerNamen.add(spieler.getName());
+				
+				// abwählen
+				spielerAuswahlUmschalten(spieler);
+			}
+		}
+		
+		client.getVerbindung().sendPacket(new PacketSessionStarten(-1, spielId, spielerNamen));
 	}
 	
 	public ControllerClient getClient() {

@@ -1,11 +1,16 @@
 package de.cpg_gilching.informatik11.gamelobby.server;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Packet;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.PacketProcessor;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketChatNachricht;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketDisconnect;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketHallo;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketKeepAlive;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionStarten;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
 
 public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 	
@@ -31,8 +36,8 @@ public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 	}
 	
 	public void handle(PacketHallo packet) {
-		if (spieler.getServer().getSpielerListe().contains(spieler)) {
-			System.err.println("Spieler " + spieler.getName() + " hat versucht, 2x seinen Namen zu senden!");
+		if (spieler.getServer().getAlleSpieler().contains(spieler)) {
+			System.err.println("Spieler " + spieler.getName() + " hat versucht, mehrmals seinen Namen zu senden!");
 			return;
 		}
 		
@@ -49,6 +54,31 @@ public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 		// Paket wieder an alle zurücksenden
 		spieler.getServer().paketAnAlle(new PacketChatNachricht("<" + spieler.getName() + "> " + packet.nachricht));
 	}
+	
+	
+	public void handle(PacketSessionStarten packet) {
+		SpielBeschreibung beschreibung = spieler.getServer().getSpielBeschreibungen().getSpielNachId(packet.spielId);
+		if (beschreibung == null) {
+			System.err.println("Ungültige id beim Starten der Session: " + packet.spielId);
+			return;
+		}
+		
+		List<Spieler> spielerListe = new ArrayList<Spieler>(packet.eingeladeneSpieler.size() + 1);
+		spielerListe.add(spieler);
+		
+		for (String spielerName : packet.eingeladeneSpieler) {
+			Spieler eingeladener = spieler.getServer().getSpieler(spielerName);
+			if (eingeladener == null) {
+				System.err.println("Ungültiger Spielername beim Starten der Session: " + spielerName);
+				return;
+			}
+			
+			spielerListe.add(eingeladener);
+		}
+		
+		spieler.getServer().sessionStarten(beschreibung, spielerListe);
+	}
+	
 	
 	public void handle(PacketDisconnect packet) {
 		// das Paket wieder zurücksenden und die Verbindung schließen

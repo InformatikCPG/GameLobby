@@ -1,6 +1,7 @@
 package de.cpg_gilching.informatik11.gamelobby.client;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.AdapterPaketLexikon;
@@ -30,6 +31,7 @@ public class ControllerClient implements Runnable {
 	private Map<Integer, SpielBeschreibung> angemeldeteBeschreibungen = new HashMap<Integer, SpielBeschreibung>();
 	
 	private BildschirmServerLobby serverLobby = null;
+	private Map<Integer, BildschirmSessionLobby> sessionLobbies = new HashMap<Integer, BildschirmSessionLobby>();
 	
 	private int zeitSeitKeepAlive = 0;
 	private boolean aktiv = true;
@@ -62,8 +64,14 @@ public class ControllerClient implements Runnable {
 			System.err.println("Spielbeschreibung mit Bezeichnung " + bezeichner + " nicht gefunden!");
 		}
 		else {
+			// Die intern generierte id wird nicht gebraucht,
+			// deswegen wird sie mit der des Servers überschrieben.
 			clientSpiel.setSpielId(spielId);
+			
+			// In die angemeldete Liste speichern.
 			angemeldeteBeschreibungen.put(spielId, clientSpiel);
+			
+			// Dropdown-Menü wird aktualisiert
 			serverLobby.spielAuswahlAktualisieren(angemeldeteBeschreibungen.values());
 		}
 	}
@@ -72,10 +80,12 @@ public class ControllerClient implements Runnable {
 		return angemeldeteBeschreibungen.get(spielId);
 	}
 	
+	public void sessionErstellen(int sessionId, SpielBeschreibung beschreibung, List<String> eingeladeneSpieler) {
+		sessionLobbies.put(sessionId, new BildschirmSessionLobby(sessionId, beschreibung, eingeladeneSpieler));
+	}
+	
 	private void initialisieren() {
 		serverLobby = new BildschirmServerLobby(this);
-		new FensterGameLobby();
-		new FensterSessionLobby();
 	}
 	
 	private void tick(int ms) {
@@ -128,6 +138,7 @@ public class ControllerClient implements Runnable {
 		verbindung.close();
 		
 		serverLobby.verlassen();
+		// TODO session lobbies beenden
 	}
 	
 	/**

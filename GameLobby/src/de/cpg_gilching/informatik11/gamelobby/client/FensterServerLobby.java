@@ -32,7 +32,7 @@ import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 /**
  * Die View-Komponente der "Server-Lobby".
  */
-public class FensterServerLobby {
+public class FensterServerLobby implements Runnable {
 	
 	private BildschirmServerLobby serverLobby;
 	private JFrame fenster;
@@ -113,12 +113,7 @@ public class FensterServerLobby {
 				
 				gameStartBtn = new JButton("Session starten");
 				gameStartBtn.setBounds(10, 500, 200, 40);
-				gameStartBtn.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						System.out.println("Session started");
-					}
-				});
+				gameStartBtn.addActionListener(new SynchronerListener(FensterServerLobby.this, serverLobby.getClient()));
 				hauptPanel.add(gameStartBtn);
 				
 				
@@ -173,6 +168,12 @@ public class FensterServerLobby {
 				});
 			}
 		});
+	}
+	
+	@Override
+	public void run() {
+		// wenn auf "Session starten" geklickt wurde (synchroner Task)
+		serverLobby.sessionStartAnfragen();
 	}
 	
 	public void chatNachrichtAnzeigen(final String nachricht) {

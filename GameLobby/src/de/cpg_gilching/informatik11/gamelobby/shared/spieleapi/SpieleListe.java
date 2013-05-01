@@ -44,7 +44,7 @@ public class SpieleListe implements Iterable<SpielBeschreibung> {
 	}
 	
 	private void spielLaden(SpielBeschreibung spiel) {
-		spiel.setSpielId(spiele.size());
+		spiel.setSpielId(spiele.size()); // TODO logik fixen, das hier bringt nicht viel wenns veränderbar ist
 		spiele.add(spiel);
 	}
 	
@@ -52,6 +52,16 @@ public class SpieleListe implements Iterable<SpielBeschreibung> {
 	public SpielBeschreibung getSpielNachBezeichnung(String bezeichnung) {
 		for (SpielBeschreibung spiel : spiele) {
 			if (spiel.getBezeichnung().equals(bezeichnung)) {
+				return spiel;
+			}
+		}
+		
+		return null;
+	}
+	
+	public SpielBeschreibung getSpielNachId(int id) {
+		for (SpielBeschreibung spiel : spiele) {
+			if (spiel.getSpielId() == id) {
 				return spiel;
 			}
 		}

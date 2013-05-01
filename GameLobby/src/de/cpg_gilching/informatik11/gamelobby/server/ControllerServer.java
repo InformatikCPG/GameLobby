@@ -1,10 +1,11 @@
 package de.cpg_gilching.informatik11.gamelobby.server;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.AdapterPaketLexikon;
-import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.PaketListe;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Connection;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Packet;
@@ -27,6 +28,7 @@ public class ControllerServer {
 	private List<Spieler> spielerListe = new ArrayList<Spieler>();
 	
 	private SpieleListe geladeneSpiele;
+	private Map<Integer, Session> offeneSessions = new HashMap<Integer, Session>();
 	
 	public ControllerServer(ServerMain server) {
 		this.server = server;
@@ -67,12 +69,6 @@ public class ControllerServer {
 		
 		// Chat-Nachricht verbreiten
 		paketAnAlle(new PacketChatNachricht(neuerSpieler.getName() + " ist der Lobby beigetreten."));
-		
-		// zum debuggen
-		int zufallsAnzahl = Helfer.zufallsZahl(5, 10);
-		for (int i = 0; i < zufallsAnzahl; i++) {
-			server.broadcast(new PacketSpielerListe("bbb" + Helfer.zufallsZahl(10, 2000), true));
-		}
 	}
 	
 	public void onSpielerVerlassen(Connection verbindung) {
@@ -93,16 +89,18 @@ public class ControllerServer {
 		
 	}
 	
-	public void kickSpieler(Spieler spieler, String grund) {
-		server.kickClient(spieler.getVerbindung(), grund);
-	}
-	
 	public void tick(int ms) {
 		
 	}
 	
-	public List<Spieler> getSpielerListe() {
-		return spielerListe;
+	
+	public void sessionStarten(SpielBeschreibung beschreibung, List<Spieler> teilnehmer) {
+		Session neueSession = new Session(beschreibung, teilnehmer);
+		offeneSessions.put(neueSession.getId(), neueSession);
+	}
+	
+	public void kickSpieler(Spieler spieler, String grund) {
+		server.kickClient(spieler.getVerbindung(), grund);
 	}
 	
 	/**
@@ -125,6 +123,14 @@ public class ControllerServer {
 				return s;
 		}
 		return null;
+	}
+	
+	public List<Spieler> getAlleSpieler() {
+		return spielerListe;
+	}
+	
+	public SpieleListe getSpielBeschreibungen() {
+		return geladeneSpiele;
 	}
 	
 	public ServerMain getServer() {
