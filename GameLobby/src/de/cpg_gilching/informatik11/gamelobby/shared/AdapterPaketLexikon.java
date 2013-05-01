@@ -12,7 +12,6 @@ public class AdapterPaketLexikon implements IPacketDictionary {
 	private Map<Class<? extends Packet>, Integer> nachKlasse = new HashMap<Class<? extends Packet>, Integer>();
 	
 	public AdapterPaketLexikon() {
-		
 	}
 	
 	@Override

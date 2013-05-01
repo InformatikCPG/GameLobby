@@ -5,6 +5,7 @@ import de.cpg_gilching.informatik11.gamelobby.shared.net.PacketProcessor;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketChatNachricht;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketDisconnect;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketHallo;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketKeepAlive;
 
 public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 	
@@ -23,6 +24,10 @@ public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 	public void onException(Exception exception, Packet packet) {
 		System.err.println("Fehler beim Verarbeiten von " + packet.getClass().getSimpleName());
 		exception.printStackTrace();
+	}
+	
+	public void handle(PacketKeepAlive packet) {
+		spieler.packetSenden(new PacketKeepAlive());
 	}
 	
 	public void handle(PacketHallo packet) {

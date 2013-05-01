@@ -4,6 +4,7 @@ import de.cpg_gilching.informatik11.gamelobby.shared.net.Packet;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.PacketProcessor;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketChatNachricht;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketDisconnect;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketKeepAlive;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketServerSpielAnmelden;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielerListe;
 
@@ -16,13 +17,17 @@ public class AllgemeinerPacketProcessorClient extends PacketProcessor {
 	}
 	
 	@Override
-	public void onUnhandledPacket(Packet p) {
+	public void onUnhandledPacket(Packet packet) {
+		System.err.println("unerwartetes Packet: " + packet.getClass().getSimpleName());
 	}
 	
 	@Override
 	public void onException(Exception exception, Packet packet) {
 		System.err.println("Fehler beim Verarbeiten von " + packet);
 		exception.printStackTrace();
+	}
+	
+	public void handle(PacketKeepAlive packet) {
 	}
 	
 	public void handle(PacketDisconnect packet) {

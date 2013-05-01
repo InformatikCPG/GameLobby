@@ -221,6 +221,7 @@ public class ServerMain implements Runnable {
 				try {
 					final Socket socket = serverSocket.accept();
 					socket.setTcpNoDelay(true);
+					socket.setSoTimeout(10000);
 					
 					log(socket.getInetAddress() + " connected");
 					

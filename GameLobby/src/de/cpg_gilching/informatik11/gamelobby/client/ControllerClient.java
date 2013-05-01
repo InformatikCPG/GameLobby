@@ -9,6 +9,7 @@ import de.cpg_gilching.informatik11.gamelobby.shared.PaketListe;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Connection;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketDisconnect;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketHallo;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketKeepAlive;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketLexikon;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibungClient;
@@ -28,6 +29,7 @@ public class ControllerClient implements Runnable {
 	
 	private BildschirmServerLobby serverLobby = null;
 	
+	private int zeitSeitKeepAlive = 0;
 	private boolean aktiv = true;
 	
 	public ControllerClient(Connection verbindung, String username, AdapterPaketLexikon lexikonAdapter) {
@@ -71,9 +73,17 @@ public class ControllerClient implements Runnable {
 		// empfangene Pakete behandeln
 		verbindung.processPackets();
 		
+		// Verbindung am Leben erhalten --> alle 5 Sekunden KeepAlive senden
+		zeitSeitKeepAlive += ms;
+		if (zeitSeitKeepAlive >= 5000) {
+			verbindung.sendPacket(new PacketKeepAlive());
+			zeitSeitKeepAlive = 0;
+		}
+		
 		if (verbindung.isClosed()) {
 			System.out.println("Geschlossene Verbindung entdeckt. Hält an ...");
 			anhalten();
+			return;
 		}
 	}
 	

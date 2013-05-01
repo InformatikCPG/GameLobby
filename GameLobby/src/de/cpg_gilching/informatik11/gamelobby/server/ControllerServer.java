@@ -44,7 +44,7 @@ public class ControllerServer {
 		Spieler neuerSpieler = new Spieler(verbindung, "Unbekannt", this);
 		verbindung.setPacketProcessor(new AllgemeinerPacketProcessorServer(neuerSpieler));
 		
-		// PacketProcessor wartet jetzt auf PacketHallo, mit dem der Spieler richtig betreten wird
+		// PacketProcessor wartet jetzt auf PacketHallo, mit dem der Spieler richtig beitritt
 	}
 	
 	public void onSpielerBeigetreten(Spieler neuerSpieler) {

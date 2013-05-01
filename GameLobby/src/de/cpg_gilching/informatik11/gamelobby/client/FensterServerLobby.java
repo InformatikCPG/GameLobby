@@ -136,10 +136,15 @@ public class FensterServerLobby {
 		});
 	}
 	
-	public void chatNachrichtAnzeigen(String nachricht) {
-		chatTextArea.append(nachricht);
-		chatTextArea.append("\n");
-		chatTextScroller.getVerticalScrollBar().setValue(chatTextScroller.getVerticalScrollBar().getMaximum());
+	public void chatNachrichtAnzeigen(final String nachricht) {
+		Helfer.alsSwingTask(new Runnable() {
+			@Override
+			public void run() {
+				chatTextArea.append(nachricht);
+				chatTextArea.append("\n");
+				chatTextScroller.getVerticalScrollBar().setValue(chatTextScroller.getVerticalScrollBar().getMaximum());
+			}
+		});
 	}
 	
 	public void spielerListeAktualisieren(Collection<SpielerZustand> spieler) {
@@ -180,8 +185,13 @@ public class FensterServerLobby {
 		return p;
 	}
 	
-	public void spieleDropdownFüllen(Object[] items) {
-		gameDropdown.setModel(new DefaultComboBoxModel(items));
+	public void spieleDropdownFüllen(final Object[] items) {
+		Helfer.alsSwingTask(new Runnable() {
+			@Override
+			public void run() {
+				gameDropdown.setModel(new DefaultComboBoxModel(items));
+			}
+		});
 	}
 	
 	private void nachrichtSenden() {
