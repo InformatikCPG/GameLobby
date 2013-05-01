@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import de.cpg_gilching.informatik11.gamelobby.spiele.pong.PongBeschreibungClient;
-import de.cpg_gilching.informatik11.gamelobby.spiele.pong.PongBeschreibungServer;
+import de.cpg_gilching.informatik11.gamelobby.spiele.pong.PongBeschreibung;
 
 public class SpieleListe implements Iterable<SpielBeschreibung> {
 	
@@ -14,18 +13,41 @@ public class SpieleListe implements Iterable<SpielBeschreibung> {
 	public SpieleListe() {
 	}
 	
-	public void serverSpieleLaden() {
-		spielLaden(new PongBeschreibungServer());
-	}
-	
-	public void clientSpieleLaden() {
-		spielLaden(new PongBeschreibungClient());
+	public void beschreibungenLaden() {
+		spielLaden(new PongBeschreibung());
+		
+		// ein Test-Spiel
+		spielLaden(new SpielBeschreibung() {
+			@Override
+			public int tickrateGeben() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+			
+			@Override
+			public ServerSpiel serverInstanzErstellen() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			public String getBezeichnung() {
+				return "Testspiel";
+			}
+			
+			@Override
+			public ClientSpiel clientInstanzErstellen() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		});
 	}
 	
 	private void spielLaden(SpielBeschreibung spiel) {
 		spiel.setSpielId(spiele.size());
 		spiele.add(spiel);
 	}
+	
 	
 	public SpielBeschreibung getSpielNachBezeichnung(String bezeichnung) {
 		for (SpielBeschreibung spiel : spiele) {

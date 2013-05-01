@@ -37,7 +37,7 @@ public class ControllerServer {
 		paketLexikon = new PaketLexikon(adapter);
 		
 		geladeneSpiele = new SpieleListe();
-		geladeneSpiele.serverSpieleLaden();
+		geladeneSpiele.beschreibungenLaden();
 	}
 	
 	public void onSpielerVerbinden(Connection verbindung) {

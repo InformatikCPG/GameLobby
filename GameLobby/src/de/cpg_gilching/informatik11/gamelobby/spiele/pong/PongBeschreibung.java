@@ -1,8 +1,9 @@
 package de.cpg_gilching.informatik11.gamelobby.spiele.pong;
 
-import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibungServer;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ClientSpiel;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
 
-public class PongBeschreibungServer extends SpielBeschreibungServer {
+public class PongBeschreibung extends SpielBeschreibung {
 	@Override
 	public int maximalspielerGeben() {
 		return 2;
@@ -24,7 +25,12 @@ public class PongBeschreibungServer extends SpielBeschreibungServer {
 	}
 	
 	@Override
-	public PongSpielServer instanzErstellen() {
+	public ClientSpiel clientInstanzErstellen() {
+		return null;
+	}
+	
+	@Override
+	public PongSpielServer serverInstanzErstellen() {
 		return new PongSpielServer();
 	}
 }

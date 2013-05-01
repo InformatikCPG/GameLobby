@@ -53,10 +53,9 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="de.cpg_gilching.informatik11.gamelobby.spiele.pong.PongBeschreibungServer" 
-    project="GameLobby" 
-    file="/GameLobby/src/de/cpg_gilching/informatik11/gamelobby/spiele/pong/PongBeschreibungServer.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
+  <class id="6" language="java" name="de.cpg_gilching.informatik11.gamelobby.spiele.pong.PongBeschreibung" 
+    project="GameLobby" file="/GameLobby/src/de/cpg_gilching/informatik11/gamelobby/spiele/pong/PongBeschreibung.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="968" y="484"/>    
     <display autosize="true" stereotype="true" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      

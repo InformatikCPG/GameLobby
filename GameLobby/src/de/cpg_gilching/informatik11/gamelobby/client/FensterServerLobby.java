@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -78,6 +80,23 @@ public class FensterServerLobby {
 				
 				gameDropdown = new JComboBox();
 				gameDropdown.setBounds(50, 420, 250, 25);
+				gameDropdown.setBackground(Color.white);
+				gameDropdown.addItemListener(new ItemListener() {
+					@Override
+					public void itemStateChanged(ItemEvent e) {
+						if (e.getStateChange() == ItemEvent.SELECTED) {
+							Object ausgewählt = e.getItem();
+							final SpielEintrag derEintrag = (ausgewählt instanceof SpielEintrag ? (SpielEintrag) ausgewählt : null);
+							
+							serverLobby.getClient().getScheduler().taskHinzufügen(new Runnable() {
+								@Override
+								public void run() {
+									serverLobby.spielAusgewählt(derEintrag);
+								}
+							});
+						}
+					}
+				});
 				hauptPanel.add(gameDropdown);
 				
 				JLabel ausgewähltBeschriftung = new JLabel("Ausgewählte Spieler:  ");
@@ -120,7 +139,7 @@ public class FensterServerLobby {
 				chatTextField.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						nachrichtSenden();
+						nachrichtAbsenden();
 					}
 				});
 				hauptPanel.add(chatTextField);
@@ -130,7 +149,7 @@ public class FensterServerLobby {
 				chatSendenBtn.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						nachrichtSenden();
+						nachrichtAbsenden();
 					}
 				});
 				hauptPanel.add(chatSendenBtn);
@@ -195,7 +214,7 @@ public class FensterServerLobby {
 		});
 	}
 	
-	public void spieleDropdownFüllen(final Object[] items) {
+	public void spielDropdownFüllen(final Object[] items) {
 		Helfer.alsSwingTask(new Runnable() {
 			@Override
 			public void run() {
@@ -204,11 +223,14 @@ public class FensterServerLobby {
 		});
 	}
 	
-	public void ausgewählteSpielerAnzeigen(final int anzahl, final int maximum, final boolean gültig) {
+	public void spielFormularAktualisieren(final int anzahl, final int maximum, final boolean gültig) {
 		Helfer.alsSwingTask(new Runnable() {
 			@Override
 			public void run() {
-				gameAusgewähltLabel.setText(anzahl + " / " + maximum);
+				if (maximum < 0)
+					gameAusgewähltLabel.setText(anzahl + "");
+				else
+					gameAusgewähltLabel.setText(anzahl + " / " + maximum);
 				gameAusgewähltLabel.setForeground(gültig ? Color.black : Color.red);
 				
 				gameStartBtn.setEnabled(gültig);
@@ -216,7 +238,7 @@ public class FensterServerLobby {
 		});
 	}
 	
-	private void nachrichtSenden() {
+	private void nachrichtAbsenden() {
 		String nachricht = chatTextField.getText();
 		chatTextField.setText("");
 		

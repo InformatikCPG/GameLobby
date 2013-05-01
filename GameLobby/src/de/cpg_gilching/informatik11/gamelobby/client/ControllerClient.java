@@ -13,7 +13,6 @@ import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketHallo;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketKeepAlive;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketLexikon;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
-import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibungClient;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpieleListe;
 
 public class ControllerClient implements Runnable {
@@ -27,8 +26,8 @@ public class ControllerClient implements Runnable {
 	
 	private TaskScheduler scheduler;
 	
-	private SpieleListe geladeneSpiele;
-	private Map<Integer, SpielBeschreibungClient> angemeldeteSpiele = new HashMap<Integer, SpielBeschreibungClient>();
+	private SpieleListe beschreibungenListe;
+	private Map<Integer, SpielBeschreibung> angemeldeteBeschreibungen = new HashMap<Integer, SpielBeschreibung>();
 	
 	private BildschirmServerLobby serverLobby = null;
 	
@@ -49,24 +48,28 @@ public class ControllerClient implements Runnable {
 		verbindung.sendMagicNumber();
 		verbindung.sendPacket(new PacketHallo(username));
 		
-		geladeneSpiele = new SpieleListe();
-		geladeneSpiele.clientSpieleLaden();
+		beschreibungenListe = new SpieleListe();
+		beschreibungenListe.beschreibungenLaden();
 		
 		Thread threadHauptschleife = new Thread(this, "Hauptschleife");
 		threadHauptschleife.start();
 	}
 	
-	public void spielAnmelden(int spielId, String bezeichner) {
-		SpielBeschreibung clientSpiel = geladeneSpiele.getSpielNachBezeichnung(bezeichner);
+	public void beschreibungAnmelden(int spielId, String bezeichner) {
+		SpielBeschreibung clientSpiel = beschreibungenListe.getSpielNachBezeichnung(bezeichner);
 		
 		if (clientSpiel == null) {
-			System.err.println("Spiel mit Bezeichnung " + bezeichner + " nicht gefunden!");
+			System.err.println("Spielbeschreibung mit Bezeichnung " + bezeichner + " nicht gefunden!");
 		}
 		else {
 			clientSpiel.setSpielId(spielId);
-			angemeldeteSpiele.put(spielId, (SpielBeschreibungClient) clientSpiel);
-			serverLobby.spielAuswahlAktualisieren(angemeldeteSpiele.values());
+			angemeldeteBeschreibungen.put(spielId, clientSpiel);
+			serverLobby.spielAuswahlAktualisieren(angemeldeteBeschreibungen.values());
 		}
+	}
+	
+	public SpielBeschreibung beschreibungSuchen(int spielId) {
+		return angemeldeteBeschreibungen.get(spielId);
 	}
 	
 	private void initialisieren() {

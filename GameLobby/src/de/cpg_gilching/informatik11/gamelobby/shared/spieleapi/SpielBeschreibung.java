@@ -12,11 +12,23 @@ public abstract class SpielBeschreibung {
 		return spielId;
 	}
 	
+	public int minimalspielerGeben() {
+		return 2;
+	}
+	
+	public int maximalspielerGeben() {
+		return -1;
+	}
+	
 	public abstract String getBezeichnung();
 	
 	public abstract int tickrateGeben();
 	
 	public void paketeAnmelden(PaketLexikon lexikon) {
 	}
+	
+	public abstract ClientSpiel clientInstanzErstellen();
+	
+	public abstract ServerSpiel serverInstanzErstellen();
 	
 }

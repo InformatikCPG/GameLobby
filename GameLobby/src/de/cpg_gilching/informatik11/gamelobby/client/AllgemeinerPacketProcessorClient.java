@@ -49,7 +49,7 @@ public class AllgemeinerPacketProcessorClient extends PacketProcessor {
 	}
 	
 	public void handle(PacketServerSpielAnmelden packet) {
-		client.spielAnmelden(packet.spielId, packet.spielBezeichner);
+		client.beschreibungAnmelden(packet.spielId, packet.spielBezeichner);
 	}
 	
 }

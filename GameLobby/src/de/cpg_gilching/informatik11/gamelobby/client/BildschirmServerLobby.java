@@ -5,13 +5,13 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketChatNachricht;
-import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibungClient;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
 
 class SpielEintrag {
 	String bezeichner;
 	int spielId;
 	
-	public SpielEintrag(SpielBeschreibungClient spiel) {
+	public SpielEintrag(SpielBeschreibung spiel) {
 		this.bezeichner = spiel.getBezeichnung();
 		this.spielId = spiel.getSpielId();
 	}
@@ -23,7 +23,7 @@ class SpielEintrag {
 }
 
 /**
- * Die Controller-Komponente der "Server-Lobby".
+ * Die Controller- und Model-Komponente der "Server-Lobby".
  */
 public class BildschirmServerLobby {
 	
@@ -32,6 +32,7 @@ public class BildschirmServerLobby {
 	
 	private Map<String, SpielerZustand> spielerTabelle = new TreeMap<String, SpielerZustand>();
 	private int ausgewähltAnzahl = 0;
+	private SpielBeschreibung spielAusgewählt = null;
 	
 	public BildschirmServerLobby(ControllerClient clientController) {
 		this.client = clientController;
@@ -81,18 +82,51 @@ public class BildschirmServerLobby {
 			ausgewähltAnzahl++;
 		}
 		
-		oberfläche.ausgewählteSpielerAnzeigen(ausgewähltAnzahl, 2, ausgewähltAnzahl <= 2);
+		spielFormularFüllen();
 	}
 	
-	public void spielAuswahlAktualisieren(Collection<SpielBeschreibungClient> spiele) {
-		SpielEintrag[] einträge = new SpielEintrag[spiele.size()];
-		
-		int i = 0;
-		for (SpielBeschreibungClient spiel : spiele) {
-			einträge[i++] = new SpielEintrag(spiel);
+	
+	private void spielFormularFüllen() {
+		if (spielAusgewählt == null) {
+			oberfläche.spielFormularAktualisieren(ausgewähltAnzahl, -1, false);
+		}
+		else {
+			int minSpieler = spielAusgewählt.minimalspielerGeben();
+			int maxSpieler = spielAusgewählt.maximalspielerGeben();
+			int anzahl = ausgewähltAnzahl + 1;
+			
+			boolean gültig = true;
+			
+			if (anzahl < minSpieler)
+				gültig = false;
+			if (maxSpieler > -1 && anzahl > maxSpieler)
+				gültig = false;
+			
+			oberfläche.spielFormularAktualisieren(ausgewähltAnzahl, maxSpieler - 1, gültig);
+		}
+	}
+	
+	public void spielAusgewählt(SpielEintrag eintrag) {
+		if (eintrag == null) {
+			spielAusgewählt = null;
+		}
+		else {
+			spielAusgewählt = client.beschreibungSuchen(eintrag.spielId);
 		}
 		
-		oberfläche.spieleDropdownFüllen(einträge);
+		spielFormularFüllen();
+	}
+	
+	public void spielAuswahlAktualisieren(Collection<SpielBeschreibung> spiele) {
+		Object[] dropDownEinträge = new Object[spiele.size() + 1];
+		dropDownEinträge[0] = "== Spiel auswählen ==";
+		
+		int i = 1;
+		for (SpielBeschreibung spiel : spiele) {
+			dropDownEinträge[i++] = new SpielEintrag(spiel);
+		}
+		
+		oberfläche.spielDropdownFüllen(dropDownEinträge);
 	}
 	
 	public ControllerClient getClient() {
