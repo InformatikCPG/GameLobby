@@ -7,7 +7,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.Collection;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,6 +29,7 @@ public class FensterSessionLobby {
 	
 	private JFrame fenster;
 	private JLabel labelSpielname;
+	private JPanel spielerPanel;
 	private JPanel panelSpieler;
 	private JButton ablehnenBtn;
 	private JButton annehmenBtn;
@@ -46,19 +51,18 @@ public class FensterSessionLobby {
 				labelSpielname = new JLabel();
 				labelSpielname.setText(sessionLobby.getBeschreibung().getBezeichnung());
 				labelSpielname.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
-				labelSpielname.setBounds(0, 0, 250, 50);
+				labelSpielname.setBounds(0, 10, 250, 40);
 				labelSpielname.setHorizontalAlignment(JLabel.CENTER);
 				hauptPanel.add(labelSpielname);
 				
-				ablehnenBtn = new JButton("Lobby Verlassen");
-				ablehnenBtn.setBounds(10, 450, 230, 40);
-				ablehnenBtn.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						System.out.println("abgelehnt");
-					}
-				});
-				hauptPanel.add(ablehnenBtn);
+				spielerPanel = new JPanel();
+				spielerPanel.setLayout(new BoxLayout(spielerPanel, BoxLayout.Y_AXIS));
+				
+				JPanel spielerPanelWrapper = new JPanel();
+				spielerPanelWrapper.setLayout(new BorderLayout());
+				spielerPanelWrapper.setBounds(10, 60, 230, 330);
+				spielerPanelWrapper.add(spielerPanel, BorderLayout.NORTH);
+				hauptPanel.add(spielerPanelWrapper);
 				
 				annehmenBtn = new JButton("Annehmen");
 				annehmenBtn.setBounds(10, 400, 230, 40);
@@ -70,8 +74,18 @@ public class FensterSessionLobby {
 				});
 				hauptPanel.add(annehmenBtn);
 				
+				ablehnenBtn = new JButton("Lobby Verlassen");
+				ablehnenBtn.setBounds(10, 450, 230, 40);
+				ablehnenBtn.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						System.out.println("abgelehnt");
+					}
+				});
+				hauptPanel.add(ablehnenBtn);
 				
-				fenster = new JFrame("Server-Lobby");
+				
+				fenster = new JFrame("Session-Lobby");
 				fenster.setResizable(false);
 				fenster.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 				fenster.setLayout(new BorderLayout());
@@ -90,8 +104,43 @@ public class FensterSessionLobby {
 		});
 	}
 	
+	public void spielerListeAktualisieren(Collection<String> spieler) {
+		// unabhängige Liste der Spieler erstellen
+		final Collection<String> alleSpieler = new ArrayList<String>(spieler);
+		
+		// auf Event-Thread ausführen
+		Helfer.alsSwingTask(new Runnable() {
+			@Override
+			public void run() {
+				spielerPanel.removeAll();
+				
+				spielerPanel.add(Box.createVerticalStrut(10));
+				
+				for (String spielerName : alleSpieler) {
+					Box box = Box.createHorizontalBox();
+					box.add(Box.createHorizontalStrut(10));
+					box.add(new JLabel(spielerName));
+					box.add(Box.createHorizontalGlue());
+					box.add(new JLabel("Bereit"));
+					box.add(Box.createHorizontalStrut(10));
+					
+					spielerPanel.add(box);
+					spielerPanel.add(Box.createVerticalStrut(10));
+				}
+				
+				spielerPanel.revalidate();
+				spielerPanel.repaint();
+			}
+		});
+	}
+	
 	public void fensterSchliessen() {
-		fenster.dispose();
+		Helfer.alsSwingTask(new Runnable() {
+			@Override
+			public void run() {
+				fenster.dispose();
+			}
+		});
 	}
 	
 }

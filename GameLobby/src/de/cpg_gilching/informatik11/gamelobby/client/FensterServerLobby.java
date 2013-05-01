@@ -247,7 +247,12 @@ public class FensterServerLobby implements Runnable {
 	}
 	
 	public void fensterSchliessen() {
-		fenster.dispose();
+		Helfer.alsSwingTask(new Runnable() {
+			@Override
+			public void run() {
+				fenster.dispose();
+			}
+		});
 	}
 	
 }
