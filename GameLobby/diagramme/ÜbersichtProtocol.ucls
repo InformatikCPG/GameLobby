@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<class-diagram version="1.1.2" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
-  associations="true" dependencies="false" nesting-relationships="true">  
+<class-diagram version="1.1.2" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
   <class id="1" language="java" name="de.cpg_gilching.informatik11.gamelobby.shared.net.Packet" project="GameLobby" 
     file="/GameLobby/src/de/cpg_gilching/informatik11/gamelobby/shared/net/Packet.java" binary="false" 
     corner="BOTTOM_RIGHT">    
@@ -120,25 +120,27 @@
     </display>  
   </class>  
   <generalization id="12">    
-    <bendpoint x="447" y="423"/>    
-    <bendpoint x="1080" y="423"/>    
-    <end type="SOURCE" refId="11"/>    
+    <bendpoint x="168" y="419"/>    
+    <bendpoint x="1065" y="419"/>    
+    <end type="SOURCE" refId="10"/>    
     <end type="TARGET" refId="1"/>  
   </generalization>  
   <generalization id="13">    
-    <bendpoint x="570" y="217"/>    
-    <bendpoint x="920" y="204"/>    
-    <end type="SOURCE" refId="7"/>    
+    <bendpoint x="744" y="427"/>    
+    <bendpoint x="1102" y="427"/>    
+    <end type="SOURCE" refId="9"/>    
     <end type="TARGET" refId="1"/>  
   </generalization>  
   <generalization id="14">    
-    <end type="SOURCE" refId="6"/>    
+    <bendpoint x="1026" y="432"/>    
+    <bendpoint x="1127" y="432"/>    
+    <end type="SOURCE" refId="8"/>    
     <end type="TARGET" refId="1"/>  
   </generalization>  
   <generalization id="15">    
-    <bendpoint x="715" y="18"/>    
-    <bendpoint x="923" y="18"/>    
-    <end type="SOURCE" refId="4"/>    
+    <bendpoint x="447" y="423"/>    
+    <bendpoint x="1080" y="423"/>    
+    <end type="SOURCE" refId="11"/>    
     <end type="TARGET" refId="1"/>  
   </generalization>  
   <generalization id="16">    
@@ -148,15 +150,15 @@
     <end type="TARGET" refId="1"/>  
   </generalization>  
   <generalization id="17">    
-    <bendpoint x="1026" y="432"/>    
-    <bendpoint x="1127" y="432"/>    
-    <end type="SOURCE" refId="8"/>    
+    <bendpoint x="715" y="18"/>    
+    <bendpoint x="923" y="18"/>    
+    <end type="SOURCE" refId="4"/>    
     <end type="TARGET" refId="1"/>  
   </generalization>  
   <generalization id="18">    
-    <bendpoint x="744" y="427"/>    
-    <bendpoint x="1102" y="427"/>    
-    <end type="SOURCE" refId="9"/>    
+    <bendpoint x="570" y="217"/>    
+    <bendpoint x="920" y="204"/>    
+    <end type="SOURCE" refId="7"/>    
     <end type="TARGET" refId="1"/>  
   </generalization>  
   <generalization id="19">    
@@ -172,9 +174,7 @@
     <end type="TARGET" refId="1"/>  
   </generalization>  
   <generalization id="21">    
-    <bendpoint x="168" y="419"/>    
-    <bendpoint x="1065" y="419"/>    
-    <end type="SOURCE" refId="10"/>    
+    <end type="SOURCE" refId="6"/>    
     <end type="TARGET" refId="1"/>  
   </generalization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

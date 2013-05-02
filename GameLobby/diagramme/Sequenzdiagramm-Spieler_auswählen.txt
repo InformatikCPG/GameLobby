@@ -6,23 +6,23 @@ participant "hannes : SpielerZustand" as hannes
 participant "pongBeschreibung : SpielBeschreibung" as spiel
 
 fenster->+lobby: spielerAuswahlUmschalten(hannes)
-alt Hannes ist gerade ausgewählt
-  lobby->+hannes: setAusgewählt(false)
-  hannes->-lobby:
-  lobby->lobby: ausgewähltAnzahl--
-else
+alt Hannes soll ausgewählt werden
   lobby->+hannes: setAusgewählt(true)
   hannes->-lobby:
   lobby->lobby: ausgewähltAnzahl++
+else
+  lobby->+hannes: setAusgewählt(false)
+  hannes->-lobby:
+  lobby->lobby: ausgewähltAnzahl--
 end
 
 lobby->+spiel: maximalspielerGeben()
 spiel->-lobby: 2
 
-alt ausgewähltAnzahl <= 2
-  lobby->fenster: spielFormularAktualisieren(ausgewähltAnzahl, 2, true)
+alt ausgewähltAnzahl <= 1
+  lobby->fenster: spielFormularAktualisieren(ausgewähltAnzahl, 1, true)
   fenster->fenster: startButtonAktivieren()
 else
-  lobby->-fenster: spielFormularAktualisieren(ausgewähltAnzahl, 2, false)
+  lobby->-fenster: spielFormularAktualisieren(ausgewähltAnzahl, 1, false)
   fenster->fenster: startButtonDeaktivieren()
 end
