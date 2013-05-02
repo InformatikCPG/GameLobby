@@ -1,0 +1,20 @@
+title Chatnachrichten versenden
+
+participant Spieler1Oberfläche as Oberfläche
+participant Spieler1
+participant Spieler2
+participant Spieler3
+participant ServerEmpfänger
+participant Server
+
+Oberfläche->Spieler1: chatNachrichtSenden()
+
+Spieler1->ServerEmpfänger: sende PacketChatNachricht
+
+note right of ServerEmpfänger: Server empfängt Packet\nund leitet es an alle Spieler weiter
+ServerEmpfänger->Server: paketAnAlle()
+Server->Spieler1: sende PacketChatNachricht
+Spieler1->Oberfläche: chatNachrichtAnzeigen()
+Server->Spieler2: sende PacketChatNachricht
+Server->Spieler3: sende PacketChatNachricht
+note over Spieler2 Spieler3: Spieler2 und Spieler3 zeigen\nNachricht ebenfalls an
