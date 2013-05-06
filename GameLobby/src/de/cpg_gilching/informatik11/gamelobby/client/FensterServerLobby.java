@@ -25,6 +25,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 
@@ -120,6 +122,7 @@ public class FensterServerLobby implements Runnable {
 				
 				// Chat
 				chatTextArea = new JTextArea();
+				chatTextArea.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 12));
 				chatTextArea.setEditable(false);
 				chatTextArea.setLineWrap(true);
 				chatTextArea.setMargin(new Insets(5, 5, 5, 5));
@@ -242,6 +245,24 @@ public class FensterServerLobby implements Runnable {
 	private void nachrichtAbsenden() {
 		String nachricht = chatTextField.getText();
 		chatTextField.setText("");
+		
+		// LAF abfangen
+		if (nachricht.equalsIgnoreCase("!laf system")) {
+			try {
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+				SwingUtilities.updateComponentTreeUI(fenster);
+				return;
+			} catch (Exception ignored) {
+			}
+		}
+		else if (nachricht.equalsIgnoreCase("!laf java")) {
+			try {
+				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+				SwingUtilities.updateComponentTreeUI(fenster);
+				return;
+			} catch (Exception ignored) {
+			}
+		}
 		
 		serverLobby.chatNachrichtSenden(nachricht);
 	}

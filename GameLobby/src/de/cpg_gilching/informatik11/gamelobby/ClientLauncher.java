@@ -7,12 +7,6 @@ import de.cpg_gilching.informatik11.gamelobby.client.FensterLogin;
 public class ClientLauncher {
 	
 	public static void main(String[] args) throws UnsupportedLookAndFeelException {
-		//		try {
-		//			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		//		} catch (Exception ignored) {
-		//		}
-		
-		
 		FensterLogin fensterLogin = new FensterLogin();
 		
 		if (args.length == 3) {
