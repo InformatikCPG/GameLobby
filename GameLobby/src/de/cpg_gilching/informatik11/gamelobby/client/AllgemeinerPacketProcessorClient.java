@@ -9,6 +9,8 @@ import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketServerSpielAn
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionSpielerStatus;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionStarten;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionVerlassen;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielStarten;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielTeilnehmer;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielerListe;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
 
@@ -87,6 +89,38 @@ public class AllgemeinerPacketProcessorClient extends PacketProcessor {
 			sessionLobby.spielerBereitSetzen(packet.spielerName);
 		else
 			sessionLobby.spielerEntfernen(packet.spielerName);
+	}
+	
+	public void handle(PacketSpielStarten packet) {
+		SpielBeschreibung beschreibung = client.getBeschreibungNachId(packet.beschreibungId);
+		if (beschreibung == null) {
+			System.err.println("Spiel kann nicht gestartet werden: Spielbeschreibung mit ungültiger id " + packet.beschreibungId);
+			return;
+		}
+		
+		client.spielErstellen(packet.spielId, beschreibung);
+	}
+	
+	public void handle(PacketSpielTeilnehmer packet) {
+		BildschirmGameLobby spiel = client.getSpielNachId(packet.spielId);
+		if (spiel == null) {
+			System.err.println("PacketSpielTeilnehmer: Spiel id ungültig: " + packet.spielId);
+			return;
+		}
+		
+		switch (packet.aktion) {
+		case PacketSpielTeilnehmer.BEIGETRETEN:
+			spiel.spielerHinzufügen(packet.spielerName);
+			break;
+		
+		case PacketSpielTeilnehmer.VERLASSEN:
+			spiel.spielerEntfernen(packet.spielerName);
+			break;
+		
+		default:
+			System.err.println("PacketSpielTeilnehmer: ungültige Aktion " + packet.aktion);
+			break;
+		}
 	}
 	
 }

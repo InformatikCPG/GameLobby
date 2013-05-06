@@ -32,6 +32,7 @@ public class ControllerClient implements Runnable {
 	
 	private BildschirmServerLobby serverLobby = null;
 	private Map<Integer, BildschirmSessionLobby> sessionLobbies = new HashMap<Integer, BildschirmSessionLobby>();
+	private Map<Integer, BildschirmGameLobby> offeneSpiele = new HashMap<Integer, BildschirmGameLobby>();
 	
 	private int zeitSeitKeepAlive = 0;
 	private boolean aktiv = true;
@@ -92,6 +93,14 @@ public class ControllerClient implements Runnable {
 		return sessionLobbies.get(sessionId);
 	}
 	
+	public void spielErstellen(int spielId, SpielBeschreibung beschreibung) {
+		offeneSpiele.put(spielId, new BildschirmGameLobby(this, spielId, beschreibung));
+	}
+	
+	public BildschirmGameLobby getSpielNachId(int spielId) {
+		return offeneSpiele.get(spielId);
+	}
+	
 	private void initialisieren() {
 		serverLobby = new BildschirmServerLobby(this);
 	}
@@ -114,6 +123,10 @@ public class ControllerClient implements Runnable {
 		}
 		
 		scheduler.tasksAbarbeiten();
+		
+		for (BildschirmGameLobby gameLobby : offeneSpiele.values()) {
+			gameLobby.tick(ms);
+		}
 	}
 	
 	@Override

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.AdapterPaketLexikon;
 import de.cpg_gilching.informatik11.gamelobby.shared.PaketListe;
@@ -11,8 +12,11 @@ import de.cpg_gilching.informatik11.gamelobby.shared.net.Connection;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Packet;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketChatNachricht;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketServerSpielAnmelden;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielStarten;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielTeilnehmer;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielerListe;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketLexikon;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ServerSpiel;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpieleListe;
 
@@ -29,6 +33,7 @@ public class ControllerServer {
 	
 	private SpieleListe geladeneSpiele;
 	private Map<Integer, Session> offeneSessions = new HashMap<Integer, Session>();
+	private Map<Integer, ServerSpiel> offeneSpiele = new HashMap<Integer, ServerSpiel>();
 	
 	public ControllerServer(ServerMain server) {
 		this.server = server;
@@ -95,7 +100,9 @@ public class ControllerServer {
 	}
 	
 	public void tick(int ms) {
-		
+		for (ServerSpiel spiel : offeneSpiele.values()) {
+			spiel.tick();
+		}
 	}
 	
 	
@@ -126,6 +133,25 @@ public class ControllerServer {
 	public void sessionSchließen(Session session) {
 		offeneSessions.remove(session.getId());
 		session.schließen();
+	}
+	
+	public void spielStarten(int id, SpielBeschreibung beschreibung, Set<Spieler> teilnehmer) {
+		// das ServerSpiel erzeugen und starten
+		ServerSpiel serverSpiel = beschreibung.serverInstanzErstellen();
+		serverSpiel._init(teilnehmer);
+		
+		// in die Liste der offenen Spiele aufnehmen
+		offeneSpiele.put(id, serverSpiel);
+		
+		// alle Teilnehmer über den Spielstart informieren
+		for (Spieler spieler : teilnehmer) {
+			spieler.packetSenden(new PacketSpielStarten(id, beschreibung.getSpielId()));
+			
+			// alle Spieler beitreten lassen
+			for (Spieler anderer : teilnehmer) {
+				spieler.packetSenden(new PacketSpielTeilnehmer(id, anderer.getName(), PacketSpielTeilnehmer.BEIGETRETEN));
+			}
+		}
 	}
 	
 	public void kickSpieler(Spieler spieler, String grund) {

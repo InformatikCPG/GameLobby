@@ -5,9 +5,10 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ServerSpiel;
 
 public class PongSpielServer extends ServerSpiel {
 	
-	//	public Pong(PongBeschreibung beschreibung) {
-	//		super(beschreibung, new PongPaketManager());
-	//	}
+	@Override
+	public void starten() {
+		
+	}
 	
 	@Override
 	public void tick() {

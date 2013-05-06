@@ -28,6 +28,8 @@ public class Session {
 		this.beschreibung = beschreibung;
 		this.teilnehmer = new HashSet<Spieler>(teilnehmerListe);
 		
+		System.out.println("Session für Spiel " + beschreibung.getBezeichnung() + " mit Teilnehmern " + Helfer.verketten(teilnehmer, ", "));
+		
 		// alle Teilnehmer über die Session informieren
 		List<String> teilnehmerNamen = new ArrayList<String>(teilnehmer.size());
 		for (Spieler spieler : teilnehmer)
@@ -69,7 +71,9 @@ public class Session {
 	}
 	
 	public void spielStarten() {
-		System.out.println("Session wird gestartet mit Spiel " + beschreibung.getBezeichnung() + " und Teilnehmern " + Helfer.verketten(teilnehmer, ", "));
+		System.out.println("Spiel wird gestartet mit Spiel " + beschreibung.getBezeichnung() + " und Teilnehmern " + Helfer.verketten(teilnehmer, ", "));
+		server.sessionSchließen(this);
+		server.spielStarten(id, beschreibung, teilnehmer);
 	}
 	
 	public void schließen() {

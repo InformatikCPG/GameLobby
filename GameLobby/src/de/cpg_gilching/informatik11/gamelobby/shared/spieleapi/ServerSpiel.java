@@ -1,25 +1,21 @@
 package de.cpg_gilching.informatik11.gamelobby.shared.spieleapi;
 
+import java.util.Set;
+
+import de.cpg_gilching.informatik11.gamelobby.server.Spieler;
+
 public abstract class ServerSpiel {
 	
-	//	protected final SpielBeschreibung beschreibung;
-	protected PaketManager paketManager;
+	protected Set<Spieler> teilnehmer = null;
 	
-	//	
-	//	public ServerSpiel(SpielBeschreibung beschreibung, PaketManager packetManager) {
-	//		this.beschreibung = beschreibung;
-	//		this.paketManager = packetManager;
-	//	}
+	public final void _init(Set<Spieler> teilnehmer) {
+		this.teilnehmer = teilnehmer;
+		starten();
+	}
+	
+	protected abstract void starten();
 	
 	public void tick() {
 	}
-	
-	//	public PaketManager paketManagerGeben() {
-	//		return paketManager;
-	//	}
-	//	
-	//	public SpielBeschreibung beschreibungGeben() {
-	//		return beschreibung;
-	//	}
 	
 }

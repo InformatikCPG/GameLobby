@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -37,8 +38,7 @@ public class FensterGameLobby {
 	private JScrollPane chatTextScroller;
 	private JTextField chatTextField;
 	
-	
-	public FensterGameLobby() {
+	public FensterGameLobby(final String spielBezeichnung, final SpielOberfläche spielView) {
 		
 		Helfer.alsSwingTask(new Runnable() {
 			@Override
@@ -48,8 +48,8 @@ public class FensterGameLobby {
 				hauptPanel.setPreferredSize(new Dimension(880, 600));
 				
 				panelGame = new JPanel();
-				panelGame.setBackground(Color.black);
 				panelGame.setLayout(null);
+				panelGame.add(spielView);
 				hauptPanel.add(panelGame, BorderLayout.CENTER);
 				
 				panelSidebar = new JPanel();
@@ -59,7 +59,7 @@ public class FensterGameLobby {
 				hauptPanel.add(panelSidebar, BorderLayout.WEST);
 				
 				labelSpielname = new JLabel();
-				labelSpielname.setText("Spiel Nr. 1337");
+				labelSpielname.setText(spielBezeichnung);
 				labelSpielname.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 				labelSpielname.setBounds(0, 0, 280, 30);
 				labelSpielname.setHorizontalAlignment(JLabel.CENTER);
@@ -122,8 +122,17 @@ public class FensterGameLobby {
 		});
 	}
 	
+	public void spielerListeAktualisieren(Set<SpielerIngameZustand> spielerListe) {
+		
+	}
+	
 	public void fensterSchliessen() {
-		fenster.dispose();
+		Helfer.alsSwingTask(new Runnable() {
+			@Override
+			public void run() {
+				fenster.dispose();
+			}
+		});
 	}
 	
 }

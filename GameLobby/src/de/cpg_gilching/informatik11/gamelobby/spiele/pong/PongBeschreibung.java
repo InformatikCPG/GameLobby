@@ -32,7 +32,7 @@ public class PongBeschreibung extends SpielBeschreibung {
 	
 	@Override
 	public ClientSpiel clientInstanzErstellen() {
-		return null;
+		return new PongSpielClient();
 	}
 	
 	@Override
