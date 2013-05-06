@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import de.cpg_gilching.informatik11.gamelobby.server.fakeplayer.ArtificialSocket;
 import de.cpg_gilching.informatik11.gamelobby.shared.AdapterPaketLexikon;
 import de.cpg_gilching.informatik11.gamelobby.shared.PaketListe;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Connection;
@@ -74,6 +75,10 @@ public class ControllerServer {
 		
 		// Chat-Nachricht verbreiten
 		paketAnAlle(new PacketChatNachricht(neuerSpieler.getName() + " ist der Lobby beigetreten."));
+		
+		// automatisch KI-Spieler beitreten lassen
+		if (!neuerSpieler.getName().startsWith("AI-"))
+			server.connectClient(new ArtificialSocket(paketLexikon.getInternesLexikon()));
 	}
 	
 	public void onSpielerVerlassen(Connection verbindung) {
@@ -83,7 +88,7 @@ public class ControllerServer {
 				spielerListe.remove(spieler);
 				
 				// aus möglichen Sessions werfen
-				for (Session session : offeneSessions.values()) {
+				for (Session session : new ArrayList<Session>(offeneSessions.values())) {
 					session.spielerVerlassen(spieler);
 				}
 				

@@ -226,7 +226,7 @@ public class ServerMain implements Runnable {
 					log(socket.getInetAddress() + " connected");
 					
 					// validate client
-					new Thread(new ClientValidatorTask(new NetSocket(socket))).start();
+					connectClient(new NetSocket(socket));
 				} catch (SocketTimeoutException e) { // ignore and retry if still running
 				} catch (SocketException e) {
 					if (isRunning()) // exception didn't occur because socket was intentionally closed
@@ -250,6 +250,8 @@ public class ServerMain implements Runnable {
 		@Override
 		public void run() {
 			try {
+				socket.connect();
+				
 				long magicNumber = new DataInputStream(socket.getInputStream()).readLong();
 				if (magicNumber == Packet.MAGIC_NUMBER) {
 					log(socket.getRepresentation() + " validated");

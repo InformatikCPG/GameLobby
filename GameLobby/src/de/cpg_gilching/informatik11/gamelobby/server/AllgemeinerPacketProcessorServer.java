@@ -3,6 +3,7 @@ package de.cpg_gilching.informatik11.gamelobby.server;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.cpg_gilching.informatik11.gamelobby.server.fakeplayer.ArtificialSocket;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Packet;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.PacketProcessor;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketChatNachricht;
@@ -53,6 +54,26 @@ public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 	}
 	
 	public void handle(PacketChatNachricht packet) {
+		// auf command prüfen
+		if (packet.nachricht.equals("!stopserver")) {
+			spieler.getServer().paketAnAlle(new PacketChatNachricht("# Server wird heruntergefahren ..."));
+			spieler.getServer().getServer().stop();
+			return;
+		}
+		if (packet.nachricht.equals("!bot")) {
+			spieler.getServer().getServer().connectClient(new ArtificialSocket(spieler.getServer().getPaketLexikon().getInternesLexikon()));
+			return;
+		}
+		if (packet.nachricht.startsWith("!kick")) {
+			String pname = packet.nachricht.substring("!kick ".length());
+			Spieler kickender = spieler.getServer().getSpieler(pname);
+			if (kickender == null)
+				spieler.packetSenden(new PacketChatNachricht("Spieler ungültig!"));
+			else
+				spieler.getServer().kickSpieler(kickender, "Per command gekickt!");
+			return;
+		}
+		
 		// Paket wieder an alle zurücksenden
 		spieler.getServer().paketAnAlle(new PacketChatNachricht("<" + spieler.getName() + "> " + packet.nachricht));
 	}
