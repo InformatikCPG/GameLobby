@@ -39,10 +39,8 @@ public class BildschirmGameLobby {
 		
 		this.oberfläche = new FensterGameLobby(beschreibung.getBezeichnung(), spielView);
 		
-		ClientSpiel.konstruktorSpielView = spielView;
 		clientSpiel = beschreibung.clientInstanzErstellen();
-		ClientSpiel.konstruktorSpielView = null;
-		clientSpiel.viewZuweisen(spielView);
+		clientSpiel._init(spielView);
 		
 		if (1000 % beschreibung.tickrateGeben() != 0) {
 			System.err.println("WARNUNG: Spiel " + beschreibung.getBezeichnung() + " hat ungünstige Tickrate: " + beschreibung.tickrateGeben());
@@ -53,7 +51,7 @@ public class BildschirmGameLobby {
 		msVergangen += ms;
 		int tickAlleMs = 1000 / beschreibung.tickrateGeben();
 		
-		while (msVergangen >= tickAlleMs) {
+		if (msVergangen >= tickAlleMs) {
 			
 			if (spielView.hatCanvas()) {
 				spielView.canvasRendern(clientSpiel);

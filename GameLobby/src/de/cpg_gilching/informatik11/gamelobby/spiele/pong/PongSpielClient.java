@@ -14,7 +14,8 @@ public class PongSpielClient extends ClientSpiel implements PaketManager, ITasta
 	private int links;
 	private int rechts;
 	
-	public PongSpielClient() {
+	@Override
+	public void starten() {
 		leinwandAktivieren(600, 600);
 		setPaketManager(this);
 		

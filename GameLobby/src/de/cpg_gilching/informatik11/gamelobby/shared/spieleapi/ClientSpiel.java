@@ -7,13 +7,12 @@ import de.cpg_gilching.informatik11.gamelobby.client.SpielOberfläche; // TODO a
 
 public abstract class ClientSpiel {
 	
-	public static SpielOberfläche konstruktorSpielView = null;
-	
 	private SpielOberfläche spielView = null;
 	private PaketManager paketManager = null;
 	
-	public final void viewZuweisen(SpielOberfläche spielView) {
+	public final void _init(SpielOberfläche spielView) {
 		this.spielView = spielView;
+		starten();
 	}
 	
 	public final void setPaketManager(PaketManager manager) {
@@ -34,27 +33,21 @@ public abstract class ClientSpiel {
 	}
 	
 	protected final void tasteRegistrieren(int tastencode, ITastaturListener listener) {
-		if (spielView == null)
-			spielView = konstruktorSpielView;
-		
 		spielView.getInputListener().tasteRegistrieren(tastencode, listener);
 	}
 	
 	protected final void leinwandAktivieren(int breite, int höhe) {
-		// wenn im Konstruktor aufgerufen, muss das statische Attribut genommen werden, da noch kein Wert zugewiesen werden konnte
-		if (spielView == null)
-			spielView = konstruktorSpielView;
-		
 		spielView.canvasHinzufügen(breite, höhe);
 	}
 	
 	protected final void spielPacketSenden(SpielPacket packet) {
-		if (spielView == null)
-			spielView = konstruktorSpielView;
-		
 		spielView.getLobbyBildschirm().getClient().getVerbindung().sendPacket(packet);
 	}
 	
-	public abstract void leinwandRendern(Graphics2D g);
+	
+	protected abstract void starten();
+	
+	public void leinwandRendern(Graphics2D g) {
+	}
 	
 }
