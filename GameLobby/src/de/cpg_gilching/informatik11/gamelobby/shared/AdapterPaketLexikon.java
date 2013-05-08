@@ -5,8 +5,9 @@ import java.util.Map;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.net.IPacketDictionary;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Packet;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketLexikon;
 
-public class AdapterPaketLexikon implements IPacketDictionary {
+public class AdapterPaketLexikon implements IPacketDictionary, PaketLexikon {
 	
 	private Map<Integer, Class<? extends Packet>> nachId = new HashMap<Integer, Class<? extends Packet>>();
 	private Map<Class<? extends Packet>, Integer> nachKlasse = new HashMap<Class<? extends Packet>, Integer>();
@@ -28,6 +29,7 @@ public class AdapterPaketLexikon implements IPacketDictionary {
 		return id;
 	}
 	
+	@Override
 	public void anmelden(Class<? extends Packet> klasse) {
 		int id = klasse.getCanonicalName().hashCode() & 0xFFFF;
 		

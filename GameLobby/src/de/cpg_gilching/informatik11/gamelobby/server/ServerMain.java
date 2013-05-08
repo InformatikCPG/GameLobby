@@ -12,6 +12,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import de.cpg_gilching.informatik11.gamelobby.server.fakeplayer.ArtificialSocket;
+import de.cpg_gilching.informatik11.gamelobby.shared.AdapterPaketLexikon;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Connection;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.NetSocket;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Packet;
@@ -30,6 +32,7 @@ public class ServerMain implements Runnable {
 	private volatile boolean started = false;
 	private int ticks = 0;
 	
+	private AdapterPaketLexikon dictionary = new AdapterPaketLexikon();
 	private ControllerServer controller;
 	
 	private Thread mainServerThread;
@@ -117,7 +120,7 @@ public class ServerMain implements Runnable {
 			}
 		}
 		
-		controller = new ControllerServer(this);
+		controller = new ControllerServer(this, dictionary);
 		
 		started = true;
 		
@@ -214,6 +217,10 @@ public class ServerMain implements Runnable {
 		new Thread(new ClientValidatorTask(socket)).start();
 	}
 	
+	public PotentialSocket createAISocket() {
+		return new ArtificialSocket(dictionary);
+	}
+	
 	private class ClientAcceptTask implements Runnable {
 		@Override
 		public void run() {
@@ -256,7 +263,7 @@ public class ServerMain implements Runnable {
 				if (magicNumber == Packet.MAGIC_NUMBER) {
 					log(socket.getRepresentation() + " validated");
 					
-					Connection connection = new Connection(socket, controller.getPaketLexikon().getInternesLexikon());
+					Connection connection = new Connection(socket, dictionary);
 					newClients.add(connection);
 				}
 				else {

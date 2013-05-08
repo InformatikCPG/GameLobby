@@ -1,21 +1,12 @@
 package de.cpg_gilching.informatik11.gamelobby.shared;
 
-import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketChatNachricht;
-import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketDisconnect;
-import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketHallo;
-import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketKeepAlive;
-import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketServerSpielAnmelden;
-import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionAnnehmen;
-import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionSpielerStatus;
-import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionStarten;
-import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionVerlassen;
-import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielStarten;
-import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielTeilnehmer;
-import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielerListe;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.*;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PacketSpielTaste;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketLexikon;
 
 public class PaketListe {
 	
-	public static void normalePaketeAnmelden(AdapterPaketLexikon lexikon) {
+	public static void normalePaketeAnmelden(PaketLexikon lexikon) {
 		// beide Richtungen
 		lexikon.anmelden(PacketKeepAlive.class);
 		lexikon.anmelden(PacketDisconnect.class);
@@ -26,6 +17,7 @@ public class PaketListe {
 		lexikon.anmelden(PacketHallo.class);
 		lexikon.anmelden(PacketSessionAnnehmen.class);
 		lexikon.anmelden(PacketSessionVerlassen.class);
+		lexikon.anmelden(PacketSpielTaste.class);
 		
 		// Server -> Client
 		lexikon.anmelden(PacketSpielerListe.class);

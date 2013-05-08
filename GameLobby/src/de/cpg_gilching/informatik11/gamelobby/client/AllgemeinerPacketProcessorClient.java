@@ -13,6 +13,7 @@ import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielStarten;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielTeilnehmer;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielerListe;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielPacket;
 
 public class AllgemeinerPacketProcessorClient extends PacketProcessor {
 	
@@ -24,6 +25,19 @@ public class AllgemeinerPacketProcessorClient extends PacketProcessor {
 	
 	@Override
 	public void onUnhandledPacket(Packet packet) {
+		// SpielPackets werden vom jeweiligen Spiel behandelt, also wird es hier weitergebeben
+		if (packet instanceof SpielPacket) {
+			int id = ((SpielPacket) packet).spielId;
+			BildschirmGameLobby spielBildschirm = client.getSpielNachId(id);
+			
+			if (spielBildschirm == null) {
+				System.err.println("Ungültige Spiel id: " + id);
+				return;
+			}
+			
+			spielBildschirm.packetVerarbeiten((SpielPacket) packet);
+		}
+		
 		System.err.println("unerwartetes Packet: " + packet.getClass().getSimpleName());
 	}
 	

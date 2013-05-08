@@ -1,10 +1,14 @@
 package de.cpg_gilching.informatik11.gamelobby.client;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ClientSpiel;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielPacket;
 
 class SpielerIngameZustand {
 	String name;
@@ -25,7 +29,7 @@ public class BildschirmGameLobby {
 	
 	private Set<SpielerIngameZustand> spielerListe = new HashSet<SpielerIngameZustand>();
 	
-	private SpielOberfläche spielView = new SpielOberfläche();
+	private SpielOberfläche spielView = new SpielOberfläche(this);
 	private FensterGameLobby oberfläche;
 	
 	public BildschirmGameLobby(ControllerClient client, int spielId, SpielBeschreibung beschreibung) {
@@ -74,8 +78,33 @@ public class BildschirmGameLobby {
 		}
 	}
 	
+	public void packetVerarbeiten(SpielPacket packet) {
+		PaketManager manager = clientSpiel.getPaketManager();
+		
+		if (manager == null) {
+			System.err.println("Spiel-Paket wurde von Spiel " + beschreibung.getBezeichnung() + " nicht entgegengenommen: kein PaketManager aktiviert!");
+		}
+		else {
+			try {
+				Method m = manager.getClass().getDeclaredMethod("verarbeiten", packet.getClass());
+				m.invoke(manager, packet);
+			} catch (NoSuchMethodException e) {
+				System.err.println("Spiel-Paket wurde von " + beschreibung.getBezeichnung() + " nicht entgegengenommen: " + packet.getClass().getSimpleName());
+			} catch (InvocationTargetException e) {
+				System.err.println("Exception beim Verarbeiten des Spiel-Pakets von " + beschreibung.getBezeichnung() + ": " + packet.getClass().getSimpleName());
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public int getSpielId() {
 		return spielId;
+	}
+	
+	public ControllerClient getClient() {
+		return client;
 	}
 	
 }

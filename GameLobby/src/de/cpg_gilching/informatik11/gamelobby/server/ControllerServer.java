@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import de.cpg_gilching.informatik11.gamelobby.server.fakeplayer.ArtificialSocket;
-import de.cpg_gilching.informatik11.gamelobby.shared.AdapterPaketLexikon;
 import de.cpg_gilching.informatik11.gamelobby.shared.PaketListe;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Connection;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Packet;
@@ -36,15 +34,13 @@ public class ControllerServer {
 	private Map<Integer, Session> offeneSessions = new HashMap<Integer, Session>();
 	private Map<Integer, ServerSpiel> offeneSpiele = new HashMap<Integer, ServerSpiel>();
 	
-	public ControllerServer(ServerMain server) {
+	public ControllerServer(ServerMain server, PaketLexikon lexikon) {
 		this.server = server;
+		this.paketLexikon = lexikon;
 		
-		AdapterPaketLexikon adapter = new AdapterPaketLexikon();
-		PaketListe.normalePaketeAnmelden(adapter);
+		PaketListe.normalePaketeAnmelden(paketLexikon);
 		
-		paketLexikon = new PaketLexikon(adapter);
-		
-		geladeneSpiele = new SpieleListe();
+		geladeneSpiele = new SpieleListe(paketLexikon);
 		geladeneSpiele.beschreibungenLaden();
 	}
 	
@@ -78,7 +74,7 @@ public class ControllerServer {
 		
 		// automatisch KI-Spieler beitreten lassen
 		if (!neuerSpieler.getName().startsWith("AI-"))
-			server.connectClient(new ArtificialSocket(paketLexikon.getInternesLexikon()));
+			server.connectClient(server.createAISocket());
 	}
 	
 	public void onSpielerVerlassen(Connection verbindung) {

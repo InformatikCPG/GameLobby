@@ -12,11 +12,19 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ClientSpiel;
 public class SpielOberfläche extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
+	private BildschirmGameLobby lobbyBildschirm;
+	private SpielInputListener inputListener = new SpielInputListener();
 	private Canvas leinwand = null;
 	
-	public SpielOberfläche() {
+	public SpielOberfläche(BildschirmGameLobby lobbyBildschirm) {
+		this.lobbyBildschirm = lobbyBildschirm;
+		
 		setBounds(0, 0, 600, 600);
 		setLayout(null);
+		
+		addKeyListener(inputListener);
+		addMouseListener(inputListener);
+		addFocusListener(inputListener);
 	}
 	
 	public void canvasHinzufügen(int breite, int höhe) {
@@ -29,10 +37,14 @@ public class SpielOberfläche extends JPanel {
 	}
 	
 	public void canvasRendern(ClientSpiel spiel) {
+		if (!leinwand.isDisplayable())
+			return;
+		
+		requestFocus();
+		
 		BufferStrategy bs = leinwand.getBufferStrategy();
 		if (bs == null) {
 			leinwand.createBufferStrategy(2);
-			leinwand.requestFocus();
 			return;
 		}
 		
@@ -40,7 +52,7 @@ public class SpielOberfläche extends JPanel {
 		g.setColor(Color.black);
 		g.fillRect(0, 0, leinwand.getWidth(), leinwand.getHeight());
 		
-		spiel.rendern(g);
+		spiel.leinwandRendern(g);
 		
 		g.dispose();
 		bs.show();
@@ -48,6 +60,14 @@ public class SpielOberfläche extends JPanel {
 	
 	public boolean hatCanvas() {
 		return leinwand != null;
+	}
+	
+	public SpielInputListener getInputListener() {
+		return inputListener;
+	}
+	
+	public BildschirmGameLobby getLobbyBildschirm() {
+		return lobbyBildschirm;
 	}
 	
 }

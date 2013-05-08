@@ -3,7 +3,6 @@ package de.cpg_gilching.informatik11.gamelobby.server;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.cpg_gilching.informatik11.gamelobby.server.fakeplayer.ArtificialSocket;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Packet;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.PacketProcessor;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketChatNachricht;
@@ -61,7 +60,8 @@ public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 			return;
 		}
 		if (packet.nachricht.equals("!bot")) {
-			spieler.getServer().getServer().connectClient(new ArtificialSocket(spieler.getServer().getPaketLexikon().getInternesLexikon()));
+			ServerMain internerServer = spieler.getServer().getServer();
+			internerServer.connectClient(internerServer.createAISocket());
 			return;
 		}
 		if (packet.nachricht.startsWith("!kick")) {
@@ -73,6 +73,7 @@ public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 				spieler.getServer().kickSpieler(kickender, "Per command gekickt!");
 			return;
 		}
+		
 		
 		// Paket wieder an alle zurücksenden
 		spieler.getServer().paketAnAlle(new PacketChatNachricht("<" + spieler.getName() + "> " + packet.nachricht));

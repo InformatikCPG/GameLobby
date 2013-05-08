@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.cpg_gilching.informatik11.gamelobby.shared.AdapterPaketLexikon;
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.PaketListe;
 import de.cpg_gilching.informatik11.gamelobby.shared.TaskScheduler;
@@ -37,21 +36,21 @@ public class ControllerClient implements Runnable {
 	private int zeitSeitKeepAlive = 0;
 	private boolean aktiv = true;
 	
-	public ControllerClient(Connection verbindung, String username, AdapterPaketLexikon lexikonAdapter) {
+	public ControllerClient(Connection verbindung, String username, PaketLexikon lexikon) {
 		this.verbindung = verbindung;
-		this.paketLexikon = new PaketLexikon(lexikonAdapter);
+		this.paketLexikon = lexikon;
 		this.username = username;
 		
 		this.scheduler = new TaskScheduler();
 		
-		PaketListe.normalePaketeAnmelden(lexikonAdapter);
+		PaketListe.normalePaketeAnmelden(paketLexikon);
 		
 		verbindung.setPacketProcessor(new AllgemeinerPacketProcessorClient(this));
 		
 		verbindung.sendMagicNumber();
 		verbindung.sendPacket(new PacketHallo(username));
 		
-		beschreibungenListe = new SpieleListe();
+		beschreibungenListe = new SpieleListe(paketLexikon);
 		beschreibungenListe.beschreibungenLaden();
 		
 		Thread threadHauptschleife = new Thread(this, "Hauptschleife");
@@ -132,7 +131,7 @@ public class ControllerClient implements Runnable {
 	@Override
 	public void run() {
 		// die Zeit, als der letzte tick stattfand
-		long letzterTick = 0;
+		long letzterTick = System.currentTimeMillis();
 		// die jetzige Zeit
 		long jetzt;
 		
@@ -186,10 +185,6 @@ public class ControllerClient implements Runnable {
 	
 	public BildschirmServerLobby getServerLobby() {
 		return serverLobby;
-	}
-	
-	public PaketLexikon getPaketLexikon() {
-		return paketLexikon;
 	}
 	
 	public TaskScheduler getScheduler() {

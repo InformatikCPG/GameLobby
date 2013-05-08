@@ -9,8 +9,10 @@ import de.cpg_gilching.informatik11.gamelobby.spiele.pong.PongBeschreibung;
 public class SpieleListe implements Iterable<SpielBeschreibung> {
 	
 	private List<SpielBeschreibung> spiele = new ArrayList<SpielBeschreibung>();
+	private PaketLexikon lexikon;
 	
-	public SpieleListe() {
+	public SpieleListe(PaketLexikon paketLexikon) {
+		this.lexikon = paketLexikon;
 	}
 	
 	public void beschreibungenLaden() {
@@ -45,6 +47,7 @@ public class SpieleListe implements Iterable<SpielBeschreibung> {
 	
 	private void spielLaden(SpielBeschreibung spiel) {
 		spiel.setSpielId(spiele.size()); // TODO logik fixen, das hier bringt nicht viel wenns veränderbar ist
+		spiel.paketeAnmelden(lexikon);
 		spiele.add(spiel);
 	}
 	
