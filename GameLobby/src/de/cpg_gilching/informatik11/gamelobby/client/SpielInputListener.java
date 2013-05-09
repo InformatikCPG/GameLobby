@@ -38,8 +38,6 @@ public class SpielInputListener implements KeyListener, MouseListener, FocusList
 				return;
 			}
 			
-			System.out.println("setze taste " + tastencode + " auf " + zustand);
-			
 			if (zustand)
 				gedrückteTasten.add(tastencode);
 			else

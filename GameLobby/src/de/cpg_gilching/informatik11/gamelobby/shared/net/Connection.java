@@ -80,7 +80,7 @@ public class Connection implements IReadWriteErrorHandler {
 		Packet p;
 		while ((p = readThread.peekPacket()) != null) {
 			try {
-				Method m = netProcessor.getClass().getDeclaredMethod("handle", p.getClass());
+				Method m = netProcessor.getClass().getMethod("handle", p.getClass());
 				m.invoke(netProcessor, p);
 			} catch (NoSuchMethodException e) {
 				netProcessor.onUnhandledPacket(p);

@@ -6,26 +6,26 @@ import java.io.IOException;
 
 public class PacketSpielTaste extends SpielPacket {
 	
-	public int keyCode;
+	public int tastencode;
 	public boolean zustand;
 	
 	public PacketSpielTaste() {
 	}
 	
-	public PacketSpielTaste(int keyCode, boolean zustand) {
-		this.keyCode = keyCode;
+	public PacketSpielTaste(int tastencode, boolean zustand) {
+		this.tastencode = tastencode;
 		this.zustand = zustand;
 	}
 	
 	@Override
 	public void ausgeben(DataOutputStream out) throws IOException {
-		out.writeInt(keyCode);
+		out.writeInt(tastencode);
 		out.writeBoolean(zustand);
 	}
 	
 	@Override
 	public void einlesen(DataInputStream in) throws IOException {
-		keyCode = in.readInt();
+		tastencode = in.readInt();
 		zustand = in.readBoolean();
 	}
 	

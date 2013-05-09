@@ -23,7 +23,7 @@ public class PongBeschreibung extends SpielBeschreibung {
 	
 	@Override
 	public int tickrateGeben() {
-		return 20;
+		return 50;
 	}
 	
 	@Override

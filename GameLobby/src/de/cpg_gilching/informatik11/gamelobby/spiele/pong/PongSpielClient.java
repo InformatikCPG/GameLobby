@@ -33,8 +33,8 @@ public class PongSpielClient extends ClientSpiel implements PaketManager, ITasta
 	@Override
 	public void leinwandRendern(Graphics2D g) {
 		g.setColor(Color.white);
-		g.fillRect(50, links, 20, 200);
-		g.fillRect(530, rechts, 20, 200);
+		g.fillRect(50, links - 100, 20, 200);
+		g.fillRect(530, rechts - 100, 20, 200);
 	}
 	
 	public void verarbeiten(PacketSchlägerBewegen packet) {

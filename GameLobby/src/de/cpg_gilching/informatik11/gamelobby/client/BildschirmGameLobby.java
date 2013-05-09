@@ -76,6 +76,11 @@ public class BildschirmGameLobby {
 		}
 	}
 	
+	public void packetSenden(SpielPacket packet) {
+		packet.spielId = spielId;
+		client.getVerbindung().sendPacket(packet);
+	}
+	
 	public void packetVerarbeiten(SpielPacket packet) {
 		PaketManager manager = clientSpiel.getPaketManager();
 		
@@ -103,6 +108,10 @@ public class BildschirmGameLobby {
 	
 	public ControllerClient getClient() {
 		return client;
+	}
+	
+	public ClientSpiel getSpiel() {
+		return clientSpiel;
 	}
 	
 }

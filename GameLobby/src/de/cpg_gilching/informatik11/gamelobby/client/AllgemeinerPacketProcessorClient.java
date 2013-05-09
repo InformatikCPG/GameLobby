@@ -1,5 +1,8 @@
 package de.cpg_gilching.informatik11.gamelobby.client;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Packet;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.PacketProcessor;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketChatNachricht;
@@ -12,6 +15,8 @@ import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionVerlas
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielStarten;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielTeilnehmer;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielerListe;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ClientSpiel;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielPacket;
 
@@ -35,10 +40,32 @@ public class AllgemeinerPacketProcessorClient extends PacketProcessor {
 				return;
 			}
 			
-			spielBildschirm.packetVerarbeiten((SpielPacket) packet);
+			spielPacketVerarbeiten(spielBildschirm.getSpiel(), (SpielPacket) packet);
+			return;
 		}
 		
 		System.err.println("unerwartetes Packet: " + packet.getClass().getSimpleName());
+	}
+	
+	
+	private void spielPacketVerarbeiten(ClientSpiel spiel, SpielPacket packet) {
+		PaketManager manager = spiel.getPaketManager();
+		if (manager == null) {
+			System.err.println("Spiel kann SpielPacket nicht entgegennehmen: kein PaketManager aktiviert!");
+		}
+		else {
+			try {
+				Method m = manager.getClass().getMethod("verarbeiten", packet.getClass());
+				m.invoke(manager, packet);
+			} catch (NoSuchMethodException e) {
+				System.err.println("Spiel kann SpielPacket nicht entgegennehmen: " + packet.getClass().getSimpleName());
+			} catch (InvocationTargetException e) {
+				System.err.println("Exception beim Verarbeiten des SpielPackets: " + packet.getClass().getSimpleName());
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	@Override

@@ -21,8 +21,7 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpieleListe;
 
 /**
  * Die Hauptklasse für die Lobby-Logik auf dem Server.
- * Bekommt die vereinfachten Methodenaufrufe von der technischen Klasse {@link ServerMain}, die sich um Verbindungen kümmert.
- * 
+ * Bekommt die vereinfachten Methodenaufrufe von der technischen Klasse {@link ServerMain}, die sich um Verbindungen kümmert und dient als zentrales Verbindungsstück der einzelnen Funktionen.
  */
 public class ControllerServer {
 	
@@ -70,7 +69,7 @@ public class ControllerServer {
 		}
 		
 		// Chat-Nachricht verbreiten
-		paketAnAlle(new PacketChatNachricht(neuerSpieler.getName() + " ist der Lobby beigetreten."));
+		packetAnAlle(new PacketChatNachricht(neuerSpieler.getName() + " ist der Lobby beigetreten."));
 		
 		// automatisch KI-Spieler beitreten lassen
 		if (!neuerSpieler.getName().startsWith("AI-"))
@@ -89,8 +88,8 @@ public class ControllerServer {
 				}
 				
 				// verbleibende Spieler informieren
-				paketAnAlle(new PacketSpielerListe(spieler.getName(), false));
-				paketAnAlle(new PacketChatNachricht(spieler.getName() + " hat die Lobby verlassen."));
+				packetAnAlle(new PacketSpielerListe(spieler.getName(), false));
+				packetAnAlle(new PacketChatNachricht(spieler.getName() + " hat die Lobby verlassen."));
 				break;
 			}
 		}
@@ -114,7 +113,7 @@ public class ControllerServer {
 	 * @return den Spieler, oder null wenn nicht gefunden
 	 */
 	public Spieler getSpieler(String username) {
-		// TODO performance verbessern
+		// TODO performance verbessern (Suche nach Spieler nach Namen --> HashMap)
 		for (Spieler s : spielerListe) {
 			if (s.getName().equals(username))
 				return s;
@@ -127,19 +126,20 @@ public class ControllerServer {
 		offeneSessions.put(neueSession.getId(), neueSession);
 	}
 	
-	public Session getSessionNachId(int sessionId) {
-		return offeneSessions.get(sessionId);
-	}
-	
 	public void sessionSchließen(Session session) {
 		offeneSessions.remove(session.getId());
 		session.schließen();
 	}
 	
+	public Session getSessionNachId(int sessionId) {
+		return offeneSessions.get(sessionId);
+	}
+	
+	
 	public void spielStarten(int id, SpielBeschreibung beschreibung, Set<Spieler> teilnehmer) {
 		// das ServerSpiel erzeugen und starten
 		ServerSpiel serverSpiel = beschreibung.serverInstanzErstellen();
-		serverSpiel._init(teilnehmer);
+		serverSpiel._init(id, teilnehmer);
 		
 		// in die Liste der offenen Spiele aufnehmen
 		offeneSpiele.put(id, serverSpiel);
@@ -155,6 +155,10 @@ public class ControllerServer {
 		}
 	}
 	
+	public ServerSpiel getSpielNachId(int id) {
+		return offeneSpiele.get(id);
+	}
+	
 	public void kickSpieler(Spieler spieler, String grund) {
 		server.kickClient(spieler.getVerbindung(), grund);
 	}
@@ -162,7 +166,7 @@ public class ControllerServer {
 	/**
 	 * Sendet ein {@link Packet} an alle verbundenen Spieler.
 	 */
-	public void paketAnAlle(Packet packet) {
+	public void packetAnAlle(Packet packet) {
 		server.broadcast(packet);
 	}
 	

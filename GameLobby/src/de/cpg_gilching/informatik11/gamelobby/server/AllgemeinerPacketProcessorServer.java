@@ -1,5 +1,7 @@
 package de.cpg_gilching.informatik11.gamelobby.server;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +14,10 @@ import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketKeepAlive;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionAnnehmen;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionStarten;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionVerlassen;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ServerSpiel;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielPacket;
 
 public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 	
@@ -24,7 +29,40 @@ public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 	
 	@Override
 	public void onUnhandledPacket(Packet packet) {
+		if (packet instanceof SpielPacket) {
+			int id = ((SpielPacket) packet).spielId;
+			ServerSpiel spiel = spieler.getServer().getSpielNachId(id);
+			
+			if (spiel == null) {
+				System.err.println("Ungültige Spiel id: " + id);
+				return;
+			}
+			
+			spielPacketVerarbeiten(spiel, (SpielPacket) packet);
+			return;
+		}
+		
 		System.err.println("unerwartetes Packet: " + packet.getClass().getSimpleName());
+	}
+	
+	private void spielPacketVerarbeiten(ServerSpiel spiel, SpielPacket packet) {
+		PaketManager manager = spiel.getPaketManager();
+		if (manager == null) {
+			System.err.println("Spiel kann SpielPacket nicht entgegennehmen: kein PaketManager aktiviert!");
+		}
+		else {
+			try {
+				Method m = manager.getClass().getMethod("verarbeiten", Spieler.class, packet.getClass());
+				m.invoke(manager, spieler, packet);
+			} catch (NoSuchMethodException e) {
+				System.err.println("Spiel kann SpielPacket nicht entgegennehmen: " + packet.getClass().getSimpleName());
+			} catch (InvocationTargetException e) {
+				System.err.println("Exception beim Verarbeiten des SpielPackets: " + packet.getClass().getSimpleName());
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	@Override
@@ -55,7 +93,7 @@ public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 	public void handle(PacketChatNachricht packet) {
 		// auf command prüfen
 		if (packet.nachricht.equals("!stopserver")) {
-			spieler.getServer().paketAnAlle(new PacketChatNachricht("# Server wird heruntergefahren ..."));
+			spieler.getServer().packetAnAlle(new PacketChatNachricht("# Server wird heruntergefahren ..."));
 			spieler.getServer().getServer().stop();
 			return;
 		}
@@ -76,7 +114,7 @@ public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 		
 		
 		// Paket wieder an alle zurücksenden
-		spieler.getServer().paketAnAlle(new PacketChatNachricht("<" + spieler.getName() + "> " + packet.nachricht));
+		spieler.getServer().packetAnAlle(new PacketChatNachricht("<" + spieler.getName() + "> " + packet.nachricht));
 	}
 	
 	
