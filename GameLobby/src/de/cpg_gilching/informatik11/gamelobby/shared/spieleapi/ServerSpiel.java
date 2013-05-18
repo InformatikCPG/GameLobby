@@ -3,31 +3,43 @@ package de.cpg_gilching.informatik11.gamelobby.shared.spieleapi;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.cpg_gilching.informatik11.gamelobby.server.ControllerServer;
-import de.cpg_gilching.informatik11.gamelobby.server.Spieler;
-import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionVerlassen;
+import de.cpg_gilching.informatik11.gamelobby.server.LobbySpieler;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielVerlassen;
 
-public abstract class ServerSpiel extends Spiel {
+public abstract class ServerSpiel {
 	
-	private ControllerServer server;
-	private int spielId;
-	protected SpielBeschreibung beschreibung;
+	private ControllerServer server = null;
+	private int spielId = -1;
+	protected SpielBeschreibung beschreibung = null;
 	protected List<Spieler> teilnehmer = null;
 	
-	public final void _init(ControllerServer server, SpielBeschreibung beschreibung, int id, Collection<Spieler> teilnehmer) {
+	// Speichert alle PaketManager der Spieler
+	private Map<Spieler, PaketManager> paketManagerMap = new HashMap<Spieler, PaketManager>();
+	
+	public final void _init(ControllerServer server, SpielBeschreibung beschreibung, int id, Collection<LobbySpieler> teilnehmer) {
 		this.server = server;
 		this.beschreibung = beschreibung;
 		this.spielId = id;
 		this.teilnehmer = new ArrayList<Spieler>(teilnehmer);
 		Collections.shuffle(this.teilnehmer);
 		
+		for (Spieler spieler : this.teilnehmer) {
+			paketManagerMap.put(spieler, paketManagerErstellen(spieler));
+		}
+		
 		starten();
 	}
 	
-	public final void _teilnehmerVerlassen(Spieler spieler) {
+	public PaketManager getPaketManagerFür(LobbySpieler spieler) {
+		return paketManagerMap.get(spieler);
+	}
+	
+	public final void _teilnehmerVerlassen(LobbySpieler spieler) {
 		// TODO spieler bestrafen beim verlassen
 		
 		System.out.println("Spieler " + spieler.getName() + " hat das Spiel " + beschreibung.getBezeichnung() + " verlassen!");
@@ -42,16 +54,21 @@ public abstract class ServerSpiel extends Spiel {
 		}
 	}
 	
-	public final void packetAnAlle(SpielPacket packet) {
-		// TOOD spielid aufm Server richtig zuweisen: direkte Packets an die spieler vom implementierenden spiel?!
+	public final void packetAnSpieler(Spieler spieler, SpielPacket packet) {
 		packet.spielId = spielId;
-		for (Spieler spieler : teilnehmer)
-			spieler.packetSenden(packet);
+		((LobbySpieler) spieler).packetSenden(packet);
 	}
+	
+	public final void packetAnAlle(SpielPacket packet) {
+		for (Spieler spieler : teilnehmer)
+			packetAnSpieler(spieler, packet);
+	}
+	
+	protected abstract PaketManager paketManagerErstellen(Spieler spieler);
 	
 	protected abstract void starten();
 	
-	protected void spielerVerlassen(Spieler spieler) {
+	protected void spielerVerlassen(LobbySpieler spieler) {
 	}
 	
 	public void tick() {
@@ -61,7 +78,7 @@ public abstract class ServerSpiel extends Spiel {
 		System.out.println("Spiel " + beschreibung.getBezeichnung() + " wird beendet!");
 		
 		for (Spieler anderer : teilnehmer) {
-			anderer.packetSenden(new PacketSpielVerlassen(spielId));
+			((LobbySpieler) anderer).packetSenden(new PacketSpielVerlassen(spielId));
 		}
 		server.spielLöschen(this);
 	}

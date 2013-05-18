@@ -27,7 +27,7 @@ public class ControllerServer {
 	
 	private ServerMain server;
 	private PaketLexikon paketLexikon;
-	private List<Spieler> spielerListe = new ArrayList<Spieler>();
+	private List<LobbySpieler> spielerListe = new ArrayList<LobbySpieler>();
 	
 	private SpieleListe geladeneSpiele;
 	private Map<Integer, Session> offeneSessions = new HashMap<Integer, Session>();
@@ -45,16 +45,16 @@ public class ControllerServer {
 	
 	public void onSpielerVerbinden(Connection verbindung) {
 		// Spieler initialisieren
-		Spieler neuerSpieler = new Spieler(verbindung, "Unbekannt", this);
+		LobbySpieler neuerSpieler = new LobbySpieler(verbindung, "Unbekannt", this);
 		verbindung.setPacketProcessor(new AllgemeinerPacketProcessorServer(neuerSpieler));
 		
 		// PacketProcessor wartet jetzt auf PacketHallo, mit dem der Spieler richtig beitritt
 	}
 	
-	public void onSpielerBeigetreten(Spieler neuerSpieler) {
+	public void onSpielerBeigetreten(LobbySpieler neuerSpieler) {
 		// Spielerlisten aktualisieren
 		PacketSpielerListe neuerSpielerPacket = new PacketSpielerListe(neuerSpieler.getName(), true);
-		for (Spieler anderer : spielerListe) {
+		for (LobbySpieler anderer : spielerListe) {
 			anderer.packetSenden(neuerSpielerPacket);
 			neuerSpieler.packetSenden(new PacketSpielerListe(anderer.getName(), true));
 		}
@@ -77,7 +77,7 @@ public class ControllerServer {
 	}
 	
 	public void onSpielerVerlassen(Connection verbindung) {
-		for (Spieler spieler : spielerListe) {
+		for (LobbySpieler spieler : spielerListe) {
 			if (spieler.getVerbindung() == verbindung) {
 				System.out.println("Spieler " + spieler.getName() + " hat den Server verlassen.");
 				spielerListe.remove(spieler);
@@ -117,9 +117,9 @@ public class ControllerServer {
 	 * @param username der exakte Name des Spielers
 	 * @return den Spieler, oder null wenn nicht gefunden
 	 */
-	public Spieler getSpieler(String username) {
+	public LobbySpieler getSpieler(String username) {
 		// TODO performance verbessern (Suche nach Spieler nach Namen --> HashMap)
-		for (Spieler s : spielerListe) {
+		for (LobbySpieler s : spielerListe) {
 			if (s.getName().equals(username))
 				return s;
 		}
@@ -132,15 +132,15 @@ public class ControllerServer {
 	 * @param username der möglicherweise unvollständige Name des Spielers
 	 * @return den gefundenen Spieler, oder null wenn nicht gefunden
 	 */
-	public Spieler getSpielerUngefähr(String username) {
-		for (Spieler s : spielerListe) {
+	public LobbySpieler getSpielerUngefähr(String username) {
+		for (LobbySpieler s : spielerListe) {
 			if (s.getName().toLowerCase().startsWith(username.toLowerCase()))
 				return s;
 		}
 		return null;
 	}
 	
-	public void sessionStarten(SpielBeschreibung beschreibung, List<Spieler> teilnehmer) {
+	public void sessionStarten(SpielBeschreibung beschreibung, List<LobbySpieler> teilnehmer) {
 		Session neueSession = new Session(this, beschreibung, teilnehmer);
 		offeneSessions.put(neueSession.getId(), neueSession);
 	}
@@ -154,7 +154,7 @@ public class ControllerServer {
 	}
 	
 	
-	public void spielStarten(int id, SpielBeschreibung beschreibung, Set<Spieler> teilnehmer) {
+	public void spielStarten(int id, SpielBeschreibung beschreibung, Set<LobbySpieler> teilnehmer) {
 		// das ServerSpiel erzeugen
 		ServerSpiel serverSpiel = beschreibung.serverInstanzErstellen();
 		
@@ -162,11 +162,11 @@ public class ControllerServer {
 		offeneSpiele.put(id, serverSpiel);
 		
 		// alle Teilnehmer über den Spielstart informieren
-		for (Spieler spieler : teilnehmer) {
+		for (LobbySpieler spieler : teilnehmer) {
 			spieler.packetSenden(new PacketSpielStarten(id, beschreibung.getSpielId()));
 			
 			// alle Spieler beitreten lassen
-			for (Spieler anderer : teilnehmer) {
+			for (LobbySpieler anderer : teilnehmer) {
 				spieler.packetSenden(new PacketSpielTeilnehmer(id, anderer.getName(), PacketSpielTeilnehmer.BEIGETRETEN));
 			}
 		}
@@ -183,7 +183,7 @@ public class ControllerServer {
 		return offeneSpiele.get(id);
 	}
 	
-	public void kickSpieler(Spieler spieler, String grund) {
+	public void kickSpieler(LobbySpieler spieler, String grund) {
 		server.kickClient(spieler.getVerbindung(), grund);
 	}
 	
@@ -194,7 +194,7 @@ public class ControllerServer {
 		server.broadcast(packet);
 	}
 	
-	public List<Spieler> getAlleSpieler() {
+	public List<LobbySpieler> getAlleSpieler() {
 		return spielerListe;
 	}
 	

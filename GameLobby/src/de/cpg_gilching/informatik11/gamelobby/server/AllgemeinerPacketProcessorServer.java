@@ -19,12 +19,13 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ServerSpiel;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielPacket;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.Spieler;
 
 public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 	
-	private Spieler spieler;
+	private LobbySpieler spieler;
 	
-	public AllgemeinerPacketProcessorServer(Spieler spieler) {
+	public AllgemeinerPacketProcessorServer(LobbySpieler spieler) {
 		this.spieler = spieler;
 	}
 	
@@ -47,14 +48,14 @@ public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 	}
 	
 	private void spielPacketVerarbeiten(ServerSpiel spiel, SpielPacket packet) {
-		PaketManager manager = spiel.getPaketManager();
+		PaketManager manager = spiel.getPaketManagerFür(spieler);
 		if (manager == null) {
-			System.err.println("Spiel kann SpielPacket nicht entgegennehmen: kein PaketManager aktiviert!");
+			System.err.println("Spiel kann SpielPacket nicht entgegennehmen: kein PaketManager für Spieler aktiviert!");
 		}
 		else {
 			try {
-				Method m = manager.getClass().getMethod("verarbeiten", Spieler.class, packet.getClass());
-				m.invoke(manager, spieler, packet);
+				Method m = manager.getClass().getMethod("verarbeiten", packet.getClass());
+				m.invoke(manager, packet);
 			} catch (NoSuchMethodException e) {
 				System.err.println("Spiel kann SpielPacket nicht entgegennehmen: " + packet.getClass().getSimpleName());
 			} catch (InvocationTargetException e) {
@@ -102,7 +103,7 @@ public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 			}
 			
 			for (Spieler spieler : spiel.getTeilnehmer()) {
-				spieler.packetSenden(new PacketChatNachricht(spiel.getSpielId(), antwortNachricht));
+				((LobbySpieler) spieler).packetSenden(new PacketChatNachricht(spiel.getSpielId(), antwortNachricht));
 			}
 		}
 		else {
@@ -114,7 +115,7 @@ public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 			}
 			if (packet.nachricht.startsWith("!kick")) {
 				String pname = packet.nachricht.substring("!kick ".length());
-				Spieler kickender = spieler.getServer().getSpielerUngefähr(pname);
+				LobbySpieler kickender = spieler.getServer().getSpielerUngefähr(pname);
 				if (kickender == null)
 					spieler.packetSenden(new PacketChatNachricht(-1, "Spieler ungültig!"));
 				else
@@ -139,11 +140,11 @@ public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 			return;
 		}
 		
-		List<Spieler> spielerListe = new ArrayList<Spieler>(packet.eingeladeneSpieler.size() + 1);
+		List<LobbySpieler> spielerListe = new ArrayList<LobbySpieler>(packet.eingeladeneSpieler.size() + 1);
 		spielerListe.add(spieler);
 		
 		for (String spielerName : packet.eingeladeneSpieler) {
-			Spieler eingeladener = spieler.getServer().getSpieler(spielerName);
+			LobbySpieler eingeladener = spieler.getServer().getSpieler(spielerName);
 			if (eingeladener == null) {
 				System.err.println("Ungültiger Spielername beim Starten der Session: " + spielerName);
 				return;

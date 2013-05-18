@@ -1,20 +1,17 @@
 package de.cpg_gilching.informatik11.gamelobby.spiele.pong;
 
-import java.awt.event.KeyEvent;
-
-import de.cpg_gilching.informatik11.gamelobby.server.Spieler;
-import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PacketSpielTaste;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ServerSpiel;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.Spieler;
 
 
-public class PongSpielServer extends ServerSpiel implements PaketManager {
+public class PongSpielServer extends ServerSpiel {
 	
 	private Spieler links;
 	private Spieler rechts;
 	
-	private int richtungLinks = 0;
-	private int richtungRechts = 0;
+	private int geschwindigkeitLinks = 0;
+	private int geschwindigkeitRechts = 0;
 	
 	private int posLinks = 300;
 	private int posRechts = 300;
@@ -24,14 +21,18 @@ public class PongSpielServer extends ServerSpiel implements PaketManager {
 		links = teilnehmer.get(0);
 		rechts = teilnehmer.get(1);
 		
-		setPaketManager(this);
 		packetAnAlle(new PacketSchlägerBewegen(posLinks, posRechts));
 	}
 	
 	@Override
+	public PaketManager paketManagerErstellen(Spieler spieler) {
+		return new PongPaketManagerServer(this, spieler);
+	}
+	
+	@Override
 	public void tick() {
-		posLinks += 5 * richtungLinks;
-		posRechts += 5 * richtungRechts;
+		posLinks += 10 * geschwindigkeitLinks;
+		posRechts += 10 * geschwindigkeitRechts;
 		
 		if (posLinks > 500)
 			posLinks = 500;
@@ -43,30 +44,17 @@ public class PongSpielServer extends ServerSpiel implements PaketManager {
 			posRechts = 100;
 		
 		// wenn sich etwas bewegt hat
-		if (richtungLinks != 0 || richtungRechts != 0) {
+		if (geschwindigkeitLinks != 0 || geschwindigkeitRechts != 0) {
 			packetAnAlle(new PacketSchlägerBewegen(posLinks, posRechts));
 		}
 	}
 	
-	public void verarbeiten(Spieler spieler, PacketSpielTaste packet) {
-		int änderung;
-		if (packet.tastencode == KeyEvent.VK_UP) {
-			änderung = -1;
-		}
-		else {
-			änderung = 1;
-		}
-		
-		if (!packet.zustand) {
-			änderung *= -1;
-		}
-		
-		
+	public void setSpielerGeschwindigkeit(Spieler spieler, int geschwindigkeit) {
 		if (spieler == links) {
-			richtungLinks += änderung;
+			geschwindigkeitLinks = geschwindigkeit;
 		}
 		else if (spieler == rechts) {
-			richtungRechts += änderung;
+			geschwindigkeitRechts = geschwindigkeit;
 		}
 	}
 	

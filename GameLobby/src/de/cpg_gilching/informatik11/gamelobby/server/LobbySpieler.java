@@ -2,14 +2,15 @@ package de.cpg_gilching.informatik11.gamelobby.server;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Connection;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Packet;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.Spieler;
 
-public class Spieler {
+public class LobbySpieler implements Spieler {
 	
 	private Connection verbindung;
 	private String name;
 	private ControllerServer server;
 	
-	public Spieler(Connection verbindung, String name, ControllerServer server) {
+	public LobbySpieler(Connection verbindung, String name, ControllerServer server) {
 		this.verbindung = verbindung;
 		this.name = name;
 		this.server = server;

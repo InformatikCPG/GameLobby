@@ -19,31 +19,31 @@ public class Session {
 	private ControllerServer server;
 	private int id;
 	private SpielBeschreibung beschreibung;
-	private Set<Spieler> teilnehmer;
-	private Set<Spieler> fertigeSpieler = new HashSet<Spieler>();
+	private Set<LobbySpieler> teilnehmer;
+	private Set<LobbySpieler> fertigeSpieler = new HashSet<LobbySpieler>();
 	
-	public Session(ControllerServer server, SpielBeschreibung beschreibung, List<Spieler> teilnehmerListe) {
+	public Session(ControllerServer server, SpielBeschreibung beschreibung, List<LobbySpieler> teilnehmerListe) {
 		this.server = server;
 		this.id = ++idZähler;
 		this.beschreibung = beschreibung;
-		this.teilnehmer = new HashSet<Spieler>(teilnehmerListe);
+		this.teilnehmer = new HashSet<LobbySpieler>(teilnehmerListe);
 		
 		System.out.println("Session " + id + " für Spiel " + beschreibung.getBezeichnung() + " mit Teilnehmern " + Helfer.verketten(teilnehmer, ", ") + " angelegt!");
 		
 		// alle Teilnehmer über die Session informieren
 		List<String> teilnehmerNamen = new ArrayList<String>(teilnehmer.size());
-		for (Spieler spieler : teilnehmer)
+		for (LobbySpieler spieler : teilnehmer)
 			teilnehmerNamen.add(spieler.getName());
 		
-		for (Spieler spieler : teilnehmer) {
+		for (LobbySpieler spieler : teilnehmer) {
 			spieler.packetSenden(new PacketSessionStarten(id, beschreibung.getSpielId(), teilnehmerNamen));
 		}
 	}
 	
-	public void spielerBereit(Spieler spieler) {
+	public void spielerBereit(LobbySpieler spieler) {
 		fertigeSpieler.add(spieler);
 		
-		for (Spieler anderer : teilnehmer) {
+		for (LobbySpieler anderer : teilnehmer) {
 			anderer.packetSenden(new PacketSessionSpielerStatus(id, spieler.getName(), true));
 		}
 		
@@ -53,7 +53,7 @@ public class Session {
 		}
 	}
 	
-	public void spielerVerlassen(Spieler spieler) {
+	public void spielerVerlassen(LobbySpieler spieler) {
 		if (teilnehmer.remove(spieler)) {
 			fertigeSpieler.remove(spieler);
 			
@@ -63,7 +63,7 @@ public class Session {
 				beenden();
 			}
 			else {
-				for (Spieler anderer : teilnehmer) {
+				for (LobbySpieler anderer : teilnehmer) {
 					anderer.packetSenden(new PacketSessionSpielerStatus(id, spieler.getName(), false));
 				}
 			}
@@ -79,7 +79,7 @@ public class Session {
 	private void beenden() {
 		System.out.println("Session " + id + " beendet!");
 		
-		for (Spieler anderer : teilnehmer) {
+		for (LobbySpieler anderer : teilnehmer) {
 			anderer.packetSenden(new PacketSessionVerlassen(id));
 		}
 		server.sessionLöschen(this);

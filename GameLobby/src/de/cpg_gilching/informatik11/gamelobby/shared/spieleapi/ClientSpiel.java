@@ -5,13 +5,18 @@ import java.awt.event.KeyEvent;
 
 import de.cpg_gilching.informatik11.gamelobby.client.SpielOberfläche; // TODO abhängigkeit von beidseitiger SpieleAPI vom client überdenken?
 
-public abstract class ClientSpiel extends Spiel {
+public abstract class ClientSpiel {
 	
+	private PaketManager paketManager = null;
 	private SpielOberfläche spielView = null;
 	
 	public final void _init(SpielOberfläche spielView) {
 		this.spielView = spielView;
 		starten();
+	}
+	
+	protected final void setPaketManager(PaketManager manager) {
+		paketManager = manager;
 	}
 	
 	protected final void netzwerkTasteRegistrieren(int tastencode) {
@@ -43,6 +48,10 @@ public abstract class ClientSpiel extends Spiel {
 	protected abstract void starten();
 	
 	public void leinwandRendern(Graphics2D g) {
+	}
+	
+	public final PaketManager getPaketManager() {
+		return paketManager;
 	}
 	
 }
