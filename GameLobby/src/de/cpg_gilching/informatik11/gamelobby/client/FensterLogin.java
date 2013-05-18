@@ -165,6 +165,7 @@ public class FensterLogin {
 			
 			fenster.dispose();
 			new ControllerClient(verbindung, username, lexikonAdapter);
+			System.out.println("Verbindung hergestellt!");
 		} catch (IOException e) {
 			Helfer.meldungAnzeigen("Es trat ein Fehler beim Herstellen der Verbindung auf!\n" + e.toString(), true);
 			return;

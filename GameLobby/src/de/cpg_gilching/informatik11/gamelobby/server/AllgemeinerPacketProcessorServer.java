@@ -91,32 +91,45 @@ public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 	}
 	
 	public void handle(PacketChatNachricht packet) {
-		// auf command prüfen
-		if (packet.nachricht.equals("!stopserver")) {
-			spieler.getServer().packetAnAlle(new PacketChatNachricht("# Server wird heruntergefahren ..."));
-			spieler.getServer().getServer().stop();
-			return;
-		}
-		if (packet.nachricht.equals("!bot")) {
-			ServerMain internerServer = spieler.getServer().getServer();
-			internerServer.connectClient(internerServer.createAISocket());
-			return;
-		}
-		if (packet.nachricht.startsWith("!kick")) {
-			String pname = packet.nachricht.substring("!kick ".length());
-			Spieler kickender = spieler.getServer().getSpieler(pname);
-			if (kickender == null)
-				spieler.packetSenden(new PacketChatNachricht("Spieler ungültig!"));
-			else
-				spieler.getServer().kickSpieler(kickender, "Per command gekickt!");
-			return;
-		}
+		String antwortNachricht = "<" + spieler.getName() + "> " + packet.nachricht;
 		
-		
-		// Paket wieder an alle zurücksenden
-		spieler.getServer().packetAnAlle(new PacketChatNachricht("<" + spieler.getName() + "> " + packet.nachricht));
+		if (packet.spielId > -1) {
+			ServerSpiel spiel = spieler.getServer().getSpielNachId(packet.spielId);
+			if (spiel == null) {
+				System.err.println("Ungültige Spiel id für Chat-Nachricht: " + packet.spielId);
+				return;
+			}
+			
+			for (Spieler spieler : spiel.getTeilnehmer()) {
+				spieler.packetSenden(new PacketChatNachricht(spiel.getSpielId(), antwortNachricht));
+			}
+		}
+		else {
+			// auf command prüfen
+			if (packet.nachricht.equals("!bot")) {
+				ServerMain internerServer = spieler.getServer().getServer();
+				internerServer.connectClient(internerServer.createAISocket());
+				return;
+			}
+			if (packet.nachricht.startsWith("!kick")) {
+				String pname = packet.nachricht.substring("!kick ".length());
+				Spieler kickender = spieler.getServer().getSpieler(pname);
+				if (kickender == null)
+					spieler.packetSenden(new PacketChatNachricht(-1, "Spieler ungültig!"));
+				else
+					spieler.getServer().kickSpieler(kickender, "Per command gekickt!");
+				return;
+			}
+			if (packet.nachricht.equals("!stopserver")) {
+				antwortNachricht = "# Server wird heruntergefahren ...";
+				spieler.getServer().getServer().stop();
+			}
+			
+			
+			// Paket wieder an alle zurücksenden
+			spieler.getServer().packetAnAlle(new PacketChatNachricht(-1, antwortNachricht));
+		}
 	}
-	
 	
 	public void handle(PacketSessionStarten packet) {
 		SpielBeschreibung beschreibung = spieler.getServer().getSpielBeschreibungen().getSpielNachId(packet.spielId);

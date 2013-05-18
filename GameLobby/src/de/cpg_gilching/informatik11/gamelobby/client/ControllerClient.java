@@ -8,6 +8,7 @@ import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.PaketListe;
 import de.cpg_gilching.informatik11.gamelobby.shared.TaskScheduler;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Connection;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketChatNachricht;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketDisconnect;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketHallo;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketKeepAlive;
@@ -177,6 +178,19 @@ public class ControllerClient implements Runnable {
 	 */
 	public void verbindungTrennen() {
 		verbindung.sendPacket(new PacketDisconnect("Server verlassen"));
+	}
+	
+	/**
+	 * Sendet eine Chat-Nachricht, die entweder zur Server-Lobby oder zu einem Spiel gehört.
+	 * 
+	 * @param spielId die ID des Spiels, in dem gesendet wurde, oder -1, wenn die Nachricht zur Server-Lobby gehört
+	 * @param nachricht die Nachricht, die gesendet werden soll; leere Nachrichten werden automatisch übersprungen
+	 */
+	public void chatNachrichtSenden(int spielId, String nachricht) {
+		nachricht = nachricht.trim();
+		if (!nachricht.isEmpty()) {
+			verbindung.sendPacket(new PacketChatNachricht(spielId, nachricht));
+		}
 	}
 	
 	public Connection getVerbindung() {

@@ -69,7 +69,7 @@ public class ControllerServer {
 		}
 		
 		// Chat-Nachricht verbreiten
-		packetAnAlle(new PacketChatNachricht(neuerSpieler.getName() + " ist der Lobby beigetreten."));
+		packetAnAlle(new PacketChatNachricht(-1, neuerSpieler.getName() + " ist der Lobby beigetreten."));
 		
 		// automatisch KI-Spieler beitreten lassen
 		if (!neuerSpieler.getName().startsWith("AI-"))
@@ -89,7 +89,7 @@ public class ControllerServer {
 				
 				// verbleibende Spieler informieren
 				packetAnAlle(new PacketSpielerListe(spieler.getName(), false));
-				packetAnAlle(new PacketChatNachricht(spieler.getName() + " hat die Lobby verlassen."));
+				packetAnAlle(new PacketChatNachricht(-1, spieler.getName() + " hat die Lobby verlassen."));
 				break;
 			}
 		}

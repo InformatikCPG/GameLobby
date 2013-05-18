@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.Set;
 import java.util.TreeSet;
 
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielVerlassen;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ClientSpiel;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
@@ -46,7 +47,7 @@ public class BildschirmGameLobby {
 		this.spielId = spielId;
 		this.beschreibung = beschreibung;
 		
-		this.oberfläche = new FensterGameLobby(beschreibung.getBezeichnung(), spielView);
+		this.oberfläche = new FensterGameLobby(this, beschreibung.getBezeichnung(), spielView);
 		
 		clientSpiel = beschreibung.clientInstanzErstellen();
 		clientSpiel._init(spielView);
@@ -83,6 +84,18 @@ public class BildschirmGameLobby {
 				break;
 			}
 		}
+	}
+	
+	public void chatNachrichtAnzeigen(String nachricht) {
+		oberfläche.chatNachrichtAnzeigen(nachricht);
+	}
+	
+	public void chatNachrichtSenden(String nachricht) {
+		client.chatNachrichtSenden(spielId, nachricht);
+	}
+	
+	public void spielAbbrechen() {
+		client.getVerbindung().sendPacket(new PacketSpielVerlassen(spielId));
 	}
 	
 	public void packetSenden(SpielPacket packet) {

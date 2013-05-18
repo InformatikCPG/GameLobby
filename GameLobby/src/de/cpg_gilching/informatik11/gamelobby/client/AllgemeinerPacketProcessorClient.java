@@ -92,7 +92,18 @@ public class AllgemeinerPacketProcessorClient extends PacketProcessor {
 	}
 	
 	public void handle(PacketChatNachricht packet) {
-		client.getServerLobby().chatNachrichtAnzeigen(packet.nachricht);
+		if (packet.spielId > -1) {
+			BildschirmGameLobby spielBildschirm = client.getSpielNachId(packet.spielId);
+			if (spielBildschirm == null) {
+				System.err.println("Ungültige Spiel id für Chat-Nachricht: " + packet.spielId);
+				return;
+			}
+			
+			spielBildschirm.chatNachrichtAnzeigen(packet.nachricht);
+		}
+		else {
+			client.getServerLobby().chatNachrichtAnzeigen(packet.nachricht);
+		}
 	}
 	
 	public void handle(PacketServerSpielAnmelden packet) {

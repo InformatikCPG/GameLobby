@@ -17,6 +17,7 @@ public class PaketListe {
 		lexikon.anmelden(PacketHallo.class);
 		lexikon.anmelden(PacketSessionAnnehmen.class);
 		lexikon.anmelden(PacketSessionVerlassen.class);
+		lexikon.anmelden(PacketSpielVerlassen.class);
 		lexikon.anmelden(PacketSpielTaste.class);
 		
 		// Server -> Client

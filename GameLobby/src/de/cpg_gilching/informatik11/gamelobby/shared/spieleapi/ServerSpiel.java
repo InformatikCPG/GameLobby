@@ -2,6 +2,7 @@ package de.cpg_gilching.informatik11.gamelobby.shared.spieleapi;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import de.cpg_gilching.informatik11.gamelobby.server.Spieler;
@@ -27,6 +28,14 @@ public abstract class ServerSpiel extends Spiel {
 	protected abstract void starten();
 	
 	public void tick() {
+	}
+	
+	public final int getSpielId() {
+		return spielId;
+	}
+	
+	public final List<Spieler> getTeilnehmer() {
+		return Collections.unmodifiableList(teilnehmer);
 	}
 	
 }

@@ -23,6 +23,8 @@ import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
  */
 public class FensterGameLobby {
 	
+	private BildschirmGameLobby gameLobby;
+	
 	private JFrame fenster;
 	
 	private JPanel panelGame;
@@ -33,7 +35,8 @@ public class FensterGameLobby {
 	private JScrollPane chatTextScroller;
 	private JTextField chatTextField;
 	
-	public FensterGameLobby(final String spielBezeichnung, final SpielOberfläche spielView) {
+	public FensterGameLobby(BildschirmGameLobby lobby, final String spielBezeichnung, final SpielOberfläche spielView) {
+		this.gameLobby = lobby;
 		
 		Helfer.alsSwingTask(new Runnable() {
 			@Override
@@ -70,7 +73,7 @@ public class FensterGameLobby {
 				abbrechenBtn.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						System.out.println("abgebrochen");
+						gameLobby.spielAbbrechen();
 					}
 				});
 				panelSidebar.add(abbrechenBtn);
@@ -91,14 +94,14 @@ public class FensterGameLobby {
 				chatTextField.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						System.out.println("Message sent");
+						nachrichtAbsenden();
 					}
 				});
 				panelSidebar.add(chatTextField);
 				
 				
 				
-				fenster = new JFrame("Server-Lobby");
+				fenster = new JFrame("Spiel: " + spielBezeichnung);
 				fenster.setResizable(false);
 				fenster.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 				fenster.setLayout(new BorderLayout());
@@ -110,7 +113,7 @@ public class FensterGameLobby {
 				fenster.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowClosing(WindowEvent e) {
-						fenster.dispose();
+						gameLobby.spielAbbrechen();
 					}
 				});
 			}
@@ -154,6 +157,23 @@ public class FensterGameLobby {
 				panelSpieler.repaint();
 			}
 		});
+	}
+	
+	public void chatNachrichtAnzeigen(final String nachricht) {
+		Helfer.alsSwingTask(new Runnable() {
+			@Override
+			public void run() {
+				chatTextArea.append(nachricht);
+				chatTextArea.append("\n");
+				chatTextScroller.getVerticalScrollBar().setValue(chatTextScroller.getVerticalScrollBar().getMaximum());
+			}
+		});
+	}
+	
+	private void nachrichtAbsenden() {
+		String nachricht = chatTextField.getText();
+		chatTextField.setText("");
+		gameLobby.chatNachrichtSenden(nachricht);
 	}
 	
 	public void fensterSchliessen() {

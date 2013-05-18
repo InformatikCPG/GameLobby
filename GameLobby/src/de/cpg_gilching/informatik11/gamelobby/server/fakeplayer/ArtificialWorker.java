@@ -43,7 +43,7 @@ class ArtificialWorker implements Runnable {
 				Helfer.warten(100L);
 				
 				String[] nachrichten = { "hey :)", "was gibts? ;)", "hallo welt ...", "ich mag züge", "das bin ich!", "danke!", "warum nicht?", "die zahl " + Helfer.zufallsZahl(100000) + " ist toll!" };
-				pout(new PacketChatNachricht(nachrichten[Helfer.zufallsZahl(nachrichten.length)]));
+				pout(new PacketChatNachricht(((PacketChatNachricht) p).spielId, nachrichten[Helfer.zufallsZahl(nachrichten.length)]));
 			}
 		}
 	}

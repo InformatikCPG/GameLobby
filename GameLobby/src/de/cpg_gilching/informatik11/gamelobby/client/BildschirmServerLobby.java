@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketChatNachricht;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionStarten;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
 
@@ -49,10 +48,7 @@ public class BildschirmServerLobby {
 	}
 	
 	public void chatNachrichtSenden(String nachricht) {
-		nachricht = nachricht.trim();
-		if (!nachricht.isEmpty()) {
-			client.getVerbindung().sendPacket(new PacketChatNachricht(nachricht));
-		}
+		client.chatNachrichtSenden(-1, nachricht);
 	}
 	
 	public void verlassen() {
