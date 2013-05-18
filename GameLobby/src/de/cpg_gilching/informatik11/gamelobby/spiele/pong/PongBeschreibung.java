@@ -6,6 +6,15 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ServerSpiel;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
 
 public class PongBeschreibung extends SpielBeschreibung {
+	
+	public static final int BILDSCHIRM_BREITE = 600;
+	public static final int BILDSCHIRM_HÖHE = 600;
+	public static final int GRENZE_LINKS = 80;
+	public static final int GRENZE_RECHTS = 520;
+	public static final int SCHLÄGER_BREITE = 20;
+	public static final int SCHLÄGER_HÖHE = 80;
+	public static final int BALL_RADIUS = 8;
+	
 	@Override
 	public int maximalspielerGeben() {
 		return 2;
@@ -23,12 +32,13 @@ public class PongBeschreibung extends SpielBeschreibung {
 	
 	@Override
 	public int tickrateGeben() {
-		return 50;
+		return 30;
 	}
 	
 	@Override
 	public void paketeAnmelden(PaketLexikon lexikon) {
 		lexikon.anmelden(PacketSchlägerBewegen.class);
+		lexikon.anmelden(PacketBallBewegen.class);
 	}
 	
 	@Override
@@ -40,4 +50,5 @@ public class PongBeschreibung extends SpielBeschreibung {
 	public ServerSpiel serverInstanzErstellen() {
 		return new PongSpielServer();
 	}
+	
 }

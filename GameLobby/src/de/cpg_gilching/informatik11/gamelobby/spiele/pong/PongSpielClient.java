@@ -14,9 +14,11 @@ public class PongSpielClient extends ClientSpiel implements PaketManager, ITasta
 	private int links;
 	private int rechts;
 	
+	private int ballX, ballY;
+	
 	@Override
 	public void starten() {
-		leinwandAktivieren(600, 600);
+		leinwandAktivieren(PongBeschreibung.BILDSCHIRM_BREITE, PongBeschreibung.BILDSCHIRM_HÖHE);
 		setPaketManager(this);
 		
 		netzwerkTasteRegistrieren(KeyEvent.VK_UP);
@@ -32,14 +34,35 @@ public class PongSpielClient extends ClientSpiel implements PaketManager, ITasta
 	
 	@Override
 	public void leinwandRendern(Graphics2D g) {
+		// ===========================
+		// ====== Ball rendern =======
+		// ===========================
+		int r = PongBeschreibung.BALL_RADIUS;
+		g.setColor(Color.blue);
+		g.fillOval(ballX - r, ballY - r, 2 * r, 2 * r);
+		
+		
+		// ===========================
+		// ==== Schläger rendern =====
+		// ===========================
+		int linksX = PongBeschreibung.GRENZE_LINKS - PongBeschreibung.SCHLÄGER_BREITE;
+		int rechtsX = PongBeschreibung.GRENZE_RECHTS;
+		int linksY = links - PongBeschreibung.SCHLÄGER_HÖHE / 2;
+		int rechtsY = rechts - PongBeschreibung.SCHLÄGER_HÖHE / 2;
+		
 		g.setColor(Color.white);
-		g.fillRect(50, links - 100, 20, 200);
-		g.fillRect(530, rechts - 100, 20, 200);
+		g.fillRect(linksX, linksY, PongBeschreibung.SCHLÄGER_BREITE, PongBeschreibung.SCHLÄGER_HÖHE);
+		g.fillRect(rechtsX, rechtsY, PongBeschreibung.SCHLÄGER_BREITE, PongBeschreibung.SCHLÄGER_HÖHE);
 	}
 	
 	public void verarbeiten(PacketSchlägerBewegen packet) {
 		links = packet.linkePosition;
 		rechts = packet.rechtePosition;
+	}
+	
+	public void verarbeiten(PacketBallBewegen packet) {
+		ballX = packet.x;
+		ballY = packet.y;
 	}
 	
 }
