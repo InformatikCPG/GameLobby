@@ -87,6 +87,11 @@ public class ControllerServer {
 					session.spielerVerlassen(spieler);
 				}
 				
+				// aus möglichen Spielen werfen
+				for (ServerSpiel spiel : new ArrayList<ServerSpiel>(offeneSpiele.values())) {
+					spiel._teilnehmerVerlassen(spieler);
+				}
+				
 				// verbleibende Spieler informieren
 				packetAnAlle(new PacketSpielerListe(spieler.getName(), false));
 				packetAnAlle(new PacketChatNachricht(-1, spieler.getName() + " hat die Lobby verlassen."));
@@ -109,7 +114,7 @@ public class ControllerServer {
 	/**
 	 * Sucht einen Spieler auf dem Server anhand seines Namens.
 	 * 
-	 * @param username Der exakte Name des Spielers
+	 * @param username der exakte Name des Spielers
 	 * @return den Spieler, oder null wenn nicht gefunden
 	 */
 	public Spieler getSpieler(String username) {
@@ -121,14 +126,27 @@ public class ControllerServer {
 		return null;
 	}
 	
+	/**
+	 * Sucht einen Spieler auf dem Server anhand seines Teil-Namens.
+	 * 
+	 * @param username der möglicherweise unvollständige Name des Spielers
+	 * @return den gefundenen Spieler, oder null wenn nicht gefunden
+	 */
+	public Spieler getSpielerUngefähr(String username) {
+		for (Spieler s : spielerListe) {
+			if (s.getName().toLowerCase().startsWith(username.toLowerCase()))
+				return s;
+		}
+		return null;
+	}
+	
 	public void sessionStarten(SpielBeschreibung beschreibung, List<Spieler> teilnehmer) {
 		Session neueSession = new Session(this, beschreibung, teilnehmer);
 		offeneSessions.put(neueSession.getId(), neueSession);
 	}
 	
-	public void sessionSchließen(Session session) {
+	public void sessionLöschen(Session session) {
 		offeneSessions.remove(session.getId());
-		session.schließen();
 	}
 	
 	public Session getSessionNachId(int sessionId) {
@@ -137,9 +155,8 @@ public class ControllerServer {
 	
 	
 	public void spielStarten(int id, SpielBeschreibung beschreibung, Set<Spieler> teilnehmer) {
-		// das ServerSpiel erzeugen und starten
+		// das ServerSpiel erzeugen
 		ServerSpiel serverSpiel = beschreibung.serverInstanzErstellen();
-		serverSpiel._init(id, teilnehmer);
 		
 		// in die Liste der offenen Spiele aufnehmen
 		offeneSpiele.put(id, serverSpiel);
@@ -153,6 +170,13 @@ public class ControllerServer {
 				spieler.packetSenden(new PacketSpielTeilnehmer(id, anderer.getName(), PacketSpielTeilnehmer.BEIGETRETEN));
 			}
 		}
+		
+		// nachdem die Umgebung richtig aufgesetzt wurde, kann es gestartet werden
+		serverSpiel._init(this, beschreibung, id, teilnehmer);
+	}
+	
+	public void spielLöschen(ServerSpiel spiel) {
+		offeneSpiele.remove(spiel.getSpielId());
 	}
 	
 	public ServerSpiel getSpielNachId(int id) {

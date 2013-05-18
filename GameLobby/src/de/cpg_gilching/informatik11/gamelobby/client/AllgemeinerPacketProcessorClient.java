@@ -5,16 +5,7 @@ import java.lang.reflect.Method;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Packet;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.PacketProcessor;
-import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketChatNachricht;
-import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketDisconnect;
-import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketKeepAlive;
-import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketServerSpielAnmelden;
-import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionSpielerStatus;
-import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionStarten;
-import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionVerlassen;
-import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielStarten;
-import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielTeilnehmer;
-import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielerListe;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.*;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ClientSpiel;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
@@ -151,6 +142,16 @@ public class AllgemeinerPacketProcessorClient extends PacketProcessor {
 		}
 		
 		client.spielErstellen(packet.spielId, beschreibung);
+	}
+	
+	public void handle(PacketSpielVerlassen packet) {
+		BildschirmGameLobby spiel = client.getSpielNachId(packet.spielId);
+		if (spiel == null) {
+			System.err.println("PacketSpielVerlassen: Spiel id ungültig: " + packet.spielId);
+			return;
+		}
+		
+		spiel.jetztBeenden();
 	}
 	
 	public void handle(PacketSpielTeilnehmer packet) {

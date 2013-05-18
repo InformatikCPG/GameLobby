@@ -14,6 +14,7 @@ import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketKeepAlive;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionAnnehmen;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionStarten;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionVerlassen;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielVerlassen;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ServerSpiel;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
@@ -113,7 +114,7 @@ public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 			}
 			if (packet.nachricht.startsWith("!kick")) {
 				String pname = packet.nachricht.substring("!kick ".length());
-				Spieler kickender = spieler.getServer().getSpieler(pname);
+				Spieler kickender = spieler.getServer().getSpielerUngefähr(pname);
 				if (kickender == null)
 					spieler.packetSenden(new PacketChatNachricht(-1, "Spieler ungültig!"));
 				else
@@ -179,9 +180,18 @@ public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 		session.spielerVerlassen(spieler);
 	}
 	
+	public void handle(PacketSpielVerlassen packet) {
+		ServerSpiel spiel = spieler.getServer().getSpielNachId(packet.spielId);
+		if (spiel == null) {
+			System.err.println("Ungültige Spiel id beim Verlassen: " + packet.spielId);
+			return;
+		}
+		
+		spiel._teilnehmerVerlassen(spieler);
+	}
 	
 	public void handle(PacketDisconnect packet) {
-		// das Paket wieder zurücksenden und die Verbindung schließen
+		// das Packet wieder zurücksenden und die Verbindung schließen
 		spieler.getServer().kickSpieler(spieler, "Client: " + packet.grund);
 	}
 	

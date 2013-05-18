@@ -12,12 +12,12 @@ public class PaketListe {
 		lexikon.anmelden(PacketDisconnect.class);
 		lexikon.anmelden(PacketChatNachricht.class);
 		lexikon.anmelden(PacketSessionStarten.class);
+		lexikon.anmelden(PacketSessionVerlassen.class);
+		lexikon.anmelden(PacketSpielVerlassen.class);
 		
 		// Client -> Server
 		lexikon.anmelden(PacketHallo.class);
 		lexikon.anmelden(PacketSessionAnnehmen.class);
-		lexikon.anmelden(PacketSessionVerlassen.class);
-		lexikon.anmelden(PacketSpielVerlassen.class);
 		lexikon.anmelden(PacketSpielTaste.class);
 		
 		// Server -> Client

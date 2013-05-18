@@ -25,6 +25,7 @@ public class PongSpielServer extends ServerSpiel implements PaketManager {
 		rechts = teilnehmer.get(1);
 		
 		setPaketManager(this);
+		packetAnAlle(new PacketSchlägerBewegen(posLinks, posRechts));
 	}
 	
 	@Override

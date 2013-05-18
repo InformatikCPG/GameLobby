@@ -116,6 +116,8 @@ public class FensterGameLobby {
 						gameLobby.spielAbbrechen();
 					}
 				});
+				
+				spielView.requestFocusInWindow();
 			}
 		});
 	}

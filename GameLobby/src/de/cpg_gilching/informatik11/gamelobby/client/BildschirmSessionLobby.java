@@ -40,7 +40,7 @@ public class BildschirmSessionLobby {
 	}
 	
 	public void jetztBeenden() {
-		client.sessionBeenden(this);
+		client.sessionLöschen(this);
 		oberfläche.fensterSchliessen();
 	}
 	

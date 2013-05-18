@@ -1,5 +1,6 @@
 package de.cpg_gilching.informatik11.gamelobby.client;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +32,7 @@ public class ControllerClient implements Runnable {
 	private Map<Integer, SpielBeschreibung> angemeldeteBeschreibungen = new HashMap<Integer, SpielBeschreibung>();
 	
 	private BildschirmServerLobby serverLobby = null;
-	private Map<Integer, BildschirmSessionLobby> sessionLobbies = new HashMap<Integer, BildschirmSessionLobby>();
+	private Map<Integer, BildschirmSessionLobby> offeneSessions = new HashMap<Integer, BildschirmSessionLobby>();
 	private Map<Integer, BildschirmGameLobby> offeneSpiele = new HashMap<Integer, BildschirmGameLobby>();
 	
 	private int zeitSeitKeepAlive = 0;
@@ -82,19 +83,23 @@ public class ControllerClient implements Runnable {
 	}
 	
 	public void sessionErstellen(int sessionId, SpielBeschreibung beschreibung, List<String> eingeladeneSpieler) {
-		sessionLobbies.put(sessionId, new BildschirmSessionLobby(this, sessionId, beschreibung, eingeladeneSpieler));
+		offeneSessions.put(sessionId, new BildschirmSessionLobby(this, sessionId, beschreibung, eingeladeneSpieler));
 	}
 	
-	public void sessionBeenden(BildschirmSessionLobby sessionLobby) {
-		sessionLobbies.remove(sessionLobby.getSessionId());
+	public void sessionLöschen(BildschirmSessionLobby sessionLobby) {
+		offeneSessions.remove(sessionLobby.getSessionId());
 	}
 	
 	public BildschirmSessionLobby getSessionNachId(int sessionId) {
-		return sessionLobbies.get(sessionId);
+		return offeneSessions.get(sessionId);
 	}
 	
 	public void spielErstellen(int spielId, SpielBeschreibung beschreibung) {
 		offeneSpiele.put(spielId, new BildschirmGameLobby(this, spielId, beschreibung));
+	}
+	
+	public void spielLöschen(BildschirmGameLobby spielLobby) {
+		offeneSpiele.remove(spielLobby.getSpielId());
 	}
 	
 	public BildschirmGameLobby getSpielNachId(int spielId) {
@@ -158,8 +163,17 @@ public class ControllerClient implements Runnable {
 		// Verbindung schließen, falls noch nicht geschehen
 		verbindung.close();
 		
+		// Session-Lobbies beenden
+		for (BildschirmSessionLobby session : new ArrayList<BildschirmSessionLobby>(offeneSessions.values())) {
+			session.jetztBeenden();
+		}
+		
+		// Ingame-Lobbies beenden
+		for (BildschirmGameLobby spiel : new ArrayList<BildschirmGameLobby>(offeneSpiele.values())) {
+			spiel.jetztBeenden();
+		}
+		
 		serverLobby.verlassen();
-		// TODO session lobbies beenden
 	}
 	
 	/**

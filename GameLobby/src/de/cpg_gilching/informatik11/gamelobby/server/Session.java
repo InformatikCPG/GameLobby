@@ -28,7 +28,7 @@ public class Session {
 		this.beschreibung = beschreibung;
 		this.teilnehmer = new HashSet<Spieler>(teilnehmerListe);
 		
-		System.out.println("Session für Spiel " + beschreibung.getBezeichnung() + " mit Teilnehmern " + Helfer.verketten(teilnehmer, ", "));
+		System.out.println("Session " + id + " für Spiel " + beschreibung.getBezeichnung() + " mit Teilnehmern " + Helfer.verketten(teilnehmer, ", ") + " angelegt!");
 		
 		// alle Teilnehmer über die Session informieren
 		List<String> teilnehmerNamen = new ArrayList<String>(teilnehmer.size());
@@ -60,7 +60,7 @@ public class Session {
 			spieler.packetSenden(new PacketSessionVerlassen(id));
 			
 			if (teilnehmer.size() < beschreibung.minimalspielerGeben()) {
-				server.sessionSchließen(this);
+				beenden();
 			}
 			else {
 				for (Spieler anderer : teilnehmer) {
@@ -72,14 +72,17 @@ public class Session {
 	
 	public void spielStarten() {
 		System.out.println("Spiel wird gestartet mit Spiel " + beschreibung.getBezeichnung() + " und Teilnehmern " + Helfer.verketten(teilnehmer, ", "));
-		server.sessionSchließen(this);
+		beenden();
 		server.spielStarten(id, beschreibung, teilnehmer);
 	}
 	
-	public void schließen() {
+	private void beenden() {
+		System.out.println("Session " + id + " beendet!");
+		
 		for (Spieler anderer : teilnehmer) {
 			anderer.packetSenden(new PacketSessionVerlassen(id));
 		}
+		server.sessionLöschen(this);
 	}
 	
 	public int getId() {

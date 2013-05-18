@@ -71,6 +71,11 @@ public class BildschirmGameLobby {
 		}
 	}
 	
+	public void jetztBeenden() {
+		client.spielLöschen(this);
+		oberfläche.fensterSchliessen();
+	}
+	
 	public void spielerHinzufügen(String spielerName) {
 		spielerListe.add(new SpielerIngameZustand(spielerName));
 		oberfläche.spielerListeAktualisieren(spielerListe);
