@@ -32,7 +32,6 @@ public class FensterSessionLobby {
 	
 	private JFrame fenster;
 	private JLabel labelSpielname;
-	private JPanel spielerPanel;
 	private JPanel panelSpieler;
 	private JButton ablehnenBtn;
 	private JButton annehmenBtn;
@@ -48,9 +47,6 @@ public class FensterSessionLobby {
 				hauptPanel.setLayout(null);
 				hauptPanel.setPreferredSize(new Dimension(250, 500));
 				
-				panelSpieler = new JPanel();
-				panelSpieler.setLayout(null);
-				
 				labelSpielname = new JLabel();
 				labelSpielname.setText(sessionLobby.getBeschreibung().getBezeichnung());
 				labelSpielname.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
@@ -58,13 +54,13 @@ public class FensterSessionLobby {
 				labelSpielname.setHorizontalAlignment(JLabel.CENTER);
 				hauptPanel.add(labelSpielname);
 				
-				spielerPanel = new JPanel();
-				spielerPanel.setLayout(new BoxLayout(spielerPanel, BoxLayout.Y_AXIS));
+				panelSpieler = new JPanel();
+				panelSpieler.setLayout(new BoxLayout(panelSpieler, BoxLayout.Y_AXIS));
 				
 				JPanel spielerPanelWrapper = new JPanel();
 				spielerPanelWrapper.setLayout(new BorderLayout());
 				spielerPanelWrapper.setBounds(10, 60, 230, 330);
-				spielerPanelWrapper.add(spielerPanel, BorderLayout.NORTH);
+				spielerPanelWrapper.add(panelSpieler, BorderLayout.NORTH);
 				hauptPanel.add(spielerPanelWrapper);
 				
 				annehmenBtn = new JButton("Annehmen");
@@ -122,9 +118,9 @@ public class FensterSessionLobby {
 		Helfer.alsSwingTask(new Runnable() {
 			@Override
 			public void run() {
-				spielerPanel.removeAll();
+				panelSpieler.removeAll();
 				
-				spielerPanel.add(Box.createVerticalStrut(10));
+				panelSpieler.add(Box.createVerticalStrut(10));
 				
 				for (String spielerName : alleSpieler) {
 					JLabel nameLabel = new JLabel(spielerName);
@@ -143,12 +139,12 @@ public class FensterSessionLobby {
 						box.add(Box.createHorizontalStrut(10));
 					}
 					
-					spielerPanel.add(box);
-					spielerPanel.add(Box.createVerticalStrut(10));
+					panelSpieler.add(box);
+					panelSpieler.add(Box.createVerticalStrut(10));
 				}
 				
-				spielerPanel.revalidate();
-				spielerPanel.repaint();
+				panelSpieler.revalidate();
+				panelSpieler.repaint();
 			}
 		});
 	}

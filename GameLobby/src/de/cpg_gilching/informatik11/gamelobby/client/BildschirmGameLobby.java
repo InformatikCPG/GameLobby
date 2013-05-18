@@ -2,20 +2,28 @@ package de.cpg_gilching.informatik11.gamelobby.client;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ClientSpiel;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielPacket;
 
-class SpielerIngameZustand {
+class SpielerIngameZustand implements Comparable<SpielerIngameZustand> {
 	String name;
 	int punkte = 0;
 	
 	SpielerIngameZustand(String name) {
 		this.name = name;
+	}
+	
+	@Override
+	public int compareTo(SpielerIngameZustand anderer) {
+		if (anderer.punkte != this.punkte)
+			return this.punkte - anderer.punkte;
+		else
+			return this.name.compareTo(anderer.name);
 	}
 }
 
@@ -27,7 +35,8 @@ public class BildschirmGameLobby {
 	private ClientSpiel clientSpiel;
 	private int msVergangen = 0;
 	
-	private Set<SpielerIngameZustand> spielerListe = new HashSet<SpielerIngameZustand>();
+	// Die Spieler-Liste ist nach Punktestand sortiert
+	private Set<SpielerIngameZustand> spielerListe = new TreeSet<SpielerIngameZustand>();
 	
 	private SpielOberfläche spielView = new SpielOberfläche(this);
 	private FensterGameLobby oberfläche;

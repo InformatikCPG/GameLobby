@@ -9,16 +9,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Set;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
+import javax.swing.*;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 
@@ -66,7 +61,7 @@ public class FensterGameLobby {
 				panelSidebar.add(labelSpielname);
 				
 				panelSpieler = new JPanel();
-				panelSpieler.setBackground(Color.blue);
+				panelSpieler.setLayout(new BoxLayout(panelSpieler, BoxLayout.Y_AXIS));
 				panelSpieler.setBounds(5, 40, 270, 210);
 				panelSidebar.add(panelSpieler);
 				
@@ -123,7 +118,42 @@ public class FensterGameLobby {
 	}
 	
 	public void spielerListeAktualisieren(Set<SpielerIngameZustand> spielerListe) {
+		// unabhängige Listen erstellen
+		final Collection<SpielerIngameZustand> alleSpieler = new ArrayList<SpielerIngameZustand>(spielerListe);
 		
+		// auf Event-Thread ausführen
+		Helfer.alsSwingTask(new Runnable() {
+			@Override
+			public void run() {
+				panelSpieler.removeAll();
+				
+				panelSpieler.add(Box.createVerticalStrut(10));
+				
+				int platz = 1;
+				for (SpielerIngameZustand zustand : alleSpieler) {
+					JLabel nameLabel = new JLabel(platz + ". " + zustand.name);
+					nameLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+					
+					JLabel punkteLabel = new JLabel(Integer.toString(zustand.punkte));
+					punkteLabel.setFont(new Font(Font.MONOSPACED, Font.BOLD, 30));
+					
+					Box box = Box.createHorizontalBox();
+					box.add(Box.createHorizontalStrut(10));
+					box.add(nameLabel);
+					box.add(Box.createHorizontalGlue());
+					box.add(punkteLabel);
+					box.add(Box.createHorizontalStrut(10));
+					
+					panelSpieler.add(box);
+					panelSpieler.add(Box.createVerticalStrut(10));
+					
+					platz++;
+				}
+				
+				panelSpieler.revalidate();
+				panelSpieler.repaint();
+			}
+		});
 	}
 	
 	public void fensterSchliessen() {

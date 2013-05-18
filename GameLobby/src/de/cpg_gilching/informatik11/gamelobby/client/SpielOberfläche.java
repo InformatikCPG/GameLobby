@@ -40,7 +40,9 @@ public class SpielOberfläche extends JPanel {
 		if (!leinwand.isDisplayable())
 			return;
 		
-		requestFocus();
+		if (leinwand.hasFocus()) {
+			requestFocus();
+		}
 		
 		BufferStrategy bs = leinwand.getBufferStrategy();
 		if (bs == null) {
