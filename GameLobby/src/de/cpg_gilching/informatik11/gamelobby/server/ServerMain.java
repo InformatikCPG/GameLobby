@@ -1,6 +1,7 @@
 package de.cpg_gilching.informatik11.gamelobby.server;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -259,19 +260,30 @@ public class ServerMain implements Runnable {
 			try {
 				socket.connect();
 				
+				// receive magic number
 				long magicNumber = new DataInputStream(socket.getInputStream()).readLong();
-				if (magicNumber == Packet.MAGIC_NUMBER) {
-					log(socket.getRepresentation() + " validated");
-					
-					Connection connection = new Connection(socket, dictionary);
-					newClients.add(connection);
-				}
-				else {
+				if (magicNumber != Packet.MAGIC_NUMBER) {
 					logError("Validation of " + socket.getRepresentation() + " failed: incorrect magic number");
 					socket.close();
+					return;
 				}
+				
+				log(socket.getRepresentation() + " validated, sending reply ...");
+				
+				// reply with magic number ACK
+				new DataOutputStream(socket.getOutputStream()).writeLong(Packet.MAGIC_NUMBER_ACK);
+
+				log("Connection with " + socket.getRepresentation() + " established!");
+				
+				Connection connection = new Connection(socket, dictionary);
+				connection.startThreads();
+				newClients.add(connection);
+				
+				Thread.sleep(2000L);
 			} catch (IOException e) {
 				logError("Validation of " + socket.getRepresentation() + " failed: IOException", e);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 	}

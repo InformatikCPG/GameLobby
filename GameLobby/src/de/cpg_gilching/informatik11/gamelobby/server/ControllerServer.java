@@ -72,8 +72,8 @@ public class ControllerServer {
 		packetAnAlle(new PacketChatNachricht(-1, neuerSpieler.getName() + " ist der Lobby beigetreten."));
 		
 		// automatisch KI-Spieler beitreten lassen
-		if (!neuerSpieler.getName().startsWith("AI-"))
-			server.connectClient(server.createAISocket());
+//		if (!neuerSpieler.getName().startsWith("AI-"))
+//			server.connectClient(server.createAISocket());
 	}
 	
 	public void onSpielerVerlassen(Connection verbindung) {

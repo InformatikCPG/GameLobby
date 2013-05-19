@@ -1,5 +1,6 @@
 package de.cpg_gilching.informatik11.gamelobby.client;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +39,7 @@ public class ControllerClient implements Runnable {
 	private int zeitSeitKeepAlive = 0;
 	private boolean aktiv = true;
 	
-	public ControllerClient(Connection verbindung, String username, PaketLexikon lexikon) {
+	public ControllerClient(Connection verbindung, String username, PaketLexikon lexikon) throws IOException {
 		this.verbindung = verbindung;
 		this.paketLexikon = lexikon;
 		this.username = username;
@@ -48,8 +49,15 @@ public class ControllerClient implements Runnable {
 		PaketListe.normalePaketeAnmelden(paketLexikon);
 		
 		verbindung.setPacketProcessor(new AllgemeinerPacketProcessorClient(this));
+
+		System.out.println("Versuche Validierung ...");
+		if(!verbindung.sendMagicNumber()) {
+			verbindung.close();
+			throw new IOException("Fehler bei der Validierung des Servers!");
+		}
 		
-		verbindung.sendMagicNumber();
+		verbindung.startThreads();
+		
 		verbindung.sendPacket(new PacketHallo(username));
 		
 		beschreibungenListe = new SpieleListe(paketLexikon);

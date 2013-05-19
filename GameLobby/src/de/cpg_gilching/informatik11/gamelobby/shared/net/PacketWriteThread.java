@@ -22,7 +22,6 @@ public class PacketWriteThread extends Thread {
 		this.statsObserver = observer;
 		this.errorHandler = errorHandler;
 		this.setDaemon(true);
-		this.start();
 	}
 	
 	public void addPacket(Packet p) {

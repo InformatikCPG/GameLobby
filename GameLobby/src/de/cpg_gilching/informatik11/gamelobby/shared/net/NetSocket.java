@@ -32,6 +32,7 @@ public class NetSocket extends PotentialSocket {
 			
 		socket = new Socket(address, port);
 		socket.setTcpNoDelay(true);
+		socket.setSoTimeout(10000);
 	}
 	
 	@Override

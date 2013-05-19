@@ -17,6 +17,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.AdapterPaketLexikon;
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
@@ -163,9 +165,10 @@ public class FensterLogin {
 			AdapterPaketLexikon lexikonAdapter = new AdapterPaketLexikon();
 			Connection verbindung = new Connection(socket, lexikonAdapter);
 			
-			fenster.dispose();
 			new ControllerClient(verbindung, username, lexikonAdapter);
 			System.out.println("Verbindung hergestellt!");
+
+			fenster.dispose();
 		} catch (IOException e) {
 			Helfer.meldungAnzeigen("Es trat ein Fehler beim Herstellen der Verbindung auf!\n" + e.toString(), true);
 			return;

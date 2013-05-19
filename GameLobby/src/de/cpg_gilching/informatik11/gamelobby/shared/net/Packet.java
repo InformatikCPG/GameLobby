@@ -7,8 +7,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 public abstract class Packet {
-	
+
 	public static final long MAGIC_NUMBER = 0x9001FACEFAL;
+	public static final long MAGIC_NUMBER_ACK = 0xCAF572A42AAL;
 	
 	protected Packet() {
 	}

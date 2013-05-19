@@ -25,7 +25,6 @@ public class PacketReadThread extends Thread {
 		this.statsObserver = statsObserver;
 		this.errorHandler = errorHandler;
 		this.setDaemon(true);
-		this.start();
 	}
 	
 	public Packet peekPacket() {

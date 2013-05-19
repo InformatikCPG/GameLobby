@@ -52,6 +52,7 @@ class ArtificialWorker implements Runnable {
 	public void run() {
 		try {
 			out.writeLong(Packet.MAGIC_NUMBER);
+			in.readLong();
 			pout(new PacketHallo(Thread.currentThread().getName()));
 			
 			while (true) {
