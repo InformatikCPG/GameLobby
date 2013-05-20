@@ -106,7 +106,7 @@ public class ControllerServer {
 	
 	public void tick(int ms) {
 		for (ServerSpiel spiel : offeneSpiele.values()) {
-			spiel.tick();
+			spiel._tick(ms);
 		}
 	}
 	

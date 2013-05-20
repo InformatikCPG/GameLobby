@@ -15,6 +15,7 @@ public abstract class ServerSpiel {
 	
 	private ControllerServer server = null;
 	private int spielId = -1;
+	private int msVergangen = 0;
 	protected SpielBeschreibung beschreibung = null;
 	protected List<Spieler> teilnehmer = null;
 	
@@ -33,6 +34,16 @@ public abstract class ServerSpiel {
 		}
 		
 		starten();
+	}
+
+	public final void _tick(int ms) {
+			msVergangen += ms;
+			int tickAlleMs = 1000 / beschreibung.tickrateGeben();
+			
+			if (msVergangen >= tickAlleMs) {
+				tick();
+				msVergangen -= tickAlleMs;
+			}
 	}
 	
 	public PaketManager getPaketManagerFür(LobbySpieler spieler) {
