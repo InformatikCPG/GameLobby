@@ -1,5 +1,6 @@
 package de.cpg_gilching.informatik11.gamelobby.shared;
 
+import java.util.List;
 import java.util.Random;
 
 import javax.swing.JOptionPane;
@@ -81,6 +82,28 @@ public class Helfer {
 	 */
 	public static int zufallsZahl(int max) {
 		return rand.nextInt(max);
+	}
+	
+	/**
+	 * Gibt ein zufälliges Element aus einer Liste zurück. Das Element kann optional automatisch aus der Liste entfernt werden.
+	 * 
+	 * @param liste die Liste, aus der das Element genommen werden soll
+	 * @param autoLöschen true, wenn das gegebene Element automatisch entfernt werden soll
+	 * @return ein zufälliges Element
+	 * @throws IllegalArgumentException wenn die übergebene Liste leer oder null ist
+	 */
+	public static <T> T zufallsElement(List<T> liste, boolean autoLöschen) {
+		if(liste == null || liste.isEmpty())
+			throw new IllegalArgumentException("leere Liste");
+		
+		int index = Helfer.zufallsZahl(liste.size());
+		
+		if(autoLöschen) {
+			return liste.remove(index);
+		}
+		else {
+			return liste.get(index);
+		}
 	}
 	
 	/**
