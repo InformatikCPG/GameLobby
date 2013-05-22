@@ -56,6 +56,7 @@ public class Snake {
 		if(server.feldZustandPrüfen(vorneNeu) == 2) {
 			tot = true;
 			server.nachrichtSenden(spieler, "You failed, nooob :P");
+			server.toteSnakeEinfügen(this);
 			return;
 		}
 		

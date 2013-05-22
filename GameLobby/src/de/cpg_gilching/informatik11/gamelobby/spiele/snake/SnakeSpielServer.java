@@ -11,6 +11,7 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.Spieler;
 public class SnakeSpielServer extends ServerSpiel {
 	
 	private ArrayList<Snake> snakes;
+	private ArrayList<Snake> toteSnakes;
 	private ArrayList<Point> essen;
 	private ArrayList<Point> startPunkte;
 	private int zähler;
@@ -35,13 +36,12 @@ public class SnakeSpielServer extends ServerSpiel {
 		for(int i=0;i<teilnehmer.size();i++) {
 			snakes.add(new Snake(this, teilnehmer.get(i), Helfer.zufallsElement(startPunkte, true)));
 		}
-				
 	}
 	
 	@Override
 	public void tick() {
 		zähler++;
-		if (zähler == speed) {
+		if (zähler >= speed) {
 			for(int i=0;i<snakes.size();i++) {
 				snakes.get(i).tick();
 			}
@@ -55,6 +55,9 @@ public class SnakeSpielServer extends ServerSpiel {
 				essen.add(p);
 				feldUpdaten(p,0xFFFFFF);
 			}
+		}
+		if(snakes.size() == toteSnakes.size() + 1) {
+			reset();
 		}
 	}
 	
@@ -104,4 +107,18 @@ public class SnakeSpielServer extends ServerSpiel {
 		}
 	}
 	
+	public void toteSnakeEinfügen(Snake s) {
+		toteSnakes.add(s);
+	}
+	
+	public void reset() {
+		//Score muss noch berechnet werden
+		for (int i = 0; i < 60; i++) {
+			for (int j = 0; j < 60; j++) {
+				Point p = new Point(i,j);
+				feldUpdaten(p,-1);
+			}
+		}
+		starten();
+	}
 }
