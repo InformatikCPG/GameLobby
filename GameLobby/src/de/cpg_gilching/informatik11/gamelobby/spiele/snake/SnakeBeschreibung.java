@@ -39,5 +39,6 @@ public class SnakeBeschreibung extends SpielBeschreibung {
 	@Override
 	public void paketeAnmelden(PaketLexikon lexikon) {
 		lexikon.anmelden(PacketFeldSetzen.class);
+		lexikon.anmelden(PacketNachrichtSenden.class);
 	}
 }

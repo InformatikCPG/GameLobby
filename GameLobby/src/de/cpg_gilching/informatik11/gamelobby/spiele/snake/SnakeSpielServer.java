@@ -14,6 +14,7 @@ public class SnakeSpielServer extends ServerSpiel {
 	private ArrayList<Point> essen;
 	private ArrayList<Point> startPunkte;
 	private int zähler;
+	private int speed;
 	
 	@Override
 	protected PaketManager paketManagerErstellen(Spieler spieler) {
@@ -22,6 +23,7 @@ public class SnakeSpielServer extends ServerSpiel {
 
 	@Override
 	protected void starten() {
+		speed = 5;
 		snakes = new ArrayList<Snake>();
 		startPunkte = new ArrayList<Point>();
 		essen = new ArrayList<Point>();
@@ -39,15 +41,15 @@ public class SnakeSpielServer extends ServerSpiel {
 	@Override
 	public void tick() {
 		zähler++;
-		if (zähler == 2) {
+		if (zähler == speed) {
 			for(int i=0;i<snakes.size();i++) {
 				snakes.get(i).tick();
 			}
 			zähler = 0;
 		}
 		if (Helfer.zufallsZahl(50) == 42) {
-			int x = Helfer.zufallsZahl(70);
-			int y = Helfer.zufallsZahl(70);
+			int x = Helfer.zufallsZahl(60);
+			int y = Helfer.zufallsZahl(60);
 			Point p = new Point(x,y);
 			if(feldZustandPrüfen(p) == 0) {
 				essen.add(p);
@@ -77,7 +79,7 @@ public class SnakeSpielServer extends ServerSpiel {
 				return 2;
 			}
 		}
-		if(p.x > 64 || p.x < 5 || p.y > 64 || p.y < 5) {
+		if(p.x >= 60 || p.x < 0 || p.y >= 60 || p.y < 0) {
 			return 2;
 		}
 		return 0;
@@ -87,9 +89,19 @@ public class SnakeSpielServer extends ServerSpiel {
 		packetAnAlle(new PacketFeldSetzen(p.x,p.y,farbe));
 	}
 	
+	public void nachrichtSenden(Spieler spieler, String msg) {
+		packetAnSpieler(spieler, new PacketNachrichtSenden(msg));
+	}
+	
 	public Snake sucheSnake(Spieler spieler) {
 		int Index = teilnehmer.indexOf(spieler);
 		return snakes.get(Index);
+	}
+	
+	public void setSpeed(int speed) {
+		if(this.speed < speed) {
+			this.speed = speed;
+		}
 	}
 	
 }

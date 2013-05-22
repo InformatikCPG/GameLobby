@@ -55,6 +55,7 @@ public class Snake {
 		
 		if(server.feldZustandPrüfen(vorneNeu) == 2) {
 			tot = true;
+			server.nachrichtSenden(spieler, "You failed, nooob :P");
 			return;
 		}
 		
@@ -85,5 +86,23 @@ public class Snake {
 			}
 		}
 		return false;
+	}
+	
+	public void speedAnpassen() {
+		int länge = elemente.size();
+		switch (länge) {
+		case 5:
+			server.setSpeed(4);
+			break;
+		case 10:
+			server.setSpeed(3);
+			break;
+		case 20:
+			server.setSpeed(2);
+			break;
+		case 30:
+			server.setSpeed(1);
+			break;
+		}
 	}
 }
