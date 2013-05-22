@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import de.cpg_gilching.informatik11.gamelobby.spiele.osmos.OsmosBeschreibung;
 import de.cpg_gilching.informatik11.gamelobby.spiele.pong.PongBeschreibung;
 import de.cpg_gilching.informatik11.gamelobby.spiele.snake.SnakeBeschreibung;
 
@@ -19,6 +20,7 @@ public class SpieleListe implements Iterable<SpielBeschreibung> {
 	public void beschreibungenLaden() {
 		spielLaden(new PongBeschreibung());
 		spielLaden(new SnakeBeschreibung());
+		spielLaden(new OsmosBeschreibung());
 	}
 	
 	private void spielLaden(SpielBeschreibung spiel) {
