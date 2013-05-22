@@ -39,13 +39,13 @@ public class SnakeSpielServer extends ServerSpiel {
 	@Override
 	public void tick() {
 		zähler++;
-		if (zähler == 5) {
+		if (zähler == 2) {
 			for(int i=0;i<snakes.size();i++) {
 				snakes.get(i).tick();
 			}
 			zähler = 0;
 		}
-		if (Helfer.zufallsZahl(10) == 1) {
+		if (Helfer.zufallsZahl(50) == 42) {
 			int x = Helfer.zufallsZahl(70);
 			int y = Helfer.zufallsZahl(70);
 			Point p = new Point(x,y);

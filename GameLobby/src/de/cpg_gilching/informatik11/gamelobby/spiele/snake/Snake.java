@@ -34,7 +34,6 @@ public class Snake {
 		if(tot) {
 			return;
 		}
-		
 		Point gelöscht = elemente.removeLast();
 		
 		Point vorneNeu = null;
@@ -56,7 +55,9 @@ public class Snake {
 		
 		if(server.feldZustandPrüfen(vorneNeu) == 2) {
 			tot = true;
+			return;
 		}
+		
 		elemente.addFirst(vorneNeu);
 		
 		server.feldUpdaten(elemente.getFirst(), farbe);
