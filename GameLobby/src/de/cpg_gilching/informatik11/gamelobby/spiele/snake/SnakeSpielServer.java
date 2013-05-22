@@ -33,6 +33,7 @@ public class SnakeSpielServer extends ServerSpiel {
 		for(int i=0;i<teilnehmer.size();i++) {
 			snakes.add(new Snake(this, teilnehmer.get(i), Helfer.zufallsElement(startPunkte, true)));
 		}
+				
 	}
 	
 	@Override
@@ -65,7 +66,7 @@ public class SnakeSpielServer extends ServerSpiel {
 		}
 	}
 	
-	public int feldZustandPrüfen(Point p) { // 1=Essen liegt auf p; 2=Snake liegt auf p; 0=p ist leer
+	public int feldZustandPrüfen(Point p) { // 1=Essen liegt auf p; 2=p liegt auf tötlichen Koordinaten; 0=p ist leer
 		for(int j=0;j<essen.size();j++) {
 			if (essen.get(j).x == p.x && essen.get(j).y == p.y) {
 				return 1;
@@ -75,6 +76,9 @@ public class SnakeSpielServer extends ServerSpiel {
 			if(snakes.get(i).feldPrüfen(p)) {
 				return 2;
 			}
+		}
+		if(p.x > 64 || p.x < 5 || p.y > 64 || p.y < 5) {
+			return 2;
 		}
 		return 0;
 	}
@@ -87,6 +91,5 @@ public class SnakeSpielServer extends ServerSpiel {
 		int Index = teilnehmer.indexOf(spieler);
 		return snakes.get(Index);
 	}
-	
 	
 }
