@@ -11,9 +11,9 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.Spieler;
 public class SnakeSpielServer extends ServerSpiel {
 	
 	private ArrayList<Snake> snakes;
+	private ArrayList<Point> essen;
 	private ArrayList<Point> startPunkte;
 	private int zähler;
-	private ArrayList<Point> essen;
 	
 	@Override
 	protected PaketManager paketManagerErstellen(Spieler spieler) {
@@ -44,23 +44,39 @@ public class SnakeSpielServer extends ServerSpiel {
 			}
 			zähler = 0;
 		}
-		if (Helfer.zufallsZahl(100) == 42) {
+		if (Helfer.zufallsZahl(10) == 1) {
 			int x = Helfer.zufallsZahl(70);
 			int y = Helfer.zufallsZahl(70);
 			Point p = new Point(x,y);
-			essen.add(p);
-			feldUpdaten(p,0xFFFFFF);
+			if(feldZustandPrüfen(p) == 0) {
+				essen.add(p);
+				feldUpdaten(p,0xFFFFFF);
+			}
 		}
 	}
 	
-	public void feldPrüfen(Point p, Snake s) {
-		for (int i=0;i<essen.size();i++) {
+	public void essenPrüfen(Point p, Snake s) {
+		for(int i=0;i<essen.size();i++) {
 			if (essen.get(i).x == p.x && essen.get(i).y == p.y) {
 				s.wachsen(1);
 				essen.remove(i);
 				break;
 			}
 		}
+	}
+	
+	public int feldZustandPrüfen(Point p) { // 1=Essen liegt auf p; 2=Snake liegt auf p; 0=p ist leer
+		for(int j=0;j<essen.size();j++) {
+			if (essen.get(j).x == p.x && essen.get(j).y == p.y) {
+				return 1;
+			}
+		}
+		for(int i=0;i<snakes.size();i++) {
+			if(snakes.get(i).feldPrüfen(p)) {
+				return 2;
+			}
+		}
+		return 0;
 	}
 	
 	public void feldUpdaten(Point p, int farbe) {

@@ -12,8 +12,10 @@ public class Snake {
 	private Spieler spieler;
 	private int farbe;
 	private int richtung = 0; //0=rechts, 1=unten, 2=links, 3=oben
+	private boolean tot;
 	
 	Snake(SnakeSpielServer server, Spieler spieler, Point start) {
+		tot = false;
 		this.server = server;
 		this.spieler = spieler;
 		farbe = Helfer.zufallsZahl(0xFFFFFF);
@@ -29,6 +31,10 @@ public class Snake {
 	}
 	
 	public void tick() {
+		if(tot) {
+			return;
+		}
+		
 		Point gelöscht = elemente.removeLast();
 		
 		Point vorneNeu = null;
@@ -47,20 +53,36 @@ public class Snake {
 			vorneNeu = new Point(vorne.x, vorne.y-1);
 			break;
 		}
+		
+		if(server.feldZustandPrüfen(vorneNeu) == 2) {
+			tot = true;
+		}
 		elemente.addFirst(vorneNeu);
 		
 		server.feldUpdaten(elemente.getFirst(), farbe);
 		server.feldUpdaten(gelöscht, -1);
-		server.feldPrüfen(vorneNeu, this);
+		server.essenPrüfen(vorneNeu, this);
 	}
 	
 	public void setRichtung(int richtungNeu) {
-		richtung = richtungNeu;
+		int differenz = richtung - richtungNeu;
+		if(differenz != 2 && differenz != -2) {
+			richtung = richtungNeu;
+		}
 	}
 	
 	public void wachsen(int anzahl) {
 		for (int i=0;i<anzahl;i++) {
 			elemente.addLast(elemente.getLast());
 		}
+	}
+	
+	public boolean feldPrüfen(Point p) {
+		for(int i=0;i<elemente.size();i++) {
+			if(elemente.get(i).x == p.x && elemente.get(i).y == p.y) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
