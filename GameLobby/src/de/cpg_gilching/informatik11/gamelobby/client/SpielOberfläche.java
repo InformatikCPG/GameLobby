@@ -21,10 +21,6 @@ public class SpielOberfläche extends JPanel {
 		
 		setBounds(0, 0, 600, 600);
 		setLayout(null);
-		
-		addKeyListener(inputListener);
-		addMouseListener(inputListener);
-		addFocusListener(inputListener);
 	}
 	
 	public void canvasHinzufügen(int breite, int höhe) {
@@ -34,15 +30,15 @@ public class SpielOberfläche extends JPanel {
 		leinwand = new Canvas();
 		leinwand.setBounds(xoffset, yoffset, breite, höhe);
 		add(leinwand);
+		
+		leinwand.addKeyListener(inputListener);
+		leinwand.addMouseListener(inputListener);
+		leinwand.addFocusListener(inputListener);
 	}
 	
 	public void canvasRendern(ClientSpiel spiel) {
 		if (!leinwand.isDisplayable())
 			return;
-		
-		if (leinwand.hasFocus()) {
-			requestFocusInWindow();
-		}
 		
 		BufferStrategy bs = leinwand.getBufferStrategy();
 		if (bs == null) {

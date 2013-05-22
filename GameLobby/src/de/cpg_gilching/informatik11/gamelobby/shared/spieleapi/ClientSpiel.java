@@ -2,6 +2,7 @@ package de.cpg_gilching.informatik11.gamelobby.shared.spieleapi;
 
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
 import de.cpg_gilching.informatik11.gamelobby.client.SpielOberfläche; // TODO abhängigkeit von beidseitiger SpieleAPI vom client überdenken?
 
@@ -34,6 +35,19 @@ public abstract class ClientSpiel {
 	
 	protected final void tasteRegistrieren(int tastencode, ITastaturListener listener) {
 		spielView.getInputListener().tasteRegistrieren(tastencode, listener);
+	}
+	
+	protected final void netzwerkMausRegistrieren() {
+		mausRegistrieren(new IMausListener() {
+			@Override
+			public void onMaustasteGeändert(MouseEvent event, boolean zustand) {
+				spielPacketSenden(new PacketSpielMaus(event.getButton(), zustand));
+			}
+		});
+	}
+	
+	protected final void mausRegistrieren(IMausListener listener) {
+		spielView.getInputListener().mausRegistrieren(listener);
 	}
 	
 	protected final void leinwandAktivieren(int breite, int höhe) {

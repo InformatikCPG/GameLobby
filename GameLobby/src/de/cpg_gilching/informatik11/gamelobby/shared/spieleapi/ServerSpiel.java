@@ -35,18 +35,18 @@ public abstract class ServerSpiel {
 		
 		starten();
 	}
-
+	
 	public final void _tick(int ms) {
-			msVergangen += ms;
-			int tickAlleMs = 1000 / beschreibung.tickrateGeben();
-			
-			if (msVergangen >= tickAlleMs) {
-				tick();
-				msVergangen -= tickAlleMs;
-			}
+		msVergangen += ms;
+		int tickAlleMs = 1000 / beschreibung.tickrateGeben();
+		
+		if (msVergangen >= tickAlleMs) {
+			tick();
+			msVergangen -= tickAlleMs;
+		}
 	}
 	
-	public PaketManager getPaketManagerFür(LobbySpieler spieler) {
+	public final PaketManager getPaketManagerFür(Spieler spieler) {
 		return paketManagerMap.get(spieler);
 	}
 	
