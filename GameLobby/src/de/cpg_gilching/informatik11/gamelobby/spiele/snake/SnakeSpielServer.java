@@ -15,6 +15,7 @@ public class SnakeSpielServer extends ServerSpiel {
 	private ArrayList<Point> essen;
 	private ArrayList<Point> startPunkte;
 	private int zähler;
+	private int sleep;
 	private int speed;
 	
 	@Override
@@ -28,6 +29,7 @@ public class SnakeSpielServer extends ServerSpiel {
 		snakes = new ArrayList<Snake>();
 		startPunkte = new ArrayList<Point>();
 		essen = new ArrayList<Point>();
+		toteSnakes = new ArrayList<Snake>();
 		
 		for(int i=0;i<10;i++) {
 			startPunkte.add(new Point(15,10+5*i));
@@ -40,6 +42,24 @@ public class SnakeSpielServer extends ServerSpiel {
 	
 	@Override
 	public void tick() {
+		
+		if(snakes.size() - 1 == toteSnakes.size() ) {
+			for(int i=0;i<snakes.size();i++){
+				if(snakes.get(i).tot == false) {
+					toteSnakeEinfügen(snakes.get(i));
+					snakes.get(i).tot = true;
+				}
+			}
+		}
+		//counter, um Pause zwischen Spielende und Spielstart zu schaffen
+		if(snakes.size() == toteSnakes.size()) {
+			sleep++;
+			if(sleep >= 40) {
+				reset();
+			}
+			return;
+		}
+		
 		zähler++;
 		if (zähler >= speed) {
 			for(int i=0;i<snakes.size();i++) {
@@ -56,9 +76,7 @@ public class SnakeSpielServer extends ServerSpiel {
 				feldUpdaten(p,0xFFFFFF);
 			}
 		}
-		if(snakes.size() == toteSnakes.size() + 1) {
-			reset();
-		}
+		
 	}
 	
 	public void essenPrüfen(Point p, Snake s) {
@@ -118,6 +136,9 @@ public class SnakeSpielServer extends ServerSpiel {
 				Point p = new Point(i,j);
 				feldUpdaten(p,-1);
 			}
+		}
+		for(int i=0;i<teilnehmer.size();i++) {
+			nachrichtSenden(teilnehmer.get(i),"");
 		}
 		starten();
 	}

@@ -36,7 +36,7 @@ public class SnakeSpielClient extends ClientSpiel implements PaketManager {
 			}
 		}
 		
-		if(msg != null) {			
+		if(msg != null && !msg.isEmpty()) {			
 			g.setColor(Color.GREEN);
 			g.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,30));
 			int schriftBreite = g.getFontMetrics().stringWidth(msg);

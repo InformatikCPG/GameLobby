@@ -12,7 +12,7 @@ public class Snake {
 	private Spieler spieler;
 	private int farbe;
 	private int richtung = 0; //0=rechts, 1=unten, 2=links, 3=oben
-	private boolean tot;
+	public boolean tot;
 	
 	Snake(SnakeSpielServer server, Spieler spieler, Point start) {
 		tot = false;
