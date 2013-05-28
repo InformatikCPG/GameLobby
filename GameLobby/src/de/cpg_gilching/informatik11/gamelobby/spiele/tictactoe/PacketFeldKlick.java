@@ -6,14 +6,14 @@ import java.io.IOException;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielPacket;
 
-public class PacketFeldDrücken extends SpielPacket {
+public class PacketFeldKlick extends SpielPacket {
 	
 	public int feld;
 	
-	public PacketFeldDrücken() {
+	public PacketFeldKlick() {
 	}
 	
-	public PacketFeldDrücken(int feld) {
+	public PacketFeldKlick(int feld) {
 		this.feld = feld;
 	}
 	
