@@ -1,8 +1,11 @@
 package de.cpg_gilching.informatik11.gamelobby.shared;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
@@ -93,12 +96,12 @@ public class Helfer {
 	 * @throws IllegalArgumentException wenn die übergebene Liste leer oder null ist
 	 */
 	public static <T> T zufallsElement(List<T> liste, boolean autoLöschen) {
-		if(liste == null || liste.isEmpty())
+		if (liste == null || liste.isEmpty())
 			throw new IllegalArgumentException("leere Liste");
 		
 		int index = Helfer.zufallsZahl(liste.size());
 		
-		if(autoLöschen) {
+		if (autoLöschen) {
 			return liste.remove(index);
 		}
 		else {
@@ -118,5 +121,16 @@ public class Helfer {
 	
 	public static void alsSwingTask(Runnable runnable) {
 		SwingUtilities.invokeLater(runnable);
+	}
+	
+	public static BufferedImage bildLaden(String name) {
+		try {
+			return ImageIO.read(Helfer.class.getResourceAsStream("/" + name));
+		} catch (IOException e) {
+			System.err.println("Fehler beim Laden von Bild " + name);
+			e.printStackTrace();
+			
+			return new BufferedImage(16, 16, BufferedImage.TYPE_INT_RGB);
+		}
 	}
 }
