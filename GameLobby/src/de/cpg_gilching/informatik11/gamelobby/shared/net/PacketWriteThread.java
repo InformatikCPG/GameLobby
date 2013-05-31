@@ -15,6 +15,8 @@ public class PacketWriteThread extends Thread {
 	private LinkedList<Packet> outPackets = new LinkedList<Packet>();
 	private volatile boolean running = true;
 	
+	private final Object waitObj = new Object();
+
 	public PacketWriteThread(OutputStream outStream, IPacketDictionary packetDictionary, IStatsListener observer, IReadWriteErrorHandler errorHandler, String name) {
 		super(name);
 		this.outStream = new DataOutputStream(outStream);
@@ -28,8 +30,10 @@ public class PacketWriteThread extends Thread {
 		synchronized (outPackets) {
 			outPackets.add(p);
 		}
-		
-		this.interrupt();
+
+		synchronized (waitObj) {
+			waitObj.notify();
+		}
 	}
 	
 	public synchronized boolean isFlush() {
@@ -51,11 +55,12 @@ public class PacketWriteThread extends Thread {
 		try {
 			while (running) {
 				writePackets();
-				if (!Thread.interrupted())
+				synchronized (waitObj) {
 					try {
-						Thread.sleep(10000L);
+						waitObj.wait();
 					} catch (InterruptedException e) {
-					} // we will be interrupted when new packets are ready to be written
+					}
+				}
 			}
 			
 			// write remaining packets one last time before we shut down
