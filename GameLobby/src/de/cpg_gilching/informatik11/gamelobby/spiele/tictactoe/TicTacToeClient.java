@@ -19,40 +19,53 @@ public class TicTacToeClient extends ClientSpiel implements PaketManager,
 
 	@Override
 	protected void starten() {
-		// TODO Auto-generated method stub
 		leinwandAktivieren(600, 600);
+		setPaketManager(this);
 		mausRegistrieren(this);
 		felder = new int[9];
-		Hintergrund = Helfer.bildLaden("Hintergrund.png");
-		X = Helfer.bildLaden("X.png");
-		O = Helfer.bildLaden("O.png");
+		Hintergrund = Helfer.bildLaden("tictactoe/Hintergrund.png");
+		X = Helfer.bildLaden("tictactoe/X.png");
+		O = Helfer.bildLaden("tictactoe/O.png");
 
 	}
 
 	@Override
 	public void onMaustasteGeändert(MouseEvent event, boolean zustand) {
-		// TODO Auto-generated method stub
-		int feld=42;
-		if (event.getX() <= 200 && event.getY() <= 200) {
-			feld = 0;
-		} else if (event.getX() <= 400 && event.getY() <= 200) {
-			feld = 1;
-		} else if (event.getX() <= 600 && event.getY() <= 200) {
-			feld = 2;
-		} else if (event.getX() <= 200 && event.getY() <= 400) {
-			feld = 3;
-		} else if (event.getX() <= 400 && event.getY() <= 400) {
-			feld = 4;
-		} else if (event.getX() <= 600 && event.getY() <= 400) {
-			feld = 5;
-		} else if (event.getX() <= 200 && event.getY() <= 600) {
-			feld = 6;
-		} else if (event.getX() <= 400 && event.getY() <= 600) {
-			feld = 7;
-		} else if (event.getX() <= 600 && event.getY() <= 600) {
-			feld = 8;
+		if (zustand) {
+			int feld;
+			if (event.getX() <= 200 && event.getY() <= 200) {
+				feld = 0;
+			}
+			else if (event.getX() <= 400 && event.getY() <= 200) {
+				feld = 1;
+			}
+			else if (event.getX() <= 600 && event.getY() <= 200) {
+				feld = 2;
+			}
+			else if (event.getX() <= 200 && event.getY() <= 400) {
+				feld = 3;
+			}
+			else if (event.getX() <= 400 && event.getY() <= 400) {
+				feld = 4;
+			}
+			else if (event.getX() <= 600 && event.getY() <= 400) {
+				feld = 5;
+			}
+			else if (event.getX() <= 200 && event.getY() <= 600) {
+				feld = 6;
+			}
+			else if (event.getX() <= 400 && event.getY() <= 600) {
+				feld = 7;
+			}
+			else if (event.getX() <= 600 && event.getY() <= 600) {
+				feld = 8;
+			}
+			else {
+				return;
+			}
+			
+			spielPacketSenden(new PacketFeldKlick(feld));
 		}
-		spielPacketSenden(new PacketFeldKlick(feld));
 	}
 	
 

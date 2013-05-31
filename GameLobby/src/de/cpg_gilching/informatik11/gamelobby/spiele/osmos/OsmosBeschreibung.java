@@ -29,8 +29,10 @@ public class OsmosBeschreibung extends SpielBeschreibung {
 	
 	@Override
 	public void paketeAnmelden(PaketLexikon lexikon) {
+		lexikon.anmelden(PacketMausPosition.class);
 		lexikon.anmelden(PacketSetup.class);
 		lexikon.anmelden(PacketNeueBlase.class);
+		lexikon.anmelden(PacketBlaseDaten.class);
 		lexikon.anmelden(PacketBlaseBewegen.class);
 	}
 	

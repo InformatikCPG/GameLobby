@@ -133,4 +133,12 @@ public class Helfer {
 			return new BufferedImage(16, 16, BufferedImage.TYPE_INT_RGB);
 		}
 	}
+	
+	public static double clamp(double val, double min, double max) {
+		return Math.max(Math.min(val, max), min);
+	}
+	
+	public static float clamp(float val, float min, float max) {
+		return Math.max(Math.min(val, max), min);
+	}
 }

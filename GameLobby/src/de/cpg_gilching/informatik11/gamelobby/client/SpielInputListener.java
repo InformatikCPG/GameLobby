@@ -6,18 +6,22 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.IMausListener;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.IMausradListener;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ITastaturListener;
 
-public class SpielInputListener implements KeyListener, MouseListener, FocusListener {
+public class SpielInputListener implements KeyListener, MouseListener, MouseWheelListener, FocusListener {
 	
 	private Map<Integer, ITastaturListener> registrierteTasten = new HashMap<Integer, ITastaturListener>();
 	private IMausListener mausListener = null;
+	private IMausradListener mausradListener = null;
 	
 	private Set<Integer> gedrückteTasten = new HashSet<Integer>();
 	
@@ -29,6 +33,10 @@ public class SpielInputListener implements KeyListener, MouseListener, FocusList
 		mausListener = listener;
 	}
 	
+	public void mausradRegistrieren(IMausradListener listener) {
+		mausradListener = listener;
+	}
+
 	private void tasteSetzen(KeyEvent e, boolean zustand) {
 		int tastencode = e.getKeyCode();
 		
@@ -87,6 +95,12 @@ public class SpielInputListener implements KeyListener, MouseListener, FocusList
 	public void mouseReleased(MouseEvent e) {
 		if (mausListener != null)
 			mausListener.onMaustasteGeändert(e, false);
+	}
+	
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		if (mausradListener != null)
+			mausradListener.onMausGescrollt(e);
 	}
 	
 	@Override

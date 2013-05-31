@@ -33,6 +33,7 @@ public class SpielOberfläche extends JPanel {
 		
 		leinwand.addKeyListener(inputListener);
 		leinwand.addMouseListener(inputListener);
+		leinwand.addMouseWheelListener(inputListener);
 		leinwand.addFocusListener(inputListener);
 	}
 	
@@ -58,6 +59,10 @@ public class SpielOberfläche extends JPanel {
 	
 	public boolean hatCanvas() {
 		return leinwand != null;
+	}
+	
+	public Canvas getCanvas() {
+		return leinwand;
 	}
 	
 	public SpielInputListener getInputListener() {

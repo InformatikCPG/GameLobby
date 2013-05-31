@@ -16,6 +16,10 @@ public class Tracker {
 		blasen.put(b.id, new BlasenTracker(b));
 	}
 	
+	public void untrack(Blase b) {
+		blasen.remove(b.id).entfernen();
+	}
+	
 	public void tick() {
 		for (BlasenTracker tracker : blasen.values())
 			tracker.tick();
@@ -24,18 +28,30 @@ public class Tracker {
 	private class BlasenTracker {
 		
 		private Blase blase;
-		private Vektor gesendetePosition = new Vektor();
+		private Vektor gesendetPosition = new Vektor();
+		private double gesendetRadius = 0;
 		
 		public BlasenTracker(Blase blase) {
 			this.blase = blase;
 			
-			server.packetAnAlle(new PacketNeueBlase(blase.id, blase.getRadius(), blase.getPosition()));
+			server.packetAnAlle(new PacketNeueBlase(blase.id, true));
+			server.packetAnAlle(new PacketBlaseBewegen(blase.id, blase.getPosition()));
+			server.packetAnAlle(new PacketBlaseDaten(blase.id, blase.getRadius()));
 		}
 		
+		public void entfernen() {
+			server.packetAnAlle(new PacketNeueBlase(blase.id, false));
+		}
+
 		public void tick() {
-			if (!gesendetePosition.equals(blase.getPosition())) {
+			if (!gesendetPosition.equals(blase.getPosition())) {
 				server.packetAnAlle(new PacketBlaseBewegen(blase.id, blase.getPosition()));
-				gesendetePosition.kopiere(blase.getPosition());
+				gesendetPosition.kopiere(blase.getPosition());
+			}
+			
+			if(gesendetRadius != blase.getRadius()) {
+				server.packetAnAlle(new PacketBlaseDaten(blase.id, blase.getRadius()));
+				gesendetRadius = blase.getRadius();
 			}
 		}
 	}

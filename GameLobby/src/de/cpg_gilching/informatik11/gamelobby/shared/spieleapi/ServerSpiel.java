@@ -85,7 +85,7 @@ public abstract class ServerSpiel {
 	public void tick() {
 	}
 	
-	private final void beenden() {
+	public final void beenden() {
 		System.out.println("Spiel " + beschreibung.getBezeichnung() + " wird beendet!");
 		
 		for (Spieler anderer : teilnehmer) {

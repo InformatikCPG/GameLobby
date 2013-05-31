@@ -9,6 +9,7 @@ import java.util.Map;
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.PaketListe;
 import de.cpg_gilching.informatik11.gamelobby.shared.TaskScheduler;
+import de.cpg_gilching.informatik11.gamelobby.shared.Wachhund;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Connection;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketChatNachricht;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketDisconnect;
@@ -200,6 +201,7 @@ public class ControllerClient implements Runnable {
 	 */
 	public void verbindungTrennen() {
 		verbindung.sendPacket(new PacketDisconnect("Server verlassen"));
+		new Wachhund().start();
 	}
 	
 	/**

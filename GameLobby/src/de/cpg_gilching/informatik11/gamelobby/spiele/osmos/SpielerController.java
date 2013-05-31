@@ -10,7 +10,9 @@ public class SpielerController implements PaketManager {
 	private final Spieler spieler;
 	private Blase blase;
 	
-	private boolean taste = false;
+	private Vektor mausPosition = new Vektor();
+	private boolean gedrückt = false;
+	private int beschleunigtTicks = 0;
 	
 	public SpielerController(OsmosServer server, Spieler spieler) {
 		this.server = server;
@@ -18,12 +20,30 @@ public class SpielerController implements PaketManager {
 	}
 	
 	public void tick() {
-		if (taste)
-			blase.getPosition().add(-3, 1);
+		//		System.out.println(gedrückt);
+		if (gedrückt) {
+			beschleunigtTicks++;
+			double faktor = Math.max(0.1, 2.0 - 0.1 * beschleunigtTicks);
+
+			Vektor richtung = new Vektor();
+			richtung.add(blase.getPosition()).sub(mausPosition).einheit().mul(faktor);
+
+			blase.beschleunigen(richtung);
+		}
+		else {
+			beschleunigtTicks = 0;
+		}
 	}
 	
 	public void verarbeiten(PacketSpielMaus packet) {
-		taste = packet.zustand;
+		if (packet.maustaste == 1)
+			gedrückt = packet.zustand;
+		else if (packet.maustaste == 3)
+			blase.vergrößern(10);
+	}
+	
+	public void verarbeiten(PacketMausPosition packet) {
+		mausPosition.kopiere(packet.position);
 	}
 	
 	public void setBlase(Blase blase) {

@@ -2,6 +2,7 @@ package de.cpg_gilching.informatik11.gamelobby.server;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -72,8 +73,8 @@ public class ControllerServer {
 		packetAnAlle(new PacketChatNachricht(-1, neuerSpieler.getName() + " ist der Lobby beigetreten."));
 		
 		// automatisch KI-Spieler beitreten lassen
-//		if (!neuerSpieler.getName().startsWith("AI-"))
-//			server.connectClient(server.createAISocket());
+		//		if (!neuerSpieler.getName().startsWith("AI-"))
+		//			server.connectClient(server.createAISocket());
 	}
 	
 	public void onSpielerVerlassen(Connection verbindung) {
@@ -105,8 +106,18 @@ public class ControllerServer {
 	}
 	
 	public void tick(int ms) {
-		for (ServerSpiel spiel : offeneSpiele.values()) {
-			spiel._tick(ms);
+		for (Iterator<ServerSpiel> it = offeneSpiele.values().iterator(); it.hasNext();) {
+			ServerSpiel spiel = it.next();
+			
+			try {
+				spiel._tick(ms);
+			} catch (Throwable e) {
+				System.err.println("Fehler Tick von Spiel " + spiel.getSpielId());
+				e.printStackTrace();
+				
+				it.remove(); // schon vorzeitig entfernen, dass keine ConcurrentModificationException auftritt
+				spiel.beenden();
+			}
 		}
 	}
 	

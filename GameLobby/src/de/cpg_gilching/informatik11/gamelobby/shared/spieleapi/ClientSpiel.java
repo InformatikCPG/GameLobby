@@ -1,10 +1,13 @@
 package de.cpg_gilching.informatik11.gamelobby.shared.spieleapi;
 
+import java.awt.Canvas;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-import de.cpg_gilching.informatik11.gamelobby.client.SpielOberfläche; // TODO abhängigkeit von beidseitiger SpieleAPI vom client überdenken?
+import de.cpg_gilching.informatik11.gamelobby.client.SpielOberfläche;
+
+// TODO abhängigkeit von beidseitiger SpieleAPI vom client überdenken?
 
 public abstract class ClientSpiel {
 	
@@ -50,8 +53,16 @@ public abstract class ClientSpiel {
 		spielView.getInputListener().mausRegistrieren(listener);
 	}
 	
+	protected final void mausradRegistrieren(IMausradListener listener) {
+		spielView.getInputListener().mausradRegistrieren(listener);
+	}
+
 	protected final void leinwandAktivieren(int breite, int höhe) {
 		spielView.canvasHinzufügen(breite, höhe);
+	}
+	
+	protected final Canvas getLeinwand() {
+		return spielView.getCanvas();
 	}
 	
 	protected final void spielPacketSenden(SpielPacket packet) {

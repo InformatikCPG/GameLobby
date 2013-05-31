@@ -9,6 +9,7 @@ public class TicTacToeServer extends ServerSpiel {
 	public int[] felder;
 	private Spieler spieler1;
 	private Spieler spieler2;
+	private Spieler spielerAmZug;
 	
 	@Override
 	protected PaketManager paketManagerErstellen(Spieler spieler) {
@@ -20,52 +21,71 @@ public class TicTacToeServer extends ServerSpiel {
 		felder = new int[9];
 		spieler1 = teilnehmer.get(0);
 		spieler2 = teilnehmer.get(1);
+		spielerAmZug = spieler1;
 	}
+
 	public void feldSetzen(Spieler spieler, int feld) {
-		if(spieler == spieler1) {
-			felder[feld]=1;
-			packetAnAlle(new PacketFeldSetzen(feld,1));
-			SiegÜberprüfenNachZug(1);
-		}
-		else if(spieler == spieler2) {
-			felder[feld]=2;
-			packetAnAlle(new PacketFeldSetzen(feld,2));
-			SiegÜberprüfenNachZug(2);
+		if (felder[feld] == 0) {
+			if (spieler == spieler1 && spielerAmZug == spieler1) {
+				felder[feld] = 1;
+				spielerAmZug = spieler2;
+				packetAnAlle(new PacketFeldSetzen(feld, 1));
+				SiegÜberprüfenNachZug(1);
+			}
+			else if (spieler == spieler2 && spielerAmZug == spieler2) {
+				felder[feld] = 2;
+				spielerAmZug = spieler1;
+				packetAnAlle(new PacketFeldSetzen(feld, 2));
+				SiegÜberprüfenNachZug(2);
+			}
 		}
 	}
-	public void SiegÜberprüfenNachZug(int spieler){
-		if(felder[0]==spieler && felder[1]==spieler && felder[2]==spieler){
+	
+	public void SiegÜberprüfenNachZug(int spieler) {
+		if (felder[0] == spieler && felder[1] == spieler && felder[2] == spieler) {
 			gewinnenLassen(spieler);
 		}
-		else if(felder[3]==spieler && felder[4]==spieler && felder[5]==spieler){
+		else if (felder[3] == spieler && felder[4] == spieler && felder[5] == spieler) {
 			gewinnenLassen(spieler);
 		}
-		else if(felder[6]==spieler && felder[7]==spieler && felder[8]==spieler){
+		else if (felder[6] == spieler && felder[7] == spieler && felder[8] == spieler) {
 			gewinnenLassen(spieler);
 		}
-		else if(felder[0]==spieler && felder[3]==spieler && felder[6]==spieler){
+		else if (felder[0] == spieler && felder[3] == spieler && felder[6] == spieler) {
 			gewinnenLassen(spieler);
 		}
-		else if(felder[1]==spieler && felder[4]==spieler && felder[7]==spieler){
+		else if (felder[1] == spieler && felder[4] == spieler && felder[7] == spieler) {
 			gewinnenLassen(spieler);
 		}
-		else if(felder[2]==spieler && felder[5]==spieler && felder[8]==spieler){
+		else if (felder[2] == spieler && felder[5] == spieler && felder[8] == spieler) {
 			gewinnenLassen(spieler);
 		}
-		else if(felder[0]==spieler && felder[4]==spieler && felder[8]==spieler){
+		else if (felder[0] == spieler && felder[4] == spieler && felder[8] == spieler) {
 			gewinnenLassen(spieler);
 		}
-		else if(felder[2]==spieler && felder[4]==spieler && felder[6]==spieler){
+		else if (felder[2] == spieler && felder[4] == spieler && felder[6] == spieler) {
 			gewinnenLassen(spieler);
 		}
-		
+		else {
+			int leer = 0;
+			for (int i = 0; i < felder.length; i++) {
+				if (felder[i] == 0) {
+					leer++;
+				}
+			}
+			
+			if (leer == 0) {
+				// unentschieden
+				gewinnenLassen(0);
+			}
+		}
 	}
 
 	private void gewinnenLassen(int spieler) {
-		for(int i =0; i<felder.length; i++){
-		packetAnAlle(new PacketFeldSetzen(i,0));
-		felder[i]=0;
-	}
-	
+		for (int i = 0; i < felder.length; i++) {
+			packetAnAlle(new PacketFeldSetzen(i, 0));
+			felder[i] = 0;
+		}
+
 	}
 }
