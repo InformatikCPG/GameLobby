@@ -18,6 +18,7 @@ public abstract class ServerSpiel {
 	private int msVergangen = 0;
 	protected SpielBeschreibung beschreibung = null;
 	protected List<Spieler> teilnehmer = null;
+	protected Scoreboard scoreboard;
 	
 	// Speichert alle PaketManager der Spieler
 	private Map<Spieler, PaketManager> paketManagerMap = new HashMap<Spieler, PaketManager>();
@@ -28,11 +29,12 @@ public abstract class ServerSpiel {
 		this.spielId = id;
 		this.teilnehmer = new ArrayList<Spieler>(teilnehmer);
 		Collections.shuffle(this.teilnehmer);
+		this.scoreboard = new Scoreboard(this);
 		
 		for (Spieler spieler : this.teilnehmer) {
 			paketManagerMap.put(spieler, paketManagerErstellen(spieler));
 		}
-		
+
 		starten();
 	}
 	
@@ -64,7 +66,7 @@ public abstract class ServerSpiel {
 			spieler.packetSenden(new PacketSpielVerlassen(spielId));
 		}
 	}
-	
+
 	public final void packetAnSpieler(Spieler spieler, SpielPacket packet) {
 		packet.spielId = spielId;
 		((LobbySpieler) spieler).packetSenden(packet);

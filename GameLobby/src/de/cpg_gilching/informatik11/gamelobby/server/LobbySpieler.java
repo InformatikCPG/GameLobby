@@ -37,6 +37,19 @@ public class LobbySpieler implements Spieler {
 	}
 	
 	@Override
+	public int hashCode() {
+		return name.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof LobbySpieler))
+			return false;
+		
+		return name.equals(((LobbySpieler) obj).name);
+	}
+	
+	@Override
 	public String toString() {
 		return name;
 	}

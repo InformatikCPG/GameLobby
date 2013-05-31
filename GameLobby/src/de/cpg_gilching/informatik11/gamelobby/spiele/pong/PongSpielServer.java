@@ -100,7 +100,7 @@ public class PongSpielServer extends ServerSpiel {
 					ballGeschwindigkeitY = (20 * yDiff) / PongBeschreibung.SCHLÄGER_HÖHE;
 				}
 				else {
-					System.out.println("Punkt für links!");
+					scoreboard.punktHinzufügen(links);
 					ballZurücksetzen();
 				}
 			}
@@ -114,7 +114,7 @@ public class PongSpielServer extends ServerSpiel {
 					ballGeschwindigkeitY = (20 * yDiff) / PongBeschreibung.SCHLÄGER_HÖHE;
 				}
 				else {
-					System.out.println("Punkt für rechts!");
+					scoreboard.punktHinzufügen(rechts);
 					ballZurücksetzen();
 				}
 			}

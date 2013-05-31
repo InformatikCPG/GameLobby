@@ -2,8 +2,9 @@ package de.cpg_gilching.informatik11.gamelobby.client;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielVerlassen;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ClientSpiel;
@@ -12,8 +13,9 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielPacket;
 
 class SpielerIngameZustand implements Comparable<SpielerIngameZustand> {
-	String name;
-	int punkte = 0;
+	final String name;
+	volatile int punkte = 0;
+	volatile int tempPunkte = Integer.MIN_VALUE;
 	
 	SpielerIngameZustand(String name) {
 		this.name = name;
@@ -21,10 +23,14 @@ class SpielerIngameZustand implements Comparable<SpielerIngameZustand> {
 	
 	@Override
 	public int compareTo(SpielerIngameZustand anderer) {
-		if (anderer.punkte != this.punkte)
-			return this.punkte - anderer.punkte;
-		else
-			return this.name.compareTo(anderer.name);
+		int tempA = anderer.tempPunkte;
+		if (tempA == Integer.MIN_VALUE)
+			tempA = 0;
+		int tempS = this.tempPunkte;
+		if (tempS == Integer.MIN_VALUE)
+			tempS = 0;
+		
+		return (anderer.punkte + tempA) - (this.punkte + tempS); // absteigend sortieren
 	}
 }
 
@@ -36,8 +42,8 @@ public class BildschirmGameLobby {
 	private ClientSpiel clientSpiel;
 	private int msVergangen = 0;
 	
-	// Die Spieler-Liste ist nach Punktestand sortiert
-	private Set<SpielerIngameZustand> spielerListe = new TreeSet<SpielerIngameZustand>();
+	// Die Spieler-Liste wird manuell nach Punktestand sortiert
+	private List<SpielerIngameZustand> spielerListe = new ArrayList<SpielerIngameZustand>();
 	
 	private SpielOberfläche spielView = new SpielOberfläche(this);
 	private FensterGameLobby oberfläche;
@@ -78,6 +84,8 @@ public class BildschirmGameLobby {
 	
 	public void spielerHinzufügen(String spielerName) {
 		spielerListe.add(new SpielerIngameZustand(spielerName));
+		Collections.sort(spielerListe);
+
 		oberfläche.spielerListeAktualisieren(spielerListe);
 	}
 	
@@ -91,6 +99,19 @@ public class BildschirmGameLobby {
 		}
 	}
 	
+	public void spielerPunkteSetzen(String spielerName, int neuePunkte, int neueTempPunkte) {
+		for (SpielerIngameZustand zustand : spielerListe) {
+			if (zustand.name.equals(spielerName)) {
+				zustand.punkte = neuePunkte;
+				zustand.tempPunkte = neueTempPunkte;
+				Collections.sort(spielerListe);
+
+				oberfläche.spielerListeAktualisieren(spielerListe);
+				break;
+			}
+		}
+	}
+
 	public void chatNachrichtAnzeigen(String nachricht) {
 		oberfläche.chatNachrichtAnzeigen(nachricht);
 	}

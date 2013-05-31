@@ -17,8 +17,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.AdapterPaketLexikon;
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
@@ -156,6 +154,11 @@ public class FensterLogin {
 	}
 	
 	public void verbindungHerstellen(String adresse, int port, String username) {
+		if (username.trim().length() > 20) {
+			Helfer.meldungAnzeigen("Der Benutzername darf nicht länger als 20 Zeichen sein!", true);
+			return;
+		}
+		
 		System.out.println("Verbinde zu " + adresse + " auf Port " + port + " mit Namen " + username + " ...");
 		
 		try {

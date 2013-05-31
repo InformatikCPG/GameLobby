@@ -83,12 +83,19 @@ public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 			return;
 		}
 		
-		if (spieler.getServer().getSpieler(packet.username) != null) {
+		String username = packet.username.trim();
+		
+		if (username.length() > 20) {
+			spieler.getServer().kickSpieler(spieler, "Name zu lang");
+			return;
+		}
+		
+		if (spieler.getServer().getSpieler(username) != null) {
 			spieler.getServer().kickSpieler(spieler, "Name schon vergeben");
 			return;
 		}
 		
-		spieler.setName(packet.username);
+		spieler.setName(username);
 		spieler.getServer().onSpielerBeigetreten(spieler);
 	}
 	

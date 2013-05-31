@@ -48,15 +48,15 @@ public class Blase {
 	
 	public void beschleunigen(Vektor a) {
 		geschwindigkeit.add(a);
+		
+		double verloren = radius * a.länge() * 0.05;
 
-		double verloren = (radius * radius) * a.längeQuadrat() * 0.0005;
-		
 		radius -= Math.sqrt(verloren);
-		
+
 		Blase neu = new Blase(server, verloren);
-		neu.getPosition().kopiere(a).einheit().mul(-radius - verloren).add(position);
-		neu.getGeschwindigkeit().kopiere(a).mul(-10);
-		
+		neu.getPosition().kopiere(a).einheit().mul(-radius - verloren - 5).add(position);
+		neu.getGeschwindigkeit().kopiere(a).mul(-6).add(geschwindigkeit);
+
 		server.blaseHinzufügen(neu);
 	}
 	

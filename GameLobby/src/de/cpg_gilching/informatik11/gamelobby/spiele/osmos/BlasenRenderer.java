@@ -51,10 +51,10 @@ public class BlasenRenderer {
 		g.setColor(rahmenFarbe);
 		g.drawOval((int) (position.x - radius), (int) (position.y - radius), (int) (2.0 * radius), (int) (2.0 * radius));
 
-		g.setColor(Color.blue);
-		g.drawString("ID: " + id, (float) position.x, (float) position.y);
-		g.drawString("x: " + position.x, (float) position.x - 10, (float) position.y + 10);
-		g.drawString("y: " + position.y, (float) position.x - 10, (float) position.y + 20);
+		//		g.setColor(Color.white);
+		//		g.drawString("ID: " + id, (float) position.x, (float) position.y);
+		//		g.drawString("x: " + position.x, (float) position.x - 10, (float) position.y + 10);
+		//		g.drawString("y: " + position.y, (float) position.x - 10, (float) position.y + 20);
 	}
 	
 }

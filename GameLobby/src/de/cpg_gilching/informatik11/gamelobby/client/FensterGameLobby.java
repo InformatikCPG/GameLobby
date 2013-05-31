@@ -11,9 +11,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 
@@ -122,7 +122,7 @@ public class FensterGameLobby {
 		});
 	}
 	
-	public void spielerListeAktualisieren(Set<SpielerIngameZustand> spielerListe) {
+	public void spielerListeAktualisieren(Collection<SpielerIngameZustand> spielerListe) {
 		// unabhängige Listen erstellen
 		final Collection<SpielerIngameZustand> alleSpieler = new ArrayList<SpielerIngameZustand>(spielerListe);
 		
@@ -146,6 +146,30 @@ public class FensterGameLobby {
 					box.add(Box.createHorizontalStrut(10));
 					box.add(nameLabel);
 					box.add(Box.createHorizontalGlue());
+					
+					if (zustand.tempPunkte != Integer.MIN_VALUE) {
+						JLabel tempPunkteLabel = new JLabel();
+						tempPunkteLabel.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
+
+						if (zustand.tempPunkte > 0) {
+							tempPunkteLabel.setText("+" + zustand.tempPunkte);
+							tempPunkteLabel.setForeground(Color.green);
+						}
+						else if (zustand.tempPunkte == 0) {
+							tempPunkteLabel.setText("+0");
+							tempPunkteLabel.setForeground(Color.gray);
+						}
+						else {
+							assert zustand.tempPunkte < 0;
+							tempPunkteLabel.setText("" + zustand.tempPunkte);
+							tempPunkteLabel.setForeground(Color.red);
+							
+						}
+						
+						box.add(tempPunkteLabel);
+						box.add(Box.createHorizontalStrut(15));
+					}
+
 					box.add(punkteLabel);
 					box.add(Box.createHorizontalStrut(10));
 					

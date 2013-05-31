@@ -23,7 +23,7 @@ public class SpielerController implements PaketManager {
 		//		System.out.println(gedrückt);
 		if (gedrückt) {
 			beschleunigtTicks++;
-			double faktor = Math.max(0.1, 2.0 - 0.1 * beschleunigtTicks);
+			double faktor = Math.max(0.3, 2.0 - 0.1 * beschleunigtTicks);
 
 			Vektor richtung = new Vektor();
 			richtung.add(blase.getPosition()).sub(mausPosition).einheit().mul(faktor);

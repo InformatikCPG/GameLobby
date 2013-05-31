@@ -86,6 +86,12 @@ public class TicTacToeServer extends ServerSpiel {
 			packetAnAlle(new PacketFeldSetzen(i, 0));
 			felder[i] = 0;
 		}
-
+		
+		if (spieler == 1) {
+			scoreboard.punktHinzufügen(spieler1);
+		}
+		else if (spieler == 2) {
+			scoreboard.punktHinzufügen(spieler2);
+		}
 	}
 }
