@@ -13,6 +13,7 @@ public class KeyMadnessServer extends ServerSpiel {
 	
 	KeyMadnessPunkteDaten daten;
 	ArrayList<KeyMadnessTarget> targets;
+	TargetTracker tracker;
 	
 	
 	@Override
@@ -23,6 +24,8 @@ public class KeyMadnessServer extends ServerSpiel {
 	@Override
 	protected void starten() {
 		daten = new KeyMadnessPunkteDaten(teilnehmer.size());
+		targets = new ArrayList<KeyMadnessTarget>();
+		tracker = new TargetTracker(this);
 	}
 
 	public void tick(){
@@ -33,10 +36,12 @@ public class KeyMadnessServer extends ServerSpiel {
 		for(int i = 0; i <= (targets.size() - 1); i++){
 			targets.get(i).tick();
 			if(targets.get(i).tot){
+				tracker.untrackTarget(targets.get(i));
 				targets.remove(i);
 				i = i -1;
 			}
 		}
+		tracker.tick();
 	}
 	
 	public void prüfen(int tastencode, Spieler spieler){
