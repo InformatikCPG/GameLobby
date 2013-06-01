@@ -50,6 +50,7 @@ public class KeyMadnessServer extends ServerSpiel {
 		int spielerIndex = teilnehmer.indexOf(spieler);
 		Point checkpoint = daten.checkpoints[spielerIndex];
 		Vektor v = new Vektor();
+		boolean getroffen = false;
 		for(int i = 0; i <= (targets.size() - 1); i++){
 			if(v.kopiere(targets.get(i).x, targets.get(i).y).sub(checkpoint.x, checkpoint.y).länge() <= 20){
 				if (targets.get(i).tastencode == tastencode && targets.get(i).valid) {
@@ -60,9 +61,10 @@ public class KeyMadnessServer extends ServerSpiel {
 					scoreboard.punkteÄndern(spieler, -1);
 				}
 			}
-			else{
-				scoreboard.punkteÄndern(spieler, -1);
-			}
+			getroffen = true;
+		}
+		if(!getroffen){
+			scoreboard.punkteÄndern(spieler, -1);
 		}
 	}
 }
