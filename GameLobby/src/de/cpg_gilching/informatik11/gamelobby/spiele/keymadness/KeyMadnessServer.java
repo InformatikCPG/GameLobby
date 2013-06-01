@@ -1,11 +1,13 @@
 package de.cpg_gilching.informatik11.gamelobby.spiele.keymadness;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ServerSpiel;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.Spieler;
+import de.cpg_gilching.informatik11.gamelobby.spiele.osmos.Vektor;
 
 public class KeyMadnessServer extends ServerSpiel {
 	
@@ -35,9 +37,25 @@ public class KeyMadnessServer extends ServerSpiel {
 				i = i -1;
 			}
 		}
-		
 	}
 	
-	
-	
+	public void prüfen(int tastencode, Spieler spieler){
+		int spielerIndex = teilnehmer.indexOf(spieler);
+		Point checkpoint = daten.checkpoints[spielerIndex];
+		Vektor v = new Vektor();
+		for(int i = 0; i <= (targets.size() - 1); i++){
+			if(v.kopiere(targets.get(i).x, targets.get(i).y).sub(checkpoint.x, checkpoint.y).länge() <= 20){
+				if(targets.get(i).tastencode == tastencode){
+					scoreboard.punktHinzufügen(spieler);
+					targets.get(i).tot = true;
+				}
+				else{
+					scoreboard.punkteÄndern(spieler, -1);
+				}
+			}
+			else{
+				scoreboard.punkteÄndern(spieler, -1);
+			}
+		}
+	}
 }
