@@ -39,6 +39,9 @@ public class KeyMadnessBeschreibung extends SpielBeschreibung {
 	
 	@Override
 	public void paketeAnmelden(PaketLexikon lexikon) {
+		lexikon.anmelden(PacketTargetNeu.class);
+		lexikon.anmelden(PacketTargetBewegen.class);
+		lexikon.anmelden(PacketTargetTot.class);
 	}
 	
 }

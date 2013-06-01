@@ -30,7 +30,9 @@ public class KeyMadnessServer extends ServerSpiel {
 
 	public void tick(){
 		if(Helfer.zufallsZahl(30) == 0){
-			targets.add(new KeyMadnessTarget(this));
+			KeyMadnessTarget target = new KeyMadnessTarget(this);
+			targets.add(target);
+			tracker.trackTarget(target);
 		}
 		
 		for(int i = 0; i <= (targets.size() - 1); i++){

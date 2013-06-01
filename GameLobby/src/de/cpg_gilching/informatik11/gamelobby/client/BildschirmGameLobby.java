@@ -57,10 +57,6 @@ public class BildschirmGameLobby {
 		
 		clientSpiel = beschreibung.clientInstanzErstellen();
 		clientSpiel._init(spielView);
-		
-		if (1000 % beschreibung.tickrateGeben() != 0) {
-			System.err.println("WARNUNG: Spiel " + beschreibung.getBezeichnung() + " hat ungünstige Tickrate: " + beschreibung.tickrateGeben());
-		}
 	}
 	
 	public void tick(int ms) {

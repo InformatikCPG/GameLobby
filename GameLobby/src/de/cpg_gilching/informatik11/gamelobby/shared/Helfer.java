@@ -2,6 +2,7 @@ package de.cpg_gilching.informatik11.gamelobby.shared;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Random;
 
@@ -125,7 +126,13 @@ public class Helfer {
 	
 	public static BufferedImage bildLaden(String name) {
 		try {
-			return ImageIO.read(Helfer.class.getResourceAsStream("/" + name));
+			InputStream bildStream = Helfer.class.getResourceAsStream("/" + name);
+			if (bildStream == null) {
+				System.err.println("Bild " + name + " wurde nicht gefunden!");
+				return new BufferedImage(16, 16, BufferedImage.TYPE_INT_RGB);
+			}
+			
+			return ImageIO.read(bildStream);
 		} catch (IOException e) {
 			System.err.println("Fehler beim Laden von Bild " + name);
 			e.printStackTrace();

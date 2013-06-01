@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 
