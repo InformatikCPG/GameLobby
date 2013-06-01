@@ -69,7 +69,7 @@ public class Vektor {
 	
 	public Vektor kopiere(double x, double y) {
 		this.x = x;
-		this.y = x;
+		this.y = y;
 		return this;
 	}
 
@@ -114,11 +114,6 @@ public class Vektor {
 	@Override
 	public String toString() {
 		return "Vektor[" + x + ", " + y + "]";
-	}
-
-	public void kopiere(int i, int j) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

@@ -28,7 +28,7 @@ public class PacketSpielPunkte extends Packet {
 	public void write(DataOutputStream out) throws IOException {
 		out.writeInt(spielId);
 		out.writeUTF(spielerName);
-		out.write(punkte);
+		out.writeInt(punkte);
 		out.writeInt(tempPunkte);
 	}
 	
@@ -36,7 +36,7 @@ public class PacketSpielPunkte extends Packet {
 	public void read(DataInputStream in) throws IOException {
 		spielId = in.readInt();
 		spielerName = in.readUTF();
-		punkte = in.read();
+		punkte = in.readInt();
 		tempPunkte = in.readInt();
 	}
 	

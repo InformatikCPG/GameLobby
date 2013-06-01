@@ -37,10 +37,13 @@ public class KeyMadnessTarget {
 		int zielx = server.daten.punkte[ziel].x;
 		int ziely = server.daten.punkte[ziel].y;
 		Vektor v = new Vektor(zielx, ziely).sub(x, y);
-		v.einheit().mul(geschwindigkeit);
-		x = x + v.x;
-		y = y + v.y;
+		if (v.längeQuadrat() > 0) {
+			v.einheit().mul(geschwindigkeit);
+			x = x + v.x;
+			y = y + v.y;
+		}
 		
+
 		double abstand = v.kopiere(x, y).sub(zielx, ziely).länge();
 		if(abstand <= geschwindigkeit){
 			if(richtung){
