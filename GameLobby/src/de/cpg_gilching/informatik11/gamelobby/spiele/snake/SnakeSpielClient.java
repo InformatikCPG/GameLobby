@@ -52,7 +52,6 @@ public class SnakeSpielClient extends ClientSpiel implements PaketManager {
 				feldMatrix[packet.x][packet.y] = null;
 			}
 		}
-
 	}
 	
 	public void verarbeiten(PacketNachrichtSenden packet) {
