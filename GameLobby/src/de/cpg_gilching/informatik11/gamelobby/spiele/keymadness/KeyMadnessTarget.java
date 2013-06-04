@@ -19,7 +19,7 @@ public class KeyMadnessTarget {
 		this.server = server;
 		richtung = Helfer.zufallsZahl(2) == 0;
 		tastencode = Helfer.zufallsElement(server.daten.tastencodes, false);
-		valid = Helfer.zufallsZahl(4) != 0;
+		valid = Helfer.zufallsZahl(3) != 0;
 		if(richtung){
 			ziel = 1;
 			x=server.daten.punkte[0].x;

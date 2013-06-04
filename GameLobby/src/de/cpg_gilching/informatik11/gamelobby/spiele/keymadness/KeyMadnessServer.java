@@ -14,6 +14,7 @@ public class KeyMadnessServer extends ServerSpiel {
 	KeyMadnessPunkteDaten daten;
 	ArrayList<KeyMadnessTarget> targets;
 	TargetTracker tracker;
+	int targetSpawnActivate;
 	
 	
 	@Override
@@ -26,13 +27,15 @@ public class KeyMadnessServer extends ServerSpiel {
 		daten = new KeyMadnessPunkteDaten(teilnehmer.size());
 		targets = new ArrayList<KeyMadnessTarget>();
 		tracker = new TargetTracker(this);
+		
 	}
 
 	public void tick(){
-		if(Helfer.zufallsZahl(30) == 0){
+		if(targetSpawnActivate <= 0){
 			KeyMadnessTarget target = new KeyMadnessTarget(this);
 			targets.add(target);
 			tracker.trackTarget(target);
+			targetSpawnActivate = Helfer.zufallsZahl(40) + 60;
 		}
 		
 		for(int i = 0; i <= (targets.size() - 1); i++){
@@ -44,6 +47,7 @@ public class KeyMadnessServer extends ServerSpiel {
 			}
 		}
 		tracker.tick();
+		targetSpawnActivate = targetSpawnActivate - 1;
 	}
 	
 	public void prüfen(int tastencode, Spieler spieler){
@@ -56,12 +60,9 @@ public class KeyMadnessServer extends ServerSpiel {
 				if (targets.get(i).tastencode == tastencode && targets.get(i).valid) {
 					scoreboard.punktHinzufügen(spieler);
 					targets.get(i).tot = true;
-				}
-				else{
-					scoreboard.punkteÄndern(spieler, -1);
+					getroffen = true;
 				}
 			}
-			getroffen = true;
 		}
 		if(!getroffen){
 			scoreboard.punkteÄndern(spieler, -1);
