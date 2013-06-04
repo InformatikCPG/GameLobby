@@ -3,6 +3,7 @@ package de.cpg_gilching.informatik11.gamelobby.shared;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.*;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PacketSpielMaus;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PacketSpielTaste;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PacketSpielerAnzahl;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketLexikon;
 
 public class PaketListe {
@@ -21,6 +22,7 @@ public class PaketListe {
 		lexikon.anmelden(PacketSessionAnnehmen.class);
 		lexikon.anmelden(PacketSpielTaste.class);
 		lexikon.anmelden(PacketSpielMaus.class);
+		lexikon.anmelden(PacketSpielerAnzahl.class);
 		
 		// Server -> Client
 		lexikon.anmelden(PacketSpielerListe.class);

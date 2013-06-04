@@ -8,13 +8,14 @@ import java.awt.event.KeyEvent;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ClientSpiel;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PacketSpielerAnzahl;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
 
 public class KeyMadnessClient extends ClientSpiel implements PaketManager{
 
 	TargetRenderVerwaltung targets;
 	Image Hintergrund;
-	KeyMadnessPunkteDaten daten;
+	KeyMadnessPunkteDaten daten; // wird beim Empfang von PacketSpielerAnzahl initialisiert
 	
 	
 	@Override
@@ -22,7 +23,6 @@ public class KeyMadnessClient extends ClientSpiel implements PaketManager{
 		targets = new TargetRenderVerwaltung(this);
 		leinwandAktivieren(600, 600);
 		setPaketManager(this);
-		daten = new KeyMadnessPunkteDaten(2);
 		netzwerkTasteRegistrieren(KeyEvent.VK_UP);
 		netzwerkTasteRegistrieren(KeyEvent.VK_DOWN);
 		netzwerkTasteRegistrieren(KeyEvent.VK_LEFT);
@@ -57,4 +57,8 @@ public class KeyMadnessClient extends ClientSpiel implements PaketManager{
 		targets.targetEntfernen(packet);
 	}
 	
+	public void verarbeiten(PacketSpielerAnzahl packet) {
+		daten = new KeyMadnessPunkteDaten(packet.anzahl);
+	}
+
 }

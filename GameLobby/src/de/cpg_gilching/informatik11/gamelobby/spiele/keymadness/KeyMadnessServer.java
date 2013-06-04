@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PacketSpielerAnzahl;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ServerSpiel;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.Spieler;
@@ -28,6 +29,7 @@ public class KeyMadnessServer extends ServerSpiel {
 		targets = new ArrayList<KeyMadnessTarget>();
 		tracker = new TargetTracker(this);
 		
+		packetAnAlle(new PacketSpielerAnzahl(teilnehmer.size()));
 	}
 
 	public void tick(){
