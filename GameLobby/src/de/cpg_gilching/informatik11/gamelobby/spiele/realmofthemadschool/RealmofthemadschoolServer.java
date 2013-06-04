@@ -10,8 +10,9 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ServerSpiel;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.Spieler;
 
 public class RealmofthemadschoolServer extends ServerSpiel {
-	
+
 	private List<Dude> Dudeliste;
+	private List<Dude> toteDudes;
 	private List<Entity> Entityliste;
 	private EntityTracker tracker;
 
@@ -24,6 +25,7 @@ public class RealmofthemadschoolServer extends ServerSpiel {
 	@Override
 	protected void starten() {
 		Dudeliste = new ArrayList<Dude>();
+		toteDudes = new ArrayList<Dude>();
 		Entityliste = new ArrayList<Entity>();
 		tracker = new EntityTracker(this);
 
@@ -50,19 +52,18 @@ public class RealmofthemadschoolServer extends ServerSpiel {
 				Entityliste.remove(i);
 				tracker.untrackTarget(entity);
 				i--; //ähmähmähm damit mit Schleife richtig (heueheue) damit Schleife richtig geht, well this thing is amazing at recognizing circles and everything *chuckle* awww... dont mind me ..
+				
+				if (entity instanceof Dude) {
+					scoreboard.punkteVorbereiten(((Dude) entity).spieler, toteDudes.size());
+					toteDudes.add((Dude) entity);
+				}
 			}
 		}
 		
-		for (int i = 0; i < Dudeliste.size(); i++) {
-			if (Dudeliste.get(i).dead) {
-				scoreboard.punkteVorbereiten(Dudeliste.get(i).spieler, teilnehmer.size() - Dudeliste.size());
-				Dudeliste.remove(i);
-				i--;
-			}
-		}
-		
-		if (Dudeliste.size() == 1) {
-			scoreboard.punkteVorbereiten(Dudeliste.get(0).spieler, teilnehmer.size() - 1);
+		if (Dudeliste.size() - 1 == toteDudes.size()) {
+			Dudeliste.removeAll(toteDudes);
+			
+			scoreboard.punkteVorbereiten(Dudeliste.get(0).spieler, toteDudes.size());
 			scoreboard.punkteAnwenden();
 			
 			tracker.untrackAll();
