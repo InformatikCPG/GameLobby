@@ -10,6 +10,7 @@ public class Dude extends Entity {
 	RealmofthemadschoolServer server;
 	
 	public Dude(RealmofthemadschoolServer ROMSS) {
+		super(PacketEntityNeu.TYP_DUDE);
 		server = ROMSS;
 		
 	}
@@ -35,6 +36,13 @@ public class Dude extends Entity {
 	public void attack() {
 		server.einfügen(new Bullet(this));
 		
+	}
+	
+	public void damage() {
+		health--;
+		if(health <= 0) {
+			dead = true;
+		}
 	}
 	
 }

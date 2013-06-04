@@ -5,14 +5,12 @@ import java.awt.Graphics2D;
 
 public class RenderDude extends EntityRenderer {
 	
-	public RenderDude(int x, int y) {
-		super(x, y);
-	}
-	
 	@Override
 	public void rendern(Graphics2D g) {
-		g.setColor(Color.blue);
-		g.drawRect(x, y, 20, 20);
+		g.setColor(Color.pink);
+		g.drawRect(x-10, y-10, 20, 20);
+		g.setColor(Color.green);
+		g.fillRect(x-12, y-22, health, 5);
 	}
 	
 }

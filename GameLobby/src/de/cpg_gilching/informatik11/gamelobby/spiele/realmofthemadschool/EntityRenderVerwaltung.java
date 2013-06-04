@@ -4,11 +4,11 @@ import java.awt.Graphics2D;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DudeRenderVerwaltung {
+public class EntityRenderVerwaltung {
 	
 	private Map<Integer, EntityRenderer> targetsMap = new HashMap<Integer, EntityRenderer>();
 
-	public DudeRenderVerwaltung() {
+	public EntityRenderVerwaltung() {
 	}
 	
 	public void neueEntity(PacketEntityNeu packet) {
@@ -16,22 +16,26 @@ public class DudeRenderVerwaltung {
 		
 		switch (packet.typ) {
 		case PacketEntityNeu.TYP_DUDE:
-			renderer = new RenderDude(packet.x, packet.y);
+			renderer = new RenderDude();
 			break;
 		case PacketEntityNeu.TYP_BULLET:
-			renderer = new RenderKreis(packet.x, packet.y);
+			renderer = new RenderKreis();
 			break;
 		default:
 			renderer = null;
 			break;
 		}
 
+		renderer.x = packet.x;
+		renderer.y = packet.y;
+		renderer.health = packet.health;
+
 		targetsMap.put(packet.id, renderer);
 	}
 	
 	public void entityBewegen(PacketEntityBewegen packet) {
 		EntityRenderer renderer = targetsMap.get(packet.id);
-		renderer.positionieren(packet.x, packet.y);
+		renderer.bewegen(packet.x, packet.y, packet.ausrichtung, packet.health);
 	}
 	
 	public void entityEntfernen(PacketEntityTot packet) {

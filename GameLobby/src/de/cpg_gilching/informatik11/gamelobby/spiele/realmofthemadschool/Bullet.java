@@ -3,7 +3,11 @@ package de.cpg_gilching.informatik11.gamelobby.spiele.realmofthemadschool;
 public class Bullet extends Entity {
 	
 	
+	public Dude dude;
+
 	public Bullet(Dude d) {
+		super(PacketEntityNeu.TYP_BULLET);
+		this.dude = d;
 		this.x = d.x;
 		this.y = d.y;
 		this.Ausrichtung = d.Ausrichtung;
@@ -22,6 +26,6 @@ public class Bullet extends Entity {
 		if(Ausrichtung == 1) {
 			x+=5;
 		}
-		
+		dude.server.collisiondetecting(this);
 	}
 }

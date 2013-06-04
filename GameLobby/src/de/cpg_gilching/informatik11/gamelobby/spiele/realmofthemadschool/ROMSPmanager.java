@@ -31,6 +31,9 @@ public class ROMSPmanager implements PaketManager {
 		if(packet.tastencode==KeyEvent.VK_D) {
 			server.sucheDude(spieler).Dgedrückt=packet.zustand;
 		}
+		if(packet.tastencode==KeyEvent.VK_SPACE && packet.zustand) {
+			server.sucheDude(spieler).attack();
+		}
 	}
 
 }

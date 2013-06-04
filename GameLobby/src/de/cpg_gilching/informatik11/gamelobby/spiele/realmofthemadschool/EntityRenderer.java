@@ -6,15 +6,14 @@ public abstract class EntityRenderer {
 	
 	public int x;
 	public int y;
-	
-	public EntityRenderer(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
+	public int ausrichtung;
+	public int health;
 
-	public void positionieren(int x, int y) {
+	public void bewegen(int x, int y, int ausrichtung, int health) {
 		this.x = x;
 		this.y = y;
+		this.ausrichtung = ausrichtung;
+		this.health = health;
 	}
 
 	public abstract void rendern(Graphics2D g);

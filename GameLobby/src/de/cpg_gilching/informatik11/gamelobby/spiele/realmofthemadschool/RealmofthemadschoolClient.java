@@ -12,7 +12,7 @@ public class RealmofthemadschoolClient extends ClientSpiel implements PaketManag
 
 	Image Hintergrund;
 	Image Player;
-	DudeRenderVerwaltung entities;
+	EntityRenderVerwaltung entities;
 
 	@Override
 	protected void starten() {
@@ -22,10 +22,11 @@ public class RealmofthemadschoolClient extends ClientSpiel implements PaketManag
 		netzwerkTasteRegistrieren(KeyEvent.VK_A);
 		netzwerkTasteRegistrieren(KeyEvent.VK_S);
 		netzwerkTasteRegistrieren(KeyEvent.VK_D);
+		netzwerkTasteRegistrieren(KeyEvent.VK_SPACE);
 		Hintergrund = Helfer.bildLaden("Realmofthemadschool/Hintergrund.png");
 		Player = Helfer.bildLaden("Realmofthemadschool/Player.png");
 		
-		entities = new DudeRenderVerwaltung();
+		entities = new EntityRenderVerwaltung();
 	}
 	
 

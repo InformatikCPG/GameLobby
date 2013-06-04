@@ -5,9 +5,18 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.EntityTracker.Tra
 
 public abstract class Entity implements Trackbar {
 	
+	boolean dead = false;
+	int health=25;
 	int x;
 	int y;
 	int Ausrichtung;
+	private int Typ;
+	
+	public Entity(int Typ) {
+		this.Typ = Typ;
+	}
+	
+	public abstract void tick(); 
 	
 	private int gesendetX, gesendetY, gesendetAusrichtung;
 	
@@ -15,7 +24,7 @@ public abstract class Entity implements Trackbar {
 	public SpielPacket spawnPacketErstellen(int id) {
 		gesendetX = x;
 		gesendetY = y;
-		return new PacketEntityNeu(id, PacketEntityNeu.TYP_DUDE, x, y);
+		return new PacketEntityNeu(id,Typ, x, y, health);
 	}
 	
 	@Override
@@ -33,7 +42,7 @@ public abstract class Entity implements Trackbar {
 			gesendetY = y;
 			gesendetAusrichtung = Ausrichtung;
 			
-			return new PacketEntityBewegen(id, x, y, Ausrichtung, 0);
+			return new PacketEntityBewegen(id, x, y, Ausrichtung, health);
 		}
 	}
 
