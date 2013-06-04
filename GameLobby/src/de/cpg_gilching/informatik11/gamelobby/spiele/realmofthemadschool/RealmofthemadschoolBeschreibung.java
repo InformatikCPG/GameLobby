@@ -35,7 +35,9 @@ public class RealmofthemadschoolBeschreibung extends SpielBeschreibung {
 	
 	@Override
 	public void paketeAnmelden(PaketLexikon lexikon) {
-
+		lexikon.anmelden(PacketEntityNeu.class);
+		lexikon.anmelden(PacketEntityTot.class);
+		lexikon.anmelden(PacketEntityBewegen.class);
 	}
 	
 }

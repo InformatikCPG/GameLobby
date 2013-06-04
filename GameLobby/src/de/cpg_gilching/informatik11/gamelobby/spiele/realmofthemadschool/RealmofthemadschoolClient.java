@@ -3,18 +3,16 @@ package de.cpg_gilching.informatik11.gamelobby.spiele.realmofthemadschool;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ClientSpiel;
-import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.IMausListener;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
 
-public class RealmofthemadSchoolClient extends ClientSpiel implements PaketManager,
-		IMausListener {
+public class RealmofthemadschoolClient extends ClientSpiel implements PaketManager {
 
 	Image Hintergrund;
 	Image Player;
+	DudeRenderVerwaltung entities;
 
 	@Override
 	protected void starten() {
@@ -26,22 +24,27 @@ public class RealmofthemadSchoolClient extends ClientSpiel implements PaketManag
 		netzwerkTasteRegistrieren(KeyEvent.VK_D);
 		Hintergrund = Helfer.bildLaden("Realmofthemadschool/Hintergrund.png");
 		Player = Helfer.bildLaden("Realmofthemadschool/Player.png");
-
+		
+		entities = new DudeRenderVerwaltung();
 	}
-
-	@Override
-	
-	
 	
 
 	@Override
 	public void leinwandRendern(Graphics2D g) {
 		g.drawImage(Hintergrund, 0, 0, null);
-		g.drawImage(Player, x, y, null);
+		entities.entitiesRendern(g);
 	}
-
-	public void verarbeiten(PacketFeldSetzen packet){
-		felder[packet.feld] = packet.wert;
-		}
+	
+	public void verarbeiten(PacketEntityNeu packet) {
+		entities.neueEntity(packet);
+	}
+	
+	public void verarbeiten(PacketEntityBewegen packet) {
+		entities.entityBewegen(packet);
+	}
+	
+	public void verarbeiten(PacketEntityTot packet) {
+		entities.entityEntfernen(packet);
+	}
 
 }

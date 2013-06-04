@@ -1,9 +1,11 @@
 package de.cpg_gilching.informatik11.gamelobby.spiele.keymadness;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielPacket;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.EntityTracker.Trackbar;
 import de.cpg_gilching.informatik11.gamelobby.spiele.osmos.Vektor;
 
-public class KeyMadnessTarget {
+public class KeyMadnessTarget implements Trackbar {
 	
 	boolean richtung;
 	int tastencode;
@@ -60,5 +62,21 @@ public class KeyMadnessTarget {
 				
 			}
 		}
+	}
+	
+	// Implementierung des Trackbar-Interface
+	@Override
+	public SpielPacket spawnPacketErstellen(int id) {
+		return new PacketTargetNeu(id, this);
+	}
+	
+	@Override
+	public SpielPacket despawnPacketErstellen(int id) {
+		return new PacketTargetTot(id);
+	}
+	
+	@Override
+	public SpielPacket bewegungsPacketErstellen(int id) {
+		return new PacketTargetBewegen(id, x, y);
 	}
 }

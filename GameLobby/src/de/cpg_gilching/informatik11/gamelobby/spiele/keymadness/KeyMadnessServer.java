@@ -8,13 +8,14 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PacketSpielerAnza
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ServerSpiel;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.Spieler;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.EntityTracker;
 import de.cpg_gilching.informatik11.gamelobby.spiele.osmos.Vektor;
 
 public class KeyMadnessServer extends ServerSpiel {
 	
 	KeyMadnessPunkteDaten daten;
 	ArrayList<KeyMadnessTarget> targets;
-	TargetTracker tracker;
+	EntityTracker tracker;
 	int targetSpawnActivate;
 	
 	
@@ -27,7 +28,7 @@ public class KeyMadnessServer extends ServerSpiel {
 	protected void starten() {
 		daten = new KeyMadnessPunkteDaten(teilnehmer.size());
 		targets = new ArrayList<KeyMadnessTarget>();
-		tracker = new TargetTracker(this);
+		tracker = new EntityTracker(this);
 		
 		packetAnAlle(new PacketSpielerAnzahl(teilnehmer.size()));
 	}
