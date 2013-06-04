@@ -24,7 +24,7 @@ import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketDisconnect;
 
 public class ServerMain implements Runnable {
 	
-	private static final int SERVER_TPS = 20;
+	private static final int SERVER_TPS = 30;
 	private static final int MS_PER_TICK = 1000 / SERVER_TPS;
 	
 	private List<Connection> connectedClients = Collections.synchronizedList(new ArrayList<Connection>());
