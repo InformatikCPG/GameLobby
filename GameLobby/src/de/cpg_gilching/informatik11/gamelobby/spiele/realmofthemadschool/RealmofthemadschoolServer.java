@@ -3,6 +3,7 @@ package de.cpg_gilching.informatik11.gamelobby.spiele.realmofthemadschool;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.EntityTracker;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ServerSpiel;
@@ -27,7 +28,9 @@ public class RealmofthemadschoolServer extends ServerSpiel {
 		tracker = new EntityTracker(this);
 
 		for (int i=0;i<teilnehmer.size();i++) {
-			Dude dude = new Dude(this);
+			Dude dude = new Dude(this, teilnehmer.get(i));
+			dude.x = Helfer.zufallsZahl(600);
+			dude.y = Helfer.zufallsZahl(600);
 			Dudeliste.add(dude);
 			einfügen(dude);
 		}
@@ -50,6 +53,22 @@ public class RealmofthemadschoolServer extends ServerSpiel {
 			}
 		}
 		
+		for (int i = 0; i < Dudeliste.size(); i++) {
+			if (Dudeliste.get(i).dead) {
+				scoreboard.punkteVorbereiten(Dudeliste.get(i).spieler, teilnehmer.size() - Dudeliste.size());
+				Dudeliste.remove(i);
+				i--;
+			}
+		}
+		
+		if (Dudeliste.size() == 1) {
+			scoreboard.punkteVorbereiten(Dudeliste.get(0).spieler, teilnehmer.size() - 1);
+			scoreboard.punkteAnwenden();
+			
+			tracker.untrackAll();
+			starten();
+		}
+
 		tracker.tick();
 	}
 	

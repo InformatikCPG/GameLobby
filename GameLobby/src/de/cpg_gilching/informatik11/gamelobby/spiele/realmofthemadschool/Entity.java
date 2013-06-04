@@ -18,7 +18,7 @@ public abstract class Entity implements Trackbar {
 	
 	public abstract void tick(); 
 	
-	private int gesendetX, gesendetY, gesendetAusrichtung;
+	private int gesendetX, gesendetY, gesendetAusrichtung, gesendetHealth;
 	
 	@Override
 	public SpielPacket spawnPacketErstellen(int id) {
@@ -34,13 +34,14 @@ public abstract class Entity implements Trackbar {
 	
 	@Override
 	public SpielPacket bewegungsPacketErstellen(int id) {
-		if (gesendetX == x && gesendetY == y && gesendetAusrichtung == Ausrichtung) {
+		if (gesendetX == x && gesendetY == y && gesendetAusrichtung == Ausrichtung && gesendetHealth == health) {
 			return null;
 		}
 		else {
 			gesendetX = x;
 			gesendetY = y;
 			gesendetAusrichtung = Ausrichtung;
+			gesendetHealth = health;
 			
 			return new PacketEntityBewegen(id, x, y, Ausrichtung, health);
 		}

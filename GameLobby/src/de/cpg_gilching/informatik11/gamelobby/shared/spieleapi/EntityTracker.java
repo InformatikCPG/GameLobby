@@ -67,6 +67,12 @@ public class EntityTracker {
 		}
 	}
 	
+	public void untrackAll() {
+		for (Entry<Integer, Trackbar> e : targets.entrySet()) {
+			server.packetAnAlle(e.getValue().despawnPacketErstellen(e.getKey()));
+		}
+	}
+
 	/**
 	 * Kümmert sich um Positions-Updates, die an Clients gesendet werden müssen.
 	 */

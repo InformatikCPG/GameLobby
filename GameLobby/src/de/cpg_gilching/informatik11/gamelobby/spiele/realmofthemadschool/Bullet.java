@@ -15,16 +15,16 @@ public class Bullet extends Entity {
 
 	public void tick() {
 		if(Ausrichtung == 0) {
-			y-=5;
+			y -= 10;
 		}
 		if(Ausrichtung == 3) {
-			x-=5;
+			x -= 10;
 		}
 		if(Ausrichtung == 2) {
-			y+=5;
+			y += 10;
 		}
 		if(Ausrichtung == 1) {
-			x+=5;
+			x += 10;
 		}
 		dude.server.collisiondetecting(this);
 	}
