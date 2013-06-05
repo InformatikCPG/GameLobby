@@ -35,10 +35,11 @@ public class KeyMadnessServer extends ServerSpiel {
 
 	public void tick(){
 		if(targetSpawnActivate <= 0){
-			KeyMadnessTarget target = new KeyMadnessTarget(this);
+			int p = Helfer.zufallsZahl(daten.pfade.length);
+			KeyMadnessTarget target = new KeyMadnessTarget(this,  daten.pfade[p]);
 			targets.add(target);
 			tracker.trackTarget(target);
-			targetSpawnActivate = Helfer.zufallsZahl(40) + 60;
+			targetSpawnActivate = Helfer.zufallsZahl(25) + 30;
 		}
 		
 		for(int i = 0; i <= (targets.size() - 1); i++){
@@ -59,7 +60,7 @@ public class KeyMadnessServer extends ServerSpiel {
 		Vektor v = new Vektor();
 		boolean getroffen = false;
 		for(int i = 0; i <= (targets.size() - 1); i++){
-			if(v.kopiere(targets.get(i).x, targets.get(i).y).sub(checkpoint.x, checkpoint.y).länge() <= 20){
+			if(v.kopiere(targets.get(i).x, targets.get(i).y).sub(checkpoint.x, checkpoint.y).länge() <= 10){
 				if (targets.get(i).tastencode == tastencode && targets.get(i).valid) {
 					scoreboard.punktHinzufügen(spieler);
 					targets.get(i).tot = true;

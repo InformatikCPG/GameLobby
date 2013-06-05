@@ -1,5 +1,7 @@
 package de.cpg_gilching.informatik11.gamelobby.spiele.keymadness;
 
+import java.awt.Point;
+
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielPacket;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.EntityTracker.Trackbar;
@@ -16,28 +18,30 @@ public class KeyMadnessTarget implements Trackbar {
 	KeyMadnessServer server;
 	double geschwindigkeit;
 	boolean tot;
+	public Point[] punkte;
 	
-	public KeyMadnessTarget(KeyMadnessServer server){
+	public KeyMadnessTarget(KeyMadnessServer server, Point[] punkte){
 		this.server = server;
+		this.punkte = punkte;
 		richtung = Helfer.zufallsZahl(2) == 0;
 		tastencode = Helfer.zufallsElement(server.daten.tastencodes, false);
 		valid = Helfer.zufallsZahl(3) != 0;
 		if(richtung){
 			ziel = 1;
-			x=server.daten.punkte[0].x;
-			y=server.daten.punkte[0].y;
+			x=punkte[0].x;
+			y=punkte[0].y;
 		}
 		else{
-			ziel = server.daten.punkte.length - 2;
-			x=server.daten.punkte[server.daten.punkte.length - 1].x;
-			y=server.daten.punkte[server.daten.punkte.length - 1].y;
+			ziel = punkte.length - 2;
+			x=punkte[punkte.length - 1].x;
+			y=punkte[punkte.length - 1].y;
 		}
-		geschwindigkeit = 1.0;
+		geschwindigkeit = 2.0;
 	}
 	
 	public void tick(){
-		int zielx = server.daten.punkte[ziel].x;
-		int ziely = server.daten.punkte[ziel].y;
+		int zielx = punkte[ziel].x;
+		int ziely = punkte[ziel].y;
 		Vektor v = new Vektor(zielx, ziely).sub(x, y);
 		if (v.längeQuadrat() > 0) {
 			v.einheit().mul(geschwindigkeit);
@@ -50,7 +54,7 @@ public class KeyMadnessTarget implements Trackbar {
 		if(abstand <= geschwindigkeit){
 			if(richtung){
 				ziel = ziel + 1;
-				if(ziel >= server.daten.punkte.length){
+				if(ziel >= punkte.length){
 					tot = true;
 				}
 			}
