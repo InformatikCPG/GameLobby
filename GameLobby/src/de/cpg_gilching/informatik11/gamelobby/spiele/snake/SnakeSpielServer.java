@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ServerSpiel;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielChat.ChatBefehl;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.Spieler;
 
 public class SnakeSpielServer extends ServerSpiel {
@@ -38,6 +39,19 @@ public class SnakeSpielServer extends ServerSpiel {
 		for(int i=0;i<teilnehmer.size();i++) {
 			snakes.add(new Snake(this, teilnehmer.get(i), Helfer.zufallsElement(startPunkte, true)));
 		}
+		
+		chat.befehlRegistrieren("speed", new ChatBefehl() {
+			@Override
+			public void ausführen(Spieler sender, String[] argumente) {
+				if (argumente.length >= 1) {
+					try {
+						speed = Integer.parseInt(argumente[0]);
+					} catch (NumberFormatException e) {
+						chat.nachrichtAnSpieler(sender, "Du musst eine Zahl eingeben!");
+					}
+				}
+			}
+		});
 	}
 	
 	@Override

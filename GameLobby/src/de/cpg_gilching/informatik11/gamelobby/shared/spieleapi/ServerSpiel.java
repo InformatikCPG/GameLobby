@@ -19,6 +19,7 @@ public abstract class ServerSpiel {
 	protected SpielBeschreibung beschreibung = null;
 	protected List<Spieler> teilnehmer = null;
 	protected Scoreboard scoreboard;
+	protected SpielChat chat;
 	
 	// Speichert alle PaketManager der Spieler
 	private Map<Spieler, PaketManager> paketManagerMap = new HashMap<Spieler, PaketManager>();
@@ -30,6 +31,7 @@ public abstract class ServerSpiel {
 		this.teilnehmer = new ArrayList<Spieler>(teilnehmer);
 		Collections.shuffle(this.teilnehmer);
 		this.scoreboard = new Scoreboard(this);
+		this.chat = new SpielChat(this);
 		
 		for (Spieler spieler : this.teilnehmer) {
 			paketManagerMap.put(spieler, paketManagerErstellen(spieler));
@@ -104,4 +106,8 @@ public abstract class ServerSpiel {
 		return Collections.unmodifiableList(teilnehmer);
 	}
 	
+	public final SpielChat getChat() {
+		return chat;
+	}
+
 }

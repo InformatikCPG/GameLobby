@@ -19,7 +19,6 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ServerSpiel;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielPacket;
-import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.Spieler;
 
 public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 	
@@ -109,9 +108,7 @@ public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 				return;
 			}
 			
-			for (Spieler spieler : spiel.getTeilnehmer()) {
-				((LobbySpieler) spieler).packetSenden(new PacketChatNachricht(spiel.getSpielId(), antwortNachricht));
-			}
+			spiel.getChat().spielerChatAusführen(spieler, packet.nachricht);
 		}
 		else {
 			// auf command prüfen
@@ -120,7 +117,7 @@ public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 				internerServer.connectClient(internerServer.createAISocket());
 				return;
 			}
-			if (packet.nachricht.startsWith("!kick")) {
+			if (packet.nachricht.startsWith("!kick") && packet.nachricht.length() > "!kick ".length()) {
 				String pname = packet.nachricht.substring("!kick ".length());
 				LobbySpieler kickender = spieler.getServer().getSpielerUngefähr(pname);
 				if (kickender == null)
