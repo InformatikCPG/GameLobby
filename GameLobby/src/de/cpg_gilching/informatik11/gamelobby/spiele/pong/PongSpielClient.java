@@ -2,8 +2,10 @@ package de.cpg_gilching.informatik11.gamelobby.spiele.pong;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 
+import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ClientSpiel;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ITastaturListener;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
@@ -11,10 +13,13 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
 
 public class PongSpielClient extends ClientSpiel implements PaketManager, ITastaturListener {
 	
+	private Image imgHintergrund = Helfer.bildLaden("pong/hintergrund.png");
+	private Image imgSchläger = Helfer.bildLaden("pong/schlaeger.png");
+	
 	private int links;
 	private int rechts;
 	
-	private int ballX, ballY;
+	private int ballX = -100, ballY = -100;
 	
 	@Override
 	public void starten() {
@@ -35,6 +40,11 @@ public class PongSpielClient extends ClientSpiel implements PaketManager, ITasta
 	@Override
 	public void leinwandRendern(Graphics2D g) {
 		// ===========================
+		// === Hintergrund rendern ===
+		// ===========================
+		g.drawImage(imgHintergrund, 0, 0, null);
+		
+		// ===========================
 		// ====== Ball rendern =======
 		// ===========================
 		int r = PongBeschreibung.BALL_RADIUS;
@@ -45,14 +55,14 @@ public class PongSpielClient extends ClientSpiel implements PaketManager, ITasta
 		// ===========================
 		// ==== Schläger rendern =====
 		// ===========================
-		int linksX = PongBeschreibung.GRENZE_LINKS - PongBeschreibung.SCHLÄGER_BREITE;
-		int rechtsX = PongBeschreibung.GRENZE_RECHTS;
+		int linksX = PongBeschreibung.GRENZE_LINKS - PongBeschreibung.SCHLÄGER_BREITE - PongBeschreibung.BALL_RADIUS;
+		int rechtsX = PongBeschreibung.GRENZE_RECHTS + PongBeschreibung.SCHLÄGER_BREITE + PongBeschreibung.BALL_RADIUS;
 		int linksY = links - PongBeschreibung.SCHLÄGER_HÖHE / 2;
 		int rechtsY = rechts - PongBeschreibung.SCHLÄGER_HÖHE / 2;
 		
 		g.setColor(Color.white);
-		g.fillRect(linksX, linksY, PongBeschreibung.SCHLÄGER_BREITE, PongBeschreibung.SCHLÄGER_HÖHE);
-		g.fillRect(rechtsX, rechtsY, PongBeschreibung.SCHLÄGER_BREITE, PongBeschreibung.SCHLÄGER_HÖHE);
+		g.drawImage(imgSchläger, linksX, linksY, PongBeschreibung.SCHLÄGER_BREITE, PongBeschreibung.SCHLÄGER_HÖHE, null);
+		g.drawImage(imgSchläger, rechtsX, rechtsY, -PongBeschreibung.SCHLÄGER_BREITE, PongBeschreibung.SCHLÄGER_HÖHE, null);
 	}
 	
 	public void verarbeiten(PacketSchlägerBewegen packet) {

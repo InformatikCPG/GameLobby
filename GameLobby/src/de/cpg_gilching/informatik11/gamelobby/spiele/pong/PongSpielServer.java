@@ -47,8 +47,6 @@ public class PongSpielServer extends ServerSpiel {
 			ballGeschwindigkeitX = -1;
 		
 		ballGeschwindigkeitY = Helfer.zufallsZahl(-5, 5);
-		
-		pauseTicks = 20;
 	}
 	
 	@Override
@@ -75,22 +73,31 @@ public class PongSpielServer extends ServerSpiel {
 		if (geschwindigkeitLinks != 0 || geschwindigkeitRechts != 0) {
 			packetAnAlle(new PacketSchlägerBewegen(schlägerLinks, schlägerRechts));
 		}
+
 		
+		// ===========================
+		// ===== Gewonnen-Timer ======
+		// ===========================
+		if (pauseTicks >= 0) {
+			pauseTicks--;
+		}
+		if (pauseTicks == 0) {
+			ballZurücksetzen();
+			pauseTicks = -1;
+		}
 		
 		// ===========================
 		// ====== Ball-Position ======
 		// ===========================
-		if (pauseTicks > 0) {
-			pauseTicks--;
+		ballX += 10 * ballGeschwindigkeitX;
+		ballY += ballGeschwindigkeitY;
+		
+		if (ballY < 0 || ballY > PongBeschreibung.BILDSCHIRM_HÖHE) {
+			ballGeschwindigkeitY *= -1;
 		}
-		else {
-			ballX += 10 * ballGeschwindigkeitX;
-			ballY += ballGeschwindigkeitY;
-			
-			if (ballY < 0 || ballY > PongBeschreibung.BILDSCHIRM_HÖHE) {
-				ballGeschwindigkeitY *= -1;
-			}
-			
+		
+		
+		if (pauseTicks <= 0) {
 			if (ballX > PongBeschreibung.GRENZE_RECHTS) {
 				if (schlägerBerührtBall(schlägerRechts)) {
 					ballX = PongBeschreibung.GRENZE_RECHTS;
@@ -101,8 +108,8 @@ public class PongSpielServer extends ServerSpiel {
 				}
 				else {
 					scoreboard.punktHinzufügen(links);
-					ballZurücksetzen();
-				}
+					pauseTicks = 20;
+			}
 			}
 			
 			else if (ballX < PongBeschreibung.GRENZE_LINKS) {
@@ -112,15 +119,15 @@ public class PongSpielServer extends ServerSpiel {
 					
 					int yDiff = ballY - schlägerLinks;
 					ballGeschwindigkeitY = (20 * yDiff) / PongBeschreibung.SCHLÄGER_HÖHE;
-				}
+			}
 				else {
 					scoreboard.punktHinzufügen(rechts);
-					ballZurücksetzen();
-				}
+					pauseTicks = 20;
 			}
-			
-			packetAnAlle(new PacketBallBewegen(ballX, ballY));
 		}
+		}
+		
+		packetAnAlle(new PacketBallBewegen(ballX, ballY));
 	}
 	
 	private boolean schlägerBerührtBall(int schläger) {
