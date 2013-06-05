@@ -1,6 +1,8 @@
 package de.cpg_gilching.informatik11.gamelobby.shared;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -124,12 +126,24 @@ public class Helfer {
 		SwingUtilities.invokeLater(runnable);
 	}
 	
+	/**
+	 * Lädt ein Bild aus dem "bilder"-Verzeichnis oder aus der JAR-Datei.
+	 * 
+	 * @param name der Name der Bilddatei, relativ zum "bilder"-Verzeichnis
+	 * @return ein BufferedImage mit den Daten des geladenen Bilds; im Fehlerfall wird ein leeres Bild zurückgegeben
+	 */
 	public static BufferedImage bildLaden(String name) {
 		try {
-			InputStream bildStream = Helfer.class.getResourceAsStream("/" + name);
+			InputStream bildStream = Helfer.class.getResourceAsStream("/bilder/" + name);
 			if (bildStream == null) {
-				System.err.println("Bild " + name + " wurde nicht gefunden!");
-				return new BufferedImage(16, 16, BufferedImage.TYPE_INT_RGB);
+				File bildDatei = new File("bilder", name);
+				if (bildDatei.isFile()) {
+					bildStream = new FileInputStream(bildDatei);
+				}
+				else {
+					System.err.println("Bild " + name + " wurde nicht gefunden!");
+					return new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+				}
 			}
 			
 			return ImageIO.read(bildStream);
@@ -137,7 +151,7 @@ public class Helfer {
 			System.err.println("Fehler beim Laden von Bild " + name);
 			e.printStackTrace();
 			
-			return new BufferedImage(16, 16, BufferedImage.TYPE_INT_RGB);
+			return new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
 		}
 	}
 	
