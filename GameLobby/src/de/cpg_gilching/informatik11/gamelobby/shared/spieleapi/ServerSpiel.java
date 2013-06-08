@@ -80,6 +80,9 @@ public abstract class ServerSpiel {
 	}
 	
 	public final void _teilnehmerVerlassen(LobbySpieler spieler) {
+		if (!teilnehmer.contains(spieler))
+			return;
+
 		// TODO spieler bestrafen beim verlassen
 		
 		System.out.println("Spieler " + spieler.getName() + " hat das Spiel " + beschreibung.getBezeichnung() + " verlassen!");
@@ -90,7 +93,7 @@ public abstract class ServerSpiel {
 		else {
 			spielerVerlassen(spieler);
 			teilnehmer.remove(spieler);
-			//			spieler.packetSenden(new PacketSpielVerlassen(spielId));
+			spieler.packetSenden(new PacketSpielVerlassen(spielId));
 			
 			Packet verlassenPacket = new PacketSpielTeilnehmer(spielId, spieler.getName(), PacketSpielTeilnehmer.VERLASSEN);
 			for (Spieler anderer : teilnehmer) {

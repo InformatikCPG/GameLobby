@@ -34,13 +34,13 @@ public class Tracker {
 		public BlasenTracker(Blase blase) {
 			this.blase = blase;
 			
-			server.packetAnAlle(new PacketNeueBlase(blase.id, true));
+			server.packetAnAlle(new PacketNeueBlase(blase.id, true, blase.getController() != null));
 			server.packetAnAlle(new PacketBlaseBewegen(blase.id, blase.getPosition()));
 			server.packetAnAlle(new PacketBlaseDaten(blase.id, blase.getRadius()));
 		}
 		
 		public void entfernen() {
-			server.packetAnAlle(new PacketNeueBlase(blase.id, false));
+			server.packetAnAlle(new PacketNeueBlase(blase.id, false, false));
 		}
 
 		public void tick() {

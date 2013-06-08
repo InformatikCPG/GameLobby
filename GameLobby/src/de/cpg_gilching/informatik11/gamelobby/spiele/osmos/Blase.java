@@ -12,8 +12,8 @@ public class Blase {
 	private boolean tot = false;
 	
 	private double radius;
-
 	
+
 	public Blase(OsmosServer server, double radius) {
 		this.id = ++idCounter;
 		this.server = server;
@@ -46,21 +46,29 @@ public class Blase {
 			controller.setBlase(this);
 	}
 	
+	public SpielerController getController() {
+		return controller;
+	}
+
 	public void beschleunigen(Vektor a) {
 		geschwindigkeit.add(a);
 		
-		double verloren = radius * a.länge() * 0.05;
+		double verloren = (Math.PI * radius * radius) * a.länge() * 0.015;
+		double alterRadius = radius;
+		
+		// r3² = (r1²pi - A2) / pi
+		radius = Math.sqrt((Math.PI * alterRadius * alterRadius - verloren) / Math.PI);
 
-		radius -= Math.sqrt(verloren);
-
-		Blase neu = new Blase(server, verloren);
-		neu.getPosition().kopiere(a).einheit().mul(-radius - verloren - 5).add(position);
+		double bubbleRadius = Math.sqrt(verloren / Math.PI);
+		Blase neu = new Blase(server, bubbleRadius);
+		neu.getPosition().kopiere(a).einheit().mul(-radius - bubbleRadius - 5).add(position);
 		neu.getGeschwindigkeit().kopiere(a).mul(-6).add(geschwindigkeit);
 
 		server.blaseHinzufügen(neu);
 	}
 	
 	/**
+	 * Vergrößert den Radius der Blase um den gegebenen Wert.
 	 * Gibt den Wert zurück, der tatsächlich geändert wurde.
 	 */
 	public double vergrößern(double wert) {
@@ -77,6 +85,10 @@ public class Blase {
 
 	public void teleport(Vektor ziel) {
 		position.kopiere(ziel);
+	}
+	
+	public void setTot(boolean tot) {
+		this.tot = tot;
 	}
 	
 	public boolean istTot() {

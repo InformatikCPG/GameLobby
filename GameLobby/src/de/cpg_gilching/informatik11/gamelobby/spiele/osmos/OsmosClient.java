@@ -87,7 +87,7 @@ public class OsmosClient extends ClientSpiel implements PaketManager, IMausradLi
 	
 	public void verarbeiten(PacketNeueBlase packet) {
 		if (packet.neu)
-			blasen.put(packet.id, new BlasenRenderer(this, packet.id));
+			blasen.put(packet.id, new BlasenRenderer(this, packet.id, packet.spielerblase));
 		else if (blasen.remove(packet.id) == aktiveBlase)
 			aktiveBlase = null;
 	}

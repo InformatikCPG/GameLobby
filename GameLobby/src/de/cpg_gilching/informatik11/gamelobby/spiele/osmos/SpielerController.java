@@ -23,7 +23,7 @@ public class SpielerController implements PaketManager {
 		//		System.out.println(gedrückt);
 		if (gedrückt) {
 			beschleunigtTicks++;
-			double faktor = Math.max(0.3, 2.0 - 0.1 * beschleunigtTicks);
+			double faktor = Math.max(1.0, 2.0 - 0.05 * beschleunigtTicks);
 
 			Vektor richtung = new Vektor();
 			richtung.add(blase.getPosition()).sub(mausPosition).einheit().mul(faktor);
@@ -49,4 +49,17 @@ public class SpielerController implements PaketManager {
 	public void setBlase(Blase blase) {
 		this.blase = blase;
 	}
+	
+	public Blase getBlase() {
+		return blase;
+	}
+	
+	public Spieler getSpieler() {
+		return spieler;
+	}
+
+	public OsmosServer getServer() {
+		return server;
+	}
+
 }

@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import de.cpg_gilching.informatik11.gamelobby.server.LobbySpieler;
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ServerSpiel;
@@ -54,12 +55,16 @@ public class OsmosServer extends ServerSpiel {
 			npc.getGeschwindigkeit().kopiere(rand.nextDouble(), rand.nextDouble());
 			
 			boolean kollidiert = true;
-			while(kollidiert) {
-				npc.getPosition().x = (rand.nextDouble() - 0.5) * (weltRadius - npcRadius);
-				npc.getPosition().y = (rand.nextDouble() - 0.5) * (weltRadius - npcRadius);
+			while (kollidiert) {
+				npc.getPosition().x = (rand.nextDouble() * 2 - 0.5) * (weltRadius - npcRadius);
+				npc.getPosition().y = (rand.nextDouble() * 2 - 0.5) * (weltRadius - npcRadius);
+				
+				// außerhalb des Kreises
+				if (npc.getPosition().längeQuadrat() > (weltRadius - npcRadius) * (weltRadius - npcRadius))
+					continue;
 				
 				kollidiert = false;
-				for(Blase andere : blasen)
+				for (Blase andere : blasen)
 					if (Blase.kollidiert(andere, npc)) {
 						kollidiert = true;
 						break;
@@ -71,15 +76,25 @@ public class OsmosServer extends ServerSpiel {
 	}
 	
 	@Override
+	protected void spielerVerlassen(LobbySpieler spieler) {
+		for (Blase b : blasen) {
+			if (b.getController() != null && b.getController().getSpieler() == spieler) {
+				b.setTot(true);
+				break;
+			}
+		}
+	}
+	
+	@Override
 	public void tick() {
 		modBlasen = tempBlasen;
 
 		Iterator<Blase> it = blasen.iterator();
-		while(it.hasNext()) {
+		while (it.hasNext()) {
 			Blase b = it.next();
 			
 			// im letzten Tick gestorben
-			if(b.istTot()) {
+			if (b.istTot()) {
 				it.remove();
 				tracker.untrack(b);
 				continue;
@@ -123,18 +138,27 @@ public class OsmosServer extends ServerSpiel {
 						k = b1;
 					}
 					
-					g.vergrößern(Math.sqrt(-k.vergrößern(-schnitt)));
+
+					double alteFläche = Math.PI * k.getRadius() * k.getRadius();
+					k.vergrößern(-schnitt);
+					double deltaFläche = alteFläche - Math.PI * k.getRadius() * k.getRadius(); // neueFläche - alteFläche
+					
+					double vergrößerteFläche = Math.PI * g.getRadius() * g.getRadius() + deltaFläche;
+					double vergrößerterRadius = Math.sqrt(vergrößerteFläche / Math.PI);
+					g.vergrößern(vergrößerterRadius - g.getRadius());
 				}
 			}
 		}
 
 		tracker.tick();
 		
-		double sum = 0;
-		for (Blase b : blasen) {
-			sum += b.getRadius();
-		}
-		System.out.println("Gesamtradius: " + sum);
+		//		double sum = 0;
+		//		for (Blase b : blasen) {
+		//			sum += b.getRadius() * b.getRadius();
+		//		}
+		//		
+		//		if (Helfer.zufallsZahl(30) == 0)
+		//			chat.nachrichtAnAlleTeilnehmer("Gesamtfläche: " + sum);
 	}
 	
 	public void blaseHinzufügen(Blase b) {
