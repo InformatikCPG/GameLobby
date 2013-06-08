@@ -15,6 +15,7 @@ import java.util.List;
 
 import de.cpg_gilching.informatik11.gamelobby.server.fakeplayer.ArtificialSocket;
 import de.cpg_gilching.informatik11.gamelobby.shared.AdapterPaketLexikon;
+import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Connection;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.NetSocket;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Packet;
@@ -38,6 +39,7 @@ public class ServerMain implements Runnable {
 	
 	private Thread mainServerThread;
 	private Thread clientAcceptThread;
+	private ServerConsoleReader consoleReaderThread = new ServerConsoleReader(this);
 	
 	private ServerSocket serverSocket = null;
 	private final int port;
@@ -46,6 +48,8 @@ public class ServerMain implements Runnable {
 		this.port = port;
 		mainServerThread = new Thread(this, "Main-Server-Thread");
 		mainServerThread.start();
+		
+		consoleReaderThread.start();
 	}
 	
 	public void kickClient(Connection connection, String reason) {
@@ -73,6 +77,8 @@ public class ServerMain implements Runnable {
 	private void tick(int ms) {
 		ticks++;
 		
+		consoleReaderThread.processCommands();
+
 		List<Connection> toAdd = null;
 		synchronized (newClients) {
 			if (!newClients.isEmpty()) {
@@ -86,7 +92,6 @@ public class ServerMain implements Runnable {
 				connectedClients.add(c);
 				controller.onSpielerVerbinden(c);
 			}
-			
 		}
 		
 		synchronized (connectedClients) {
@@ -205,6 +210,14 @@ public class ServerMain implements Runnable {
 	 */
 	public void stop() {
 		started = false;
+	}
+	
+	/**
+	 * Synchronous method to perform a command from the console.
+	 */
+	public void onCommand(String name, List<String> arguments) {
+		if (name.equalsIgnoreCase("stop"))
+			stop();
 	}
 	
 	
