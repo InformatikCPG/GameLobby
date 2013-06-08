@@ -21,7 +21,7 @@ public class SnakeSpielServer extends ServerSpiel {
 	private int sleep = 10;
 	private int speed = 3;
 	private int essenSpawnrate = 5;
-	private int mode = 0;
+	public int mode = 0; //0 = Snake; 1 = CurveFever
 	
 	@Override
 	protected PaketManager paketManagerErstellen(Spieler spieler) {
@@ -188,9 +188,7 @@ public class SnakeSpielServer extends ServerSpiel {
 			public void ausführen(Spieler sender, String[] argumente) {
 				if (argumente.length >= 1) {
 					try {
-						for(int i=0;i<snakes.size();i++) {
-							snakes.get(i).mode = Integer.parseInt(argumente[0]);
-						}
+						mode = Integer.parseInt(argumente[0]);
 					} catch (NumberFormatException e) {
 						chat.nachrichtAnSpieler(sender, "Du musst eine Zahl eingeben!");
 					}

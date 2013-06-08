@@ -13,7 +13,6 @@ public class Snake {
 	private int farbe;
 	private int richtung = 0; //0=rechts, 1=unten, 2=links, 3=oben
 	public boolean tot;
-	public int mode = 0; //0 = Snake; 1 = CurveFever
 	
 	Snake(SnakeSpielServer server, Spieler spieler, Point start, int mode) {
 		tot = false;
@@ -39,7 +38,7 @@ public class Snake {
 		if(tot) {
 			return;
 		}
-		if(mode == 0) {
+		if(server.mode == 0) {
 			Point gelöscht = elemente.removeLast();
 			server.feldUpdaten(gelöscht, -1);
 		}
