@@ -158,4 +158,8 @@ public class FensterSessionLobby {
 		});
 	}
 	
+	public JFrame getFenster() {
+		return fenster;
+	}
+
 }

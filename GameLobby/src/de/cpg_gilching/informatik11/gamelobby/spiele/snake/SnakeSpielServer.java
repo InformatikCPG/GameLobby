@@ -61,9 +61,8 @@ public class SnakeSpielServer extends ServerSpiel {
 	protected void spielerVerlassen(LobbySpieler spieler) {
 		Snake entfernt = sucheSnake(spieler);
 		
-		Iterator<Point> it = entfernt.elementeGeben().iterator();
-		while (it.hasNext()) {
-			feldUpdaten(it.next(), -1);
+		for (Point p : entfernt.elementeGeben()) {
+			feldUpdaten(p, -1);
 		}
 		
 		// die Snake muss aus der Liste entfernt werden, damit die Indizes wieder übereinstimmen

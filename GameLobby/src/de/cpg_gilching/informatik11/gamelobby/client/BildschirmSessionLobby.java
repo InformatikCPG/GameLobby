@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import de.cpg_gilching.informatik11.gamelobby.shared.Wachhund;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionAnnehmen;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionVerlassen;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
@@ -33,6 +34,7 @@ public class BildschirmSessionLobby {
 	
 	public void lobbyVerlassen() {
 		client.getVerbindung().sendPacket(new PacketSessionVerlassen(sessionId));
+		new Wachhund(oberfläche.getFenster()).start();
 	}
 	
 	public void lobbyAnnehmen() {

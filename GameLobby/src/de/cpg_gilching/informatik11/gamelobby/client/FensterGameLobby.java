@@ -18,7 +18,7 @@ import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 
 
 /**
- * Die View-Komponente der "Server-Lobby".
+ * Die View-Komponente der "Game-Lobby".
  */
 public class FensterGameLobby {
 	
@@ -210,4 +210,8 @@ public class FensterGameLobby {
 		});
 	}
 	
+	public JFrame getFenster() {
+		return fenster;
+	}
+
 }

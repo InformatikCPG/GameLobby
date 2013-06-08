@@ -90,7 +90,7 @@ public abstract class ServerSpiel {
 		else {
 			spielerVerlassen(spieler);
 			teilnehmer.remove(spieler);
-			spieler.packetSenden(new PacketSpielVerlassen(spielId));
+			//			spieler.packetSenden(new PacketSpielVerlassen(spielId));
 			
 			Packet verlassenPacket = new PacketSpielTeilnehmer(spielId, spieler.getName(), PacketSpielTeilnehmer.VERLASSEN);
 			for (Spieler anderer : teilnehmer) {

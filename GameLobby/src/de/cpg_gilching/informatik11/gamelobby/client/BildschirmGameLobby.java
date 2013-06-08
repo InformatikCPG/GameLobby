@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import de.cpg_gilching.informatik11.gamelobby.shared.Wachhund;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielVerlassen;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ClientSpiel;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
@@ -118,6 +119,7 @@ public class BildschirmGameLobby {
 	
 	public void spielAbbrechen() {
 		client.getVerbindung().sendPacket(new PacketSpielVerlassen(spielId));
+		new Wachhund(oberfläche.getFenster()).start();
 	}
 	
 	public void packetSenden(SpielPacket packet) {
