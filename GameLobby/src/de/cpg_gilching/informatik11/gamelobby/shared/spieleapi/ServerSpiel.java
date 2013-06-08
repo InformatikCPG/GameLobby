@@ -9,14 +9,39 @@ import java.util.Map;
 
 import de.cpg_gilching.informatik11.gamelobby.server.ControllerServer;
 import de.cpg_gilching.informatik11.gamelobby.server.LobbySpieler;
+import de.cpg_gilching.informatik11.gamelobby.shared.net.Packet;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielTeilnehmer;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielVerlassen;
 
+/**
+ * Dies ist die Basis-Klasse für die Serverseite eines Spiels.<br>
+ * Sie vererbt wichtige Attribute und Methoden zur Steuerung des Spiels under Kommunikation mit den Clients.
+ * <p>
+ * Die wichtigsten Attribute und Methoden:
+ * </p>
+ * <ul>
+ * <li>{@link #teilnehmer}: Eine {@link List}e von allen teilnehmenden Spielern</li>
+ * <li>{@link #scoreboard}: Eine API zur Verwaltung des Punktestandes von Spielern</li>
+ * <li>{@link #chat}: Eine API zum Senden von Chatnachrichten und Registrieren von Chat-Befehlen("!befehl")</li>
+ * <li>{@link #packetAnSpieler(Spieler, SpielPacket)}: Sendet ein Paket an einen einzelnen Spieler</li>
+ * <li>{@link #packetAnAlle(SpielPacket)}: Sendet ein Paket an alle Teilnehmer, z.B. um den Spielzustand an alle zu übermitteln.</li>
+ * </ul>
+ * <p>
+ * Folgende Methoden können/müssen überschrieben werden:
+ * </p>
+ * <ul>
+ * <li>{@link #starten()}: Wird beim Start des Spiels aufgerufen und soll den Startzustand des Spiels herstellen. Diese Methode ersetzt in der Regel den Konstruktor.</li>
+ * <li>{@link #paketManagerErstellen(Spieler)}: Wird vor Start des Spiels für jeden Teilnehmer aufgerufen und erzeugt einen {@link PaketManager} für diesen, der Pakete empfängt.</li>
+ * <li>{@link #spielerVerlassen(LobbySpieler)}:
+ * </ul>
+ */
 public abstract class ServerSpiel {
 	
 	private ControllerServer server = null;
 	private int spielId = -1;
 	private int msVergangen = 0;
 	protected SpielBeschreibung beschreibung = null;
+
 	protected List<Spieler> teilnehmer = null;
 	protected Scoreboard scoreboard;
 	protected SpielChat chat;
@@ -66,6 +91,11 @@ public abstract class ServerSpiel {
 			spielerVerlassen(spieler);
 			teilnehmer.remove(spieler);
 			spieler.packetSenden(new PacketSpielVerlassen(spielId));
+			
+			Packet verlassenPacket = new PacketSpielTeilnehmer(spielId, spieler.getName(), PacketSpielTeilnehmer.VERLASSEN);
+			for (Spieler anderer : teilnehmer) {
+				((LobbySpieler) anderer).packetSenden(verlassenPacket);
+			}
 		}
 	}
 

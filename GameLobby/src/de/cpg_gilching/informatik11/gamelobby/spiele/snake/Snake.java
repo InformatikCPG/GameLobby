@@ -25,6 +25,10 @@ public class Snake {
 		elemente.add(new Point(start.x-1,start.y));
 		elemente.add(new Point(start.x-2,start.y));
 		elemente.add(new Point(start.x-3,start.y));
+		elemente.add(new Point(start.x - 4, start.y));
+		elemente.add(new Point(start.x - 5, start.y));
+		elemente.add(new Point(start.x - 6, start.y));
+		elemente.add(new Point(start.x - 7, start.y));
 		for(int i=0;i<4;i++) {
 			server.feldUpdaten(elemente.get(i), farbe);
 		}
@@ -109,5 +113,9 @@ public class Snake {
 	
 	public Spieler spielerGeben() {
 		return spieler;
+	}
+	
+	public LinkedList<Point> elementeGeben() {
+		return elemente;
 	}
 }

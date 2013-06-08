@@ -2,7 +2,9 @@ package de.cpg_gilching.informatik11.gamelobby.spiele.snake;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Iterator;
 
+import de.cpg_gilching.informatik11.gamelobby.server.LobbySpieler;
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ServerSpiel;
@@ -26,6 +28,7 @@ public class SnakeSpielServer extends ServerSpiel {
 
 	@Override
 	protected void starten() {
+		sleep = 0;
 		speed = 2;
 		snakes = new ArrayList<Snake>();
 		startPunkte = new ArrayList<Point>();
@@ -52,6 +55,19 @@ public class SnakeSpielServer extends ServerSpiel {
 				}
 			}
 		});
+	}
+	
+	@Override
+	protected void spielerVerlassen(LobbySpieler spieler) {
+		Snake entfernt = sucheSnake(spieler);
+		
+		Iterator<Point> it = entfernt.elementeGeben().iterator();
+		while (it.hasNext()) {
+			feldUpdaten(it.next(), -1);
+		}
+		
+		// die Snake muss aus der Liste entfernt werden, damit die Indizes wieder übereinstimmen
+		snakes.remove(entfernt);
 	}
 	
 	@Override
@@ -145,7 +161,6 @@ public class SnakeSpielServer extends ServerSpiel {
 	}
 	
 	public void reset() {
-		//Score muss noch berechnet werden
 		for (int i = 0; i < 60; i++) {
 			for (int j = 0; j < 60; j++) {
 				Point p = new Point(i,j);

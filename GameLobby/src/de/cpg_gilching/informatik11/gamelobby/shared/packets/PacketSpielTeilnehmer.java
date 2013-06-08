@@ -24,8 +24,8 @@ public class PacketSpielTeilnehmer extends Packet {
 	public PacketSpielTeilnehmer() {
 	}
 	
-	public PacketSpielTeilnehmer(int spielernId, String spielerName, int aktion) {
-		this.spielId = spielernId;
+	public PacketSpielTeilnehmer(int spielId, String spielerName, int aktion) {
+		this.spielId = spielId;
 		this.spielerName = spielerName;
 		this.aktion = aktion;
 	}
