@@ -157,6 +157,7 @@ public class SnakeSpielServer extends ServerSpiel {
 	public void toteSnakeEinfügen(Snake s) {
 		scoreboard.punkteVorbereiten(s.spielerGeben(), toteSnakes.size());
 		toteSnakes.add(s);
+		chat.nachrichtAnAlleTeilnehmer(s.spielerGeben().getName() + "ist gestorben!");
 	}
 	
 	public void reset() {
