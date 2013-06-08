@@ -22,6 +22,10 @@ public class TicTacToeServer extends ServerSpiel {
 		spieler1 = teilnehmer.get(0);
 		spieler2 = teilnehmer.get(1);
 		spielerAmZug = spieler1;
+		
+		chat.nachrichtAnSpieler(spieler1, "Du bist X!");
+		chat.nachrichtAnSpieler(spieler2, "Du bist O!");
+		chat.nachrichtAnAlleTeilnehmer(spieler1.getName() + " beginnt!");
 	}
 
 	public void feldSetzen(Spieler spieler, int feld) {
@@ -89,9 +93,14 @@ public class TicTacToeServer extends ServerSpiel {
 		
 		if (spieler == 1) {
 			scoreboard.punktHinzufügen(spieler1);
+			chat.nachrichtAnAlleTeilnehmer("X hat gewonnen!");
 		}
 		else if (spieler == 2) {
 			scoreboard.punktHinzufügen(spieler2);
+			chat.nachrichtAnAlleTeilnehmer("O hat gewonnen!");
+		}
+		else {
+			chat.nachrichtAnAlleTeilnehmer("Unentschieden!");
 		}
 	}
 }

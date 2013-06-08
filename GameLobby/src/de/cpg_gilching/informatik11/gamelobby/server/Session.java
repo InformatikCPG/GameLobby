@@ -66,6 +66,11 @@ public class Session {
 				for (LobbySpieler anderer : teilnehmer) {
 					anderer.packetSenden(new PacketSessionSpielerStatus(id, spieler.getName(), false));
 				}
+				
+				// alle sind bereit (der letzte nicht-bereite Spieler hat die Session verlassen)
+				if (fertigeSpieler.containsAll(teilnehmer)) {
+					spielStarten();
+				}
 			}
 		}
 	}

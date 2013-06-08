@@ -16,6 +16,8 @@ public class SpielOberfläche extends JPanel {
 	private SpielInputListener inputListener = new SpielInputListener();
 	private Canvas leinwand = null;
 	
+	private boolean hatteFokus = false;
+
 	public SpielOberfläche(BildschirmGameLobby lobbyBildschirm) {
 		this.lobbyBildschirm = lobbyBildschirm;
 		
@@ -41,6 +43,10 @@ public class SpielOberfläche extends JPanel {
 		if (!leinwand.isDisplayable())
 			return;
 		
+		if (!hatteFokus) {
+			hatteFokus = leinwand.requestFocusInWindow();
+		}
+
 		BufferStrategy bs = leinwand.getBufferStrategy();
 		if (bs == null) {
 			leinwand.createBufferStrategy(2);

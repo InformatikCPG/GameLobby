@@ -7,6 +7,7 @@ import java.util.List;
 import de.cpg_gilching.informatik11.gamelobby.spiele.keymadness.KeyMadnessBeschreibung;
 import de.cpg_gilching.informatik11.gamelobby.spiele.osmos.OsmosBeschreibung;
 import de.cpg_gilching.informatik11.gamelobby.spiele.pong.PongBeschreibung;
+import de.cpg_gilching.informatik11.gamelobby.spiele.realmofthemadschool.RealmofthemadschoolBeschreibung;
 import de.cpg_gilching.informatik11.gamelobby.spiele.snake.SnakeBeschreibung;
 import de.cpg_gilching.informatik11.gamelobby.spiele.tictactoe.TicTacToeBeschreibung;
 
@@ -25,6 +26,7 @@ public class SpieleListe implements Iterable<SpielBeschreibung> {
 		spielLaden(new OsmosBeschreibung());
 		spielLaden(new TicTacToeBeschreibung());
 		spielLaden(new KeyMadnessBeschreibung());
+		spielLaden(new RealmofthemadschoolBeschreibung());
 	}
 	
 	private void spielLaden(SpielBeschreibung spiel) {

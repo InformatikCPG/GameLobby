@@ -12,7 +12,7 @@ public class PongBeschreibung extends SpielBeschreibung {
 	public static final int GRENZE_LINKS = 80;
 	public static final int GRENZE_RECHTS = 520;
 	public static final int SCHLÄGER_BREITE = 20;
-	public static final int SCHLÄGER_HÖHE = 80;
+	public static final int SCHLÄGER_HÖHE = 88; // 80 Bildhöhe + 8 Ballradius
 	public static final int BALL_RADIUS = 8;
 	
 	@Override

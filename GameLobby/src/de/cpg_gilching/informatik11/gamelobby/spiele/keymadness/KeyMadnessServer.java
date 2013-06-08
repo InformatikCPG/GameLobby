@@ -4,16 +4,19 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PacketSpielerAnzahl;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ServerSpiel;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.Spieler;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.EntityTracker;
 import de.cpg_gilching.informatik11.gamelobby.spiele.osmos.Vektor;
 
 public class KeyMadnessServer extends ServerSpiel {
 	
 	KeyMadnessPunkteDaten daten;
 	ArrayList<KeyMadnessTarget> targets;
-	TargetTracker tracker;
+	EntityTracker tracker;
+	int targetSpawnActivate;
 	
 	
 	@Override
@@ -25,14 +28,18 @@ public class KeyMadnessServer extends ServerSpiel {
 	protected void starten() {
 		daten = new KeyMadnessPunkteDaten(teilnehmer.size());
 		targets = new ArrayList<KeyMadnessTarget>();
-		tracker = new TargetTracker(this);
+		tracker = new EntityTracker(this);
+		
+		packetAnAlle(new PacketSpielerAnzahl(teilnehmer.size()));
 	}
 
 	public void tick(){
-		if(Helfer.zufallsZahl(30) == 0){
-			KeyMadnessTarget target = new KeyMadnessTarget(this);
+		if(targetSpawnActivate <= 0){
+			int p = Helfer.zufallsZahl(daten.pfade.length);
+			KeyMadnessTarget target = new KeyMadnessTarget(this,  daten.pfade[p]);
 			targets.add(target);
 			tracker.trackTarget(target);
+			targetSpawnActivate = Helfer.zufallsZahl(25) + 30;
 		}
 		
 		for(int i = 0; i <= (targets.size() - 1); i++){
@@ -44,6 +51,7 @@ public class KeyMadnessServer extends ServerSpiel {
 			}
 		}
 		tracker.tick();
+		targetSpawnActivate = targetSpawnActivate - 1;
 	}
 	
 	public void prüfen(int tastencode, Spieler spieler){
@@ -52,16 +60,13 @@ public class KeyMadnessServer extends ServerSpiel {
 		Vektor v = new Vektor();
 		boolean getroffen = false;
 		for(int i = 0; i <= (targets.size() - 1); i++){
-			if(v.kopiere(targets.get(i).x, targets.get(i).y).sub(checkpoint.x, checkpoint.y).länge() <= 20){
+			if(v.kopiere(targets.get(i).x, targets.get(i).y).sub(checkpoint.x, checkpoint.y).länge() <= 10){
 				if (targets.get(i).tastencode == tastencode && targets.get(i).valid) {
 					scoreboard.punktHinzufügen(spieler);
 					targets.get(i).tot = true;
-				}
-				else{
-					scoreboard.punkteÄndern(spieler, -1);
+					getroffen = true;
 				}
 			}
-			getroffen = true;
 		}
 		if(!getroffen){
 			scoreboard.punkteÄndern(spieler, -1);
