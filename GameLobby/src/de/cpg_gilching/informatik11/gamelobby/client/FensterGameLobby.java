@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 
@@ -135,13 +136,25 @@ public class FensterGameLobby {
 				
 				int platz = 1;
 				for (SpielerIngameZustand zustand : alleSpieler) {
+					Box box = Box.createHorizontalBox();
+					
+					if (zustand.farbe > -1) {
+						JPanel farbenPanel = new JPanel();
+						farbenPanel.setPreferredSize(new Dimension(30, 30));
+						farbenPanel.setMaximumSize(new Dimension(30, 30));
+						farbenPanel.setBorder(new LineBorder(Color.black));
+						farbenPanel.setBackground(new Color(zustand.farbe));
+						
+						box.add(Box.createHorizontalStrut(10));
+						box.add(farbenPanel);
+					}
+
 					JLabel nameLabel = new JLabel(platz + ". " + zustand.name);
-					nameLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+					nameLabel.setFont(new Font(Font.SANS_SERIF, (gameLobby.istEigenerSpieler(zustand.name) ? Font.BOLD : Font.PLAIN), 18));
 					
 					JLabel punkteLabel = new JLabel(Integer.toString(zustand.punkte));
 					punkteLabel.setFont(new Font(Font.MONOSPACED, Font.BOLD, 30));
 					
-					Box box = Box.createHorizontalBox();
 					box.add(Box.createHorizontalStrut(10));
 					box.add(nameLabel);
 					box.add(Box.createHorizontalGlue());

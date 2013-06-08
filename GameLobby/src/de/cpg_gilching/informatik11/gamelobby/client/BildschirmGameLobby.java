@@ -17,6 +17,7 @@ class SpielerIngameZustand implements Comparable<SpielerIngameZustand> {
 	final String name;
 	volatile int punkte = 0;
 	volatile int tempPunkte = Integer.MIN_VALUE;
+	volatile int farbe = -1;
 	
 	SpielerIngameZustand(String name) {
 		this.name = name;
@@ -96,11 +97,12 @@ public class BildschirmGameLobby {
 		}
 	}
 	
-	public void spielerPunkteSetzen(String spielerName, int neuePunkte, int neueTempPunkte) {
+	public void spielerPunkteSetzen(String spielerName, int neueFarbe, int neuePunkte, int neueTempPunkte) {
 		for (SpielerIngameZustand zustand : spielerListe) {
 			if (zustand.name.equals(spielerName)) {
 				zustand.punkte = neuePunkte;
 				zustand.tempPunkte = neueTempPunkte;
+				zustand.farbe = neueFarbe;
 				Collections.sort(spielerListe);
 
 				oberfläche.spielerListeAktualisieren(spielerListe);
@@ -148,6 +150,10 @@ public class BildschirmGameLobby {
 		}
 	}
 	
+	public boolean istEigenerSpieler(String spielername) {
+		return client.getUsername().equals(spielername);
+	}
+
 	public int getSpielId() {
 		return spielId;
 	}

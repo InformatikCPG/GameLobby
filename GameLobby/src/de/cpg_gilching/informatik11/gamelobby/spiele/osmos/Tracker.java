@@ -20,6 +20,13 @@ public class Tracker {
 		blasen.remove(b.id).entfernen();
 	}
 	
+	public void untrackAll() {
+		for (BlasenTracker t : blasen.values()) {
+			t.entfernen();
+		}
+		blasen.clear();
+	}
+	
 	public void tick() {
 		for (BlasenTracker tracker : blasen.values())
 			tracker.tick();

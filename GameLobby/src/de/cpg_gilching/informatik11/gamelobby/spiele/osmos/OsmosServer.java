@@ -22,6 +22,9 @@ public class OsmosServer extends ServerSpiel {
 	private List<Blase> tempBlasen = new ArrayList<Blase>();
 	private List<Blase> modBlasen = blasen;
 	
+	public int toteSpieler;
+	private int restartTicks;
+
 	@Override
 	protected PaketManager paketManagerErstellen(Spieler spieler) {
 		return new SpielerController(this, spieler);
@@ -29,6 +32,9 @@ public class OsmosServer extends ServerSpiel {
 	
 	@Override
 	protected void starten() {
+		toteSpieler = 0;
+		restartTicks = -1;
+
 		double teilnehmerFaktor = Math.log(teilnehmer.size() + Math.E);
 		
 		weltRadius = 1500.0 * teilnehmerFaktor;
@@ -80,6 +86,7 @@ public class OsmosServer extends ServerSpiel {
 		for (Blase b : blasen) {
 			if (b.getController() != null && b.getController().getSpieler() == spieler) {
 				b.setTot(true);
+				toteSpieler--; // die Anzahl der toten Spieler muss wieder reduziert werden, da der Spieler nicht mehr dazuzählt
 				break;
 			}
 		}
@@ -146,12 +153,38 @@ public class OsmosServer extends ServerSpiel {
 					double vergrößerteFläche = Math.PI * g.getRadius() * g.getRadius() + deltaFläche;
 					double vergrößerterRadius = Math.sqrt(vergrößerteFläche / Math.PI);
 					g.vergrößern(vergrößerterRadius - g.getRadius());
+					
+					
+					// Spieler wurde von Spieler absorbiert
+					if(k.istTot() && k.getController() != null && g.getController() != null) {
+						chat.nachrichtAnAlleTeilnehmer(k.getController().getSpieler().getName() + " wurde von " + g.getController().getSpieler().getName() + " absorbiert!");
+					}
 				}
 			}
 		}
 
 		tracker.tick();
 		
+		// wartet gerade auf Neustart
+		if (restartTicks > 0) {
+			restartTicks--;
+		}
+		// soll jetzt neustarten
+		else if (restartTicks == 0) {
+			neustarten();
+			return;
+		}
+		// noch genau ein Spieler am Leben
+		else if (teilnehmer.size() == toteSpieler + 1) {
+			for (Blase b : blasen) {
+				if (b.getController() != null && !b.istTot()) {
+					scoreboard.punkteVorbereiten(b.getController().getSpieler(), toteSpieler);
+					chat.nachrichtAnAlleTeilnehmer(b.getController().getSpieler().getName() + " hat die Runde gewonnen!");
+					restartTicks = 60;
+				}
+			}
+		}
+
 		//		double sum = 0;
 		//		for (Blase b : blasen) {
 		//			sum += b.getRadius() * b.getRadius();
@@ -161,11 +194,25 @@ public class OsmosServer extends ServerSpiel {
 		//			chat.nachrichtAnAlleTeilnehmer("Gesamtfläche: " + sum);
 	}
 	
+	private void neustarten() {
+		scoreboard.punkteAnwenden();
+
+		tracker.untrackAll();
+		blasen.clear();
+		tempBlasen.clear();
+		starten();
+	}
+
 	public void blaseHinzufügen(Blase b) {
 		modBlasen.add(b);
 		tracker.track(b);
 	}
 	
+	public void spielerTot(Spieler spieler) {
+		scoreboard.punkteVorbereiten(spieler, toteSpieler);
+		toteSpieler++;
+	}
+
 	public double getWeltRadius() {
 		return weltRadius;
 	}

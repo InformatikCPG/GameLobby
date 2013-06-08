@@ -30,6 +30,6 @@ public class PaketListe {
 		lexikon.anmelden(PacketSessionSpielerStatus.class);
 		lexikon.anmelden(PacketSpielStarten.class);
 		lexikon.anmelden(PacketSpielTeilnehmer.class);
-		lexikon.anmelden(PacketSpielPunkte.class);
+		lexikon.anmelden(PacketSpielTeilnehmerDaten.class);
 	}
 }

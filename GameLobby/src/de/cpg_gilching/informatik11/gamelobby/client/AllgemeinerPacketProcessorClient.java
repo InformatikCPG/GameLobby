@@ -176,14 +176,14 @@ public class AllgemeinerPacketProcessorClient extends PacketProcessor {
 		}
 	}
 	
-	public void handle(PacketSpielPunkte packet) {
+	public void handle(PacketSpielTeilnehmerDaten packet) {
 		BildschirmGameLobby spiel = client.getSpielNachId(packet.spielId);
 		if (spiel == null) {
 			System.err.println("PacketSpielPunkte: Spiel id ungültig: " + packet.spielId);
 			return;
 		}
 		
-		spiel.spielerPunkteSetzen(packet.spielerName, packet.punkte, packet.tempPunkte);
+		spiel.spielerPunkteSetzen(packet.spielerName, packet.farbe, packet.punkte, packet.tempPunkte);
 	}
 
 }

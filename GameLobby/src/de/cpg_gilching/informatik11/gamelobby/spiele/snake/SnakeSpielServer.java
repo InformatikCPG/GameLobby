@@ -2,7 +2,6 @@ package de.cpg_gilching.informatik11.gamelobby.spiele.snake;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import de.cpg_gilching.informatik11.gamelobby.server.LobbySpieler;
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
@@ -56,6 +55,7 @@ public class SnakeSpielServer extends ServerSpiel {
 		
 		// die Snake muss aus der Liste entfernt werden, damit die Indizes wieder übereinstimmen
 		snakes.remove(entfernt);
+		toteSnakes.remove(entfernt);
 	}
 	
 	@Override
@@ -73,6 +73,7 @@ public class SnakeSpielServer extends ServerSpiel {
 		if(snakes.size() == toteSnakes.size()) {
 			sleep++;
 			if(sleep >= 40) {
+				sleep = 0;
 				reset();
 			}
 			return;

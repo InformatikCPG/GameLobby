@@ -142,5 +142,9 @@ public abstract class ServerSpiel {
 	public final SpielChat getChat() {
 		return chat;
 	}
+	
+	public final Scoreboard getScoreboard() {
+		return scoreboard;
+	}
 
 }

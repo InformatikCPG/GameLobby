@@ -73,7 +73,7 @@ public class Blase {
 	 */
 	public double vergrößern(double wert) {
 		if (radius < -wert) {
-			tot = true;
+			setTot(true);
 			double geändert = -radius;
 			radius = 0;
 			return geändert;
@@ -89,6 +89,8 @@ public class Blase {
 	
 	public void setTot(boolean tot) {
 		this.tot = tot;
+		if (controller != null)
+			server.spielerTot(controller.getSpieler());
 	}
 	
 	public boolean istTot() {

@@ -1,6 +1,5 @@
 package de.cpg_gilching.informatik11.gamelobby.spiele.keymadness;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;

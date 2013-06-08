@@ -1,12 +1,13 @@
 package de.cpg_gilching.informatik11.gamelobby.shared.spieleapi;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import de.cpg_gilching.informatik11.gamelobby.server.LobbySpieler;
-import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielPunkte;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielTeilnehmerDaten;
 
 public class Scoreboard {
 	
@@ -18,12 +19,14 @@ public class Scoreboard {
 	private ServerSpiel spiel;
 	private Map<Spieler, Integer> punkte = new HashMap<Spieler, Integer>();
 	private Map<Spieler, Integer> tempPunkte = new HashMap<Spieler, Integer>();
+	private Map<Spieler, Integer> farben = new HashMap<Spieler, Integer>();
 	
 	public Scoreboard(ServerSpiel spiel) {
 		this.spiel = spiel;
 		
 		for (Spieler s : spiel.getTeilnehmer()) {
 			punkte.put(s, 0);
+			farben.put(s, -1);
 		}
 	}
 	
@@ -40,7 +43,7 @@ public class Scoreboard {
 		else
 			tempPunkte.put(spieler, wert);
 
-		punktestandSenden(spieler);
+		datenSenden(spieler);
 	}
 	
 	/**
@@ -71,7 +74,31 @@ public class Scoreboard {
 		int neueAnzahl = punkte.get(spieler) + anzahl;
 		punkte.put(spieler, neueAnzahl);
 		
-		punktestandSenden(spieler);
+		datenSenden(spieler);
+	}
+	
+	/**
+	 * Setzt die Anzeigefarbe eines Spielers auf dem Scoreboard.
+	 * 
+	 * @param spieler der Spieler, dessen Farbe geändert werden soll
+	 * @param farbe die Farbe als Java-{@link Color}
+	 */
+	public void anzeigefarbeSetzen(Spieler spieler, Color farbe) {
+		anzeigefarbeSetzen(spieler, farbe.getRGB());
+	}
+	
+	/**
+	 * Setzt die Anzeigefarbe eines Spielers auf dem Scoreboard.
+	 * 
+	 * @param spieler der Spieler, dessen Farbe geändert werden soll
+	 * @param farbe die Farbe im RRGGBB-format
+	 */
+	public void anzeigefarbeSetzen(Spieler spieler, int farbe) {
+		if (!farben.containsKey(spieler))
+			throw new IllegalArgumentException("Spieler nicht Teil des Spiels");
+		
+		farben.put(spieler, farbe);
+		datenSenden(spieler);
 	}
 	
 	/**
@@ -84,13 +111,24 @@ public class Scoreboard {
 		return punkte.get(spieler);
 	}
 	
-	private void punktestandSenden(Spieler spieler) {
+	/**
+	 * Gibt die aktuelle Anzeigefarbe des Spielers zurück.
+	 */
+	public int getAnzeigefarbe(Spieler spieler) {
+		if (!farben.containsKey(spieler))
+			throw new IllegalArgumentException("Spieler nicht Teil des Spiels");
+		
+		return farben.get(spieler);
+	}
+
+
+	private void datenSenden(Spieler spieler) {
 		for (Spieler anderer : spiel.getTeilnehmer()) {
 			Integer temp = tempPunkte.get(spieler);
 			if (temp == null)
 				temp = NICHTS;
 
-			((LobbySpieler) anderer).packetSenden(new PacketSpielPunkte(spiel.getSpielId(), spieler.getName(), punkte.get(spieler), temp));
+			((LobbySpieler) anderer).packetSenden(new PacketSpielTeilnehmerDaten(spiel.getSpielId(), spieler.getName(), farben.get(spieler), punkte.get(spieler), temp));
 		}
 	}
 

@@ -4,8 +4,6 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ClientSpiel;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketLexikon;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ServerSpiel;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
-import de.cpg_gilching.informatik11.gamelobby.spiele.pong.PacketBallBewegen;
-import de.cpg_gilching.informatik11.gamelobby.spiele.pong.PacketSchlägerBewegen;
 
 public class SnakeBeschreibung extends SpielBeschreibung {
 
