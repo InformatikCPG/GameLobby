@@ -25,7 +25,7 @@ public class SnakeSpielServer extends ServerSpiel {
 
 	@Override
 	protected void starten() {
-		speed = 5;
+		speed = 2;
 		snakes = new ArrayList<Snake>();
 		startPunkte = new ArrayList<Point>();
 		essen = new ArrayList<Point>();
@@ -67,7 +67,7 @@ public class SnakeSpielServer extends ServerSpiel {
 			}
 			zähler = 0;
 		}
-		if (Helfer.zufallsZahl(50) == 42) {
+		if (Helfer.zufallsZahl(50) < 5) {
 			int x = Helfer.zufallsZahl(60);
 			int y = Helfer.zufallsZahl(60);
 			Point p = new Point(x,y);
@@ -126,6 +126,7 @@ public class SnakeSpielServer extends ServerSpiel {
 	}
 	
 	public void toteSnakeEinfügen(Snake s) {
+		scoreboard.punkteVorbereiten(s.spielerGeben(), toteSnakes.size());
 		toteSnakes.add(s);
 	}
 	
@@ -140,6 +141,7 @@ public class SnakeSpielServer extends ServerSpiel {
 		for(int i=0;i<teilnehmer.size();i++) {
 			nachrichtSenden(teilnehmer.get(i),"");
 		}
+		scoreboard.punkteAnwenden();
 		starten();
 	}
 }
