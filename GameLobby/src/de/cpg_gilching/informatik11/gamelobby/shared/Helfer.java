@@ -50,6 +50,28 @@ public class Helfer {
 	}
 	
 	/**
+	 * Zeigt eine Meldung asynchron in einem einzelnen Fenster an.
+	 * <p/>
+	 * Die Methode blockiert nicht.
+	 * 
+	 * @param meldung der Text, der angezeigt werden soll
+	 * @param istFehler true, wenn der Text eine Fehlermeldung ist, ansonsten false
+	 */
+	public static void meldungAnzeigenAsynchron(final String meldung, final boolean istFehler) {
+		new Thread() {
+			@Override
+			public void run() {
+				if (istFehler) {
+					JOptionPane.showMessageDialog(null, meldung, "Fehler", JOptionPane.ERROR_MESSAGE);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, meldung);
+				}
+			}
+		}.start();
+	}
+	
+	/**
 	 * Joins all elements of an Iterable with a given delimiter between them.
 	 * 
 	 * @param collection The collection of elements to join

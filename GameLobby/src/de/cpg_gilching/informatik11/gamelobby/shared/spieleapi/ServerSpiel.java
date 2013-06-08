@@ -40,8 +40,10 @@ public abstract class ServerSpiel {
 	private ControllerServer server = null;
 	private int spielId = -1;
 	private int msVergangen = 0;
-	protected SpielBeschreibung beschreibung = null;
+	private boolean beendenSperre = false;
+	private boolean beendet = false;
 
+	protected SpielBeschreibung beschreibung = null;
 	protected List<Spieler> teilnehmer = null;
 	protected Scoreboard scoreboard;
 	protected SpielChat chat;
@@ -70,7 +72,9 @@ public abstract class ServerSpiel {
 		int tickAlleMs = 1000 / beschreibung.tickrateGeben();
 		
 		if (msVergangen >= tickAlleMs) {
+			beendenSperre = true;
 			tick();
+			beendenSperre = false;
 			msVergangen -= tickAlleMs;
 		}
 	}
@@ -88,17 +92,24 @@ public abstract class ServerSpiel {
 		System.out.println("Spieler " + spieler.getName() + " hat das Spiel " + beschreibung.getBezeichnung() + " verlassen!");
 		
 		if (teilnehmer.size() - 1 < beschreibung.minimalspielerGeben()) {
-			beenden();
+			// dem verlassenen Spieler das Packet ohne angegebenen Grund schicken
+			teilnehmer.remove(spieler);
+			spieler.packetSenden(new PacketSpielVerlassen(spielId, null));
+			
+			// den Rest über das Verlassen informieren
+			beenden("Ein Gegner hat das Spiel verlassen!");
 		}
 		else {
 			spielerVerlassen(spieler);
 			teilnehmer.remove(spieler);
-			spieler.packetSenden(new PacketSpielVerlassen(spielId));
+			spieler.packetSenden(new PacketSpielVerlassen(spielId, null));
 			
 			Packet verlassenPacket = new PacketSpielTeilnehmer(spielId, spieler.getName(), PacketSpielTeilnehmer.VERLASSEN);
 			for (Spieler anderer : teilnehmer) {
 				((LobbySpieler) anderer).packetSenden(verlassenPacket);
 			}
+			
+			chat.nachrichtAnAlleTeilnehmer(spieler.getName() + " hat das Spiel verlassen!");
 		}
 	}
 
@@ -122,13 +133,16 @@ public abstract class ServerSpiel {
 	public void tick() {
 	}
 	
-	public final void beenden() {
+	public final void beenden(String grund) {
 		System.out.println("Spiel " + beschreibung.getBezeichnung() + " wird beendet!");
 		
 		for (Spieler anderer : teilnehmer) {
-			((LobbySpieler) anderer).packetSenden(new PacketSpielVerlassen(spielId));
+			((LobbySpieler) anderer).packetSenden(new PacketSpielVerlassen(spielId, grund));
 		}
-		server.spielLöschen(this);
+		
+		beendet = true;
+		if (!beendenSperre)
+			server.spielLöschen(this);
 	}
 	
 	public final int getSpielId() {
@@ -145,6 +159,10 @@ public abstract class ServerSpiel {
 	
 	public final Scoreboard getScoreboard() {
 		return scoreboard;
+	}
+	
+	public final boolean istBeendet() {
+		return beendet;
 	}
 
 }

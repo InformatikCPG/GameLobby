@@ -120,7 +120,7 @@ public class BildschirmGameLobby {
 	}
 	
 	public void spielAbbrechen() {
-		client.getVerbindung().sendPacket(new PacketSpielVerlassen(spielId));
+		client.getVerbindung().sendPacket(new PacketSpielVerlassen(spielId, "Spiel abgebrochen"));
 		new Wachhund(oberfläche.getFenster()).start();
 	}
 	

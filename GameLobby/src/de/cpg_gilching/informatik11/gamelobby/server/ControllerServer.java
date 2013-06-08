@@ -111,12 +111,16 @@ public class ControllerServer {
 			
 			try {
 				spiel._tick(ms);
+				
+				// das Spiel wurde während dem Tick beendet
+				if (spiel.istBeendet())
+					it.remove();
 			} catch (Throwable e) {
 				System.err.println("Fehler Tick von Spiel " + spiel.getSpielId());
 				e.printStackTrace();
 				
 				it.remove(); // schon vorzeitig entfernen, dass keine ConcurrentModificationException auftritt
-				spiel.beenden();
+				spiel.beenden("Es trat ein Fehler auf dem Server auf!");
 			}
 		}
 	}

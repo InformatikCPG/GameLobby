@@ -3,6 +3,7 @@ package de.cpg_gilching.informatik11.gamelobby.client;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Packet;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.PacketProcessor;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.*;
@@ -152,6 +153,10 @@ public class AllgemeinerPacketProcessorClient extends PacketProcessor {
 		}
 		
 		spiel.jetztBeenden();
+		
+		if (packet.grund != null) {
+			Helfer.meldungAnzeigenAsynchron(packet.grund, false);
+		}
 	}
 	
 	public void handle(PacketSpielTeilnehmer packet) {
