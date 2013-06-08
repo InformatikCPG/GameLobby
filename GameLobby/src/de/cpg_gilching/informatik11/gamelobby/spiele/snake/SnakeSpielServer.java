@@ -18,8 +18,10 @@ public class SnakeSpielServer extends ServerSpiel {
 	private ArrayList<Point> essen;
 	private ArrayList<Point> startPunkte;
 	private int zähler;
-	private int sleep;
-	private int speed;
+	private int sleep = 10;
+	private int speed = 3;
+	private int essenSpawnrate = 5;
+	private int mode = 0;
 	
 	@Override
 	protected PaketManager paketManagerErstellen(Spieler spieler) {
@@ -28,8 +30,6 @@ public class SnakeSpielServer extends ServerSpiel {
 
 	@Override
 	protected void starten() {
-		sleep = 0;
-		speed = 2;
 		snakes = new ArrayList<Snake>();
 		startPunkte = new ArrayList<Point>();
 		essen = new ArrayList<Point>();
@@ -40,21 +40,10 @@ public class SnakeSpielServer extends ServerSpiel {
 		}
 		
 		for(int i=0;i<teilnehmer.size();i++) {
-			snakes.add(new Snake(this, teilnehmer.get(i), Helfer.zufallsElement(startPunkte, true)));
+			snakes.add(new Snake(this, teilnehmer.get(i), Helfer.zufallsElement(startPunkte, true), mode));
 		}
 		
-		chat.befehlRegistrieren("speed", new ChatBefehl() {
-			@Override
-			public void ausführen(Spieler sender, String[] argumente) {
-				if (argumente.length >= 1) {
-					try {
-						speed = Integer.parseInt(argumente[0]);
-					} catch (NumberFormatException e) {
-						chat.nachrichtAnSpieler(sender, "Du musst eine Zahl eingeben!");
-					}
-				}
-			}
-		});
+		commandsInitialisieren();
 	}
 	
 	@Override
@@ -96,7 +85,7 @@ public class SnakeSpielServer extends ServerSpiel {
 			}
 			zähler = 0;
 		}
-		if (Helfer.zufallsZahl(50) < 5) {
+		if (Helfer.zufallsZahl(100) < essenSpawnrate) {
 			int x = Helfer.zufallsZahl(60);
 			int y = Helfer.zufallsZahl(60);
 			Point p = new Point(x,y);
@@ -157,7 +146,12 @@ public class SnakeSpielServer extends ServerSpiel {
 	public void toteSnakeEinfügen(Snake s) {
 		scoreboard.punkteVorbereiten(s.spielerGeben(), toteSnakes.size());
 		toteSnakes.add(s);
-		chat.nachrichtAnAlleTeilnehmer(s.spielerGeben().getName() + "ist gestorben!");
+		if(toteSnakes.size() != snakes.size()) {
+			chat.nachrichtAnAlleTeilnehmer(s.spielerGeben().getName() + " ist gestorben!");
+		}
+		else {
+			chat.nachrichtAnAlleTeilnehmer(s.spielerGeben().getName() + " hat gewonnen!");			
+		}
 	}
 	
 	public void reset() {
@@ -172,5 +166,49 @@ public class SnakeSpielServer extends ServerSpiel {
 		}
 		scoreboard.punkteAnwenden();
 		starten();
+	}
+	
+	public void commandsInitialisieren() {
+		//speed ändern
+		chat.befehlRegistrieren("speed", new ChatBefehl() {
+			@Override
+			public void ausführen(Spieler sender, String[] argumente) {
+				if (argumente.length >= 1) {
+					try {
+						speed = Integer.parseInt(argumente[0]);
+					} catch (NumberFormatException e) {
+						chat.nachrichtAnSpieler(sender, "Du musst eine Zahl eingeben!");
+					}
+				}
+			}
+		});
+		//Spielmodus ändern
+		chat.befehlRegistrieren("mode", new ChatBefehl() {
+			@Override
+			public void ausführen(Spieler sender, String[] argumente) {
+				if (argumente.length >= 1) {
+					try {
+						for(int i=0;i<snakes.size();i++) {
+							snakes.get(i).mode = Integer.parseInt(argumente[0]);
+						}
+					} catch (NumberFormatException e) {
+						chat.nachrichtAnSpieler(sender, "Du musst eine Zahl eingeben!");
+					}
+				}
+			}
+		});
+		//Essen-Spawnrate ändern
+		chat.befehlRegistrieren("essen", new ChatBefehl() {
+			@Override
+			public void ausführen(Spieler sender, String[] argumente) {
+				if (argumente.length >= 1) {
+					try {
+						essenSpawnrate = Integer.parseInt(argumente[0]);
+					} catch (NumberFormatException e) {
+						chat.nachrichtAnSpieler(sender, "Du musst eine Zahl eingeben!");
+					}
+				}
+			}
+		});
 	}
 }

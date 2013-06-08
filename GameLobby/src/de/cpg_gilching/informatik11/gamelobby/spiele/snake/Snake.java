@@ -13,8 +13,9 @@ public class Snake {
 	private int farbe;
 	private int richtung = 0; //0=rechts, 1=unten, 2=links, 3=oben
 	public boolean tot;
+	public int mode = 0; //0 = Snake; 1 = CurveFever
 	
-	Snake(SnakeSpielServer server, Spieler spieler, Point start) {
+	Snake(SnakeSpielServer server, Spieler spieler, Point start, int mode) {
 		tot = false;
 		this.server = server;
 		this.spieler = spieler;
@@ -38,7 +39,10 @@ public class Snake {
 		if(tot) {
 			return;
 		}
-		Point gelöscht = elemente.removeLast();
+		if(mode == 0) {
+			Point gelöscht = elemente.removeLast();
+			server.feldUpdaten(gelöscht, -1);
+		}
 		
 		Point vorneNeu = null;
 		Point vorne = elemente.getFirst();
@@ -59,7 +63,7 @@ public class Snake {
 		
 		if(server.feldZustandPrüfen(vorneNeu) == 2) {
 			tot = true;
-			server.nachrichtSenden(spieler, "TOOOOOOOOOOOOOOOOOT!");
+			server.nachrichtSenden(spieler, "Du bist gestorben!");
 			server.toteSnakeEinfügen(this);
 			return;
 		}
@@ -67,7 +71,6 @@ public class Snake {
 		elemente.addFirst(vorneNeu);
 		
 		server.feldUpdaten(elemente.getFirst(), farbe);
-		server.feldUpdaten(gelöscht, -1);
 		server.essenPrüfen(vorneNeu, this);
 	}
 	
@@ -93,7 +96,7 @@ public class Snake {
 		return false;
 	}
 	
-	public void speedAnpassen() {
+	/*public void speedAnpassen() {
 		int länge = elemente.size();
 		switch (länge) {
 		case 5:
@@ -109,7 +112,7 @@ public class Snake {
 			server.setSpeed(1);
 			break;
 		}
-	}
+	} */
 	
 	public Spieler spielerGeben() {
 		return spieler;
