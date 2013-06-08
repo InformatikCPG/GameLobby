@@ -57,12 +57,12 @@ public class PongSpielClient extends ClientSpiel implements PaketManager, ITasta
 		// ===========================
 		int linksX = PongBeschreibung.GRENZE_LINKS - PongBeschreibung.SCHLÄGER_BREITE - PongBeschreibung.BALL_RADIUS;
 		int rechtsX = PongBeschreibung.GRENZE_RECHTS + PongBeschreibung.SCHLÄGER_BREITE + PongBeschreibung.BALL_RADIUS;
-		int linksY = links - PongBeschreibung.SCHLÄGER_HÖHE / 2;
-		int rechtsY = rechts - PongBeschreibung.SCHLÄGER_HÖHE / 2;
+		int linksY = links - imgSchläger.getHeight(null) / 2;
+		int rechtsY = rechts - imgSchläger.getHeight(null) / 2;
 		
 		g.setColor(Color.white);
-		g.drawImage(imgSchläger, linksX, linksY, PongBeschreibung.SCHLÄGER_BREITE, PongBeschreibung.SCHLÄGER_HÖHE, null);
-		g.drawImage(imgSchläger, rechtsX, rechtsY, -PongBeschreibung.SCHLÄGER_BREITE, PongBeschreibung.SCHLÄGER_HÖHE, null);
+		g.drawImage(imgSchläger, linksX, linksY, null);
+		g.drawImage(imgSchläger, rechtsX, rechtsY, -imgSchläger.getWidth(null), imgSchläger.getHeight(null), null);
 	}
 	
 	public void verarbeiten(PacketSchlägerBewegen packet) {
