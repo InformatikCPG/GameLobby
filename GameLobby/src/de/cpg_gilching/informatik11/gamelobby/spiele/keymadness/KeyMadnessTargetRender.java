@@ -30,11 +30,11 @@ public class KeyMadnessTargetRender {
 	}
 
 	public void rendern(Graphics2D g) {
-		if(valid == true) {
-			g.drawImage(graphik, x - 25, y - 25, null);
+		if(valid == false) {
+			g.drawImage(graphikinvalid, x - 25, y - 25, null);
 		}
 		else{
-			g.drawImage(graphikinvalid, x - 25, y - 25, null);
+			g.drawImage(graphik, x - 25, y - 25, null);
 		}
 		if(tastencode == KeyEvent.VK_UP){
 			g.drawImage(arrowup, x - 25, y - 25, null);

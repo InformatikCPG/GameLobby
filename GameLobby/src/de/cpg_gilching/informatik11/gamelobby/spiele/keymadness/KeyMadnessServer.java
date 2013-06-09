@@ -60,7 +60,7 @@ public class KeyMadnessServer extends ServerSpiel {
 		Vektor v = new Vektor();
 		boolean getroffen = false;
 		for(int i = 0; i <= (targets.size() - 1); i++){
-			if(v.kopiere(targets.get(i).x, targets.get(i).y).sub(checkpoint.x, checkpoint.y).länge() <= 10){
+			if(v.kopiere(targets.get(i).x, targets.get(i).y).sub(checkpoint.x, checkpoint.y).länge() <= 15){
 				if (targets.get(i).tastencode == tastencode && targets.get(i).valid) {
 					scoreboard.punktHinzufügen(spieler);
 					targets.get(i).tot = true;

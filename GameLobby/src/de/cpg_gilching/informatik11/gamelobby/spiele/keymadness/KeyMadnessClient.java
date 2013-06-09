@@ -46,8 +46,25 @@ public class KeyMadnessClient extends ClientSpiel implements PaketManager{
 		targets.targetsRendern(g);
 		for(int i = 0; i <= daten.checkpoints.length - 1; i++){
 			g.drawImage(checkpoint, daten.checkpoints[i].x - 35, daten.checkpoints[i].y - 35, null);
-			g.setColor(new Color(1, 0, 0, 0.5f));
-			g.drawRect(daten.checkpoints[i].x - 30, daten.checkpoints[i].y - 30, 60, 60);
+			g.setStroke(new BasicStroke(10));
+			switch (i) {
+			case 0:
+				g.setColor(new Color(1, 0, 0, 0.5f));
+				g.drawRect(daten.checkpoints[i].x - 30, daten.checkpoints[i].y - 30, 60, 60);
+				break;
+			case 1:
+				g.setColor(new Color(0, 1, 0, 0.5f));
+				g.drawRect(daten.checkpoints[i].x - 30, daten.checkpoints[i].y - 30, 60, 60);
+				break;
+			case 2:
+				g.setColor(new Color(0, 0, 1, 0.5f));
+				g.drawRect(daten.checkpoints[i].x - 30, daten.checkpoints[i].y - 30, 60, 60);
+				break;
+			case 3:
+				g.setColor(new Color(0, 1, 1, 0.5f));
+				g.drawRect(daten.checkpoints[i].x - 30, daten.checkpoints[i].y - 30, 60, 60);
+				break;
+			}
 		}
 	}
 	
