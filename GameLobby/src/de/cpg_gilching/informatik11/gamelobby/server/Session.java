@@ -81,7 +81,7 @@ public class Session {
 		server.spielStarten(id, beschreibung, teilnehmer);
 	}
 	
-	private void beenden() {
+	public void beenden() {
 		System.out.println("Session " + id + " beendet!");
 		
 		for (LobbySpieler anderer : teilnehmer) {

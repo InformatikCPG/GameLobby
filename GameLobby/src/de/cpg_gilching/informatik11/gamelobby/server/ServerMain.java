@@ -15,7 +15,6 @@ import java.util.List;
 
 import de.cpg_gilching.informatik11.gamelobby.server.fakeplayer.ArtificialSocket;
 import de.cpg_gilching.informatik11.gamelobby.shared.AdapterPaketLexikon;
-import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Connection;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.NetSocket;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Packet;

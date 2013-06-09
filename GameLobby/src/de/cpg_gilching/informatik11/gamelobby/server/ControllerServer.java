@@ -102,7 +102,16 @@ public class ControllerServer {
 	}
 	
 	public void onServerEnde() {
+		// alle laufenden Spiele und Sessions schließen
 		
+		for (Session session : new ArrayList<Session>(offeneSessions.values())) {
+			session.beenden();
+		}
+		
+		// alle laufenden Spiele und Sessions schließen
+		for (ServerSpiel spiel : new ArrayList<ServerSpiel>(offeneSpiele.values())) {
+			spiel.beenden("Server wurde heruntergefahren");
+		}
 	}
 	
 	public void tick(int ms) {
