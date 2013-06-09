@@ -1,5 +1,6 @@
 package de.cpg_gilching.informatik11.gamelobby.spiele.keymadness;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -29,7 +30,16 @@ public class KeyMadnessServer extends ServerSpiel {
 		daten = new KeyMadnessPunkteDaten(teilnehmer.size());
 		targets = new ArrayList<KeyMadnessTarget>();
 		tracker = new EntityTracker(this);
-		
+		switch(teilnehmer.size()) {
+		case 4:
+		    scoreboard.anzeigefarbeSetzen(teilnehmer.get(3), 0x00FFFF);
+		case 3:
+			scoreboard.anzeigefarbeSetzen(teilnehmer.get(2), 0x0000FF);
+		case 2:
+			scoreboard.anzeigefarbeSetzen(teilnehmer.get(1), 0x00FF00);
+			scoreboard.anzeigefarbeSetzen(teilnehmer.get(0), 0xFF0000);
+		    break;
+		}
 		packetAnAlle(new PacketSpielerAnzahl(teilnehmer.size()));
 	}
 
