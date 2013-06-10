@@ -1,6 +1,7 @@
 package de.cpg_gilching.informatik11.gamelobby.shared.spieleapi;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,9 +10,11 @@ import java.util.Map;
 
 import de.cpg_gilching.informatik11.gamelobby.server.ControllerServer;
 import de.cpg_gilching.informatik11.gamelobby.server.LobbySpieler;
+import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Packet;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielTeilnehmer;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielVerlassen;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielChat.ChatBefehl;
 
 /**
  * Dies ist die Basis-Klasse für die Serverseite eines Spiels.<br>
@@ -63,6 +66,13 @@ public abstract class ServerSpiel {
 		for (Spieler spieler : this.teilnehmer) {
 			paketManagerMap.put(spieler, paketManagerErstellen(spieler));
 		}
+		
+		chat.befehlRegistrieren("stopgame", new ChatBefehl() {
+			@Override
+			public void ausführen(Spieler sender, String[] argumente) {
+				beenden(argumente.length > 0 ? Helfer.verketten(Arrays.asList(argumente), " ").toString() : null);
+			}
+		});
 
 		starten();
 	}
