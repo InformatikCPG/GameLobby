@@ -3,6 +3,7 @@ package de.cpg_gilching.informatik11.gamelobby.spiele.realmofthemadschool;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.cpg_gilching.informatik11.gamelobby.server.LobbySpieler;
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.EntityTracker;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
@@ -38,6 +39,15 @@ public class RealmofthemadschoolServer extends ServerSpiel {
 		}
 		
 }
+	@Override
+	protected void spielerVerlassen(LobbySpieler spieler) {
+		Dude deserter = sucheDude(spieler);
+		Dudeliste.remove(deserter);
+		Entityliste.remove(deserter);
+		toteDudes.remove(deserter);
+		tracker.untrackTarget(deserter);
+	}
+	
 	public Dude sucheDude(Spieler s) {
 		int index = teilnehmer.indexOf(s);
 		return Dudeliste.get(index);
@@ -82,7 +92,7 @@ public class RealmofthemadschoolServer extends ServerSpiel {
 		for (int i=0;i<Dudeliste.size();i++) {
 			Dude d = Dudeliste.get(i);
 			int abstand = 35;
-			if(d!=bullet.dude && (d.x-bullet.x)*(d.x-bullet.x) + (d.y-bullet.y)*(d.y-bullet.y) < abstand * abstand) {
+			if(d.dead == false && d!=bullet.dude && (d.x-bullet.x)*(d.x-bullet.x) + (d.y-bullet.y)*(d.y-bullet.y) < abstand * abstand) {
 				bullet.dead = true;
                 d.damage();
 			}
