@@ -43,7 +43,10 @@ public class OsmosServer extends ServerSpiel {
 		double winkel = 0;
 		
 		for (Spieler spieler : teilnehmer) {
-			Blase b = new Blase(this, 50.0);
+			int farbe = (Helfer.zufallsZahl(0xCC) << 16) | (Helfer.zufallsZahl(0x99, 0xFF) << 8) | (Helfer.zufallsZahl(0xCC));
+			scoreboard.anzeigefarbeSetzen(spieler, farbe);
+			
+			Blase b = new Blase(this, 50.0, farbe);
 			b.setController((SpielerController) getPaketManagerFür(spieler));
 			b.teleport(new Vektor(Math.sin(winkel) * weltRadius / 2, Math.cos(winkel) * weltRadius / 2));
 			blaseHinzufügen(b);
@@ -156,7 +159,7 @@ public class OsmosServer extends ServerSpiel {
 					
 					
 					// Spieler wurde von Spieler absorbiert
-					if(k.istTot() && k.getController() != null && g.getController() != null) {
+					if (k.istTot() && k.getController() != null && g.getController() != null) {
 						chat.nachrichtAnAlleTeilnehmer(k.getController().getSpieler().getName() + " wurde von " + g.getController().getSpieler().getName() + " absorbiert!");
 					}
 				}

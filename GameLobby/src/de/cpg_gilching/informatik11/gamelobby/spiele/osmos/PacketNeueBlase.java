@@ -10,29 +10,29 @@ public class PacketNeueBlase extends SpielPacket {
 	
 	public int id;
 	public boolean neu;
-	public boolean spielerblase;
+	public int spielerfarbe;
 	
 	public PacketNeueBlase() {
 	}
 	
-	public PacketNeueBlase(int id, boolean neu, boolean spielerblase) {
+	public PacketNeueBlase(int id, boolean neu, int spielerfarbe) {
 		this.id = id;
 		this.neu = neu;
-		this.spielerblase = spielerblase;
+		this.spielerfarbe = spielerfarbe;
 	}
 	
 	@Override
 	public void ausgeben(DataOutputStream out) throws IOException {
 		out.writeInt(id);
 		out.writeBoolean(neu);
-		out.writeBoolean(spielerblase);
+		out.writeInt(spielerfarbe);
 	}
 	
 	@Override
 	public void einlesen(DataInputStream in) throws IOException {
 		id = in.readInt();
 		neu = in.readBoolean();
-		spielerblase = in.readBoolean();
+		spielerfarbe = in.readInt();
 	}
 	
 }

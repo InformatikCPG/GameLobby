@@ -10,14 +10,20 @@ public class Blase {
 	private Vektor position = new Vektor();
 	private Vektor geschwindigkeit = new Vektor();
 	private boolean tot = false;
+	private int farbe;
 	
 	private double radius;
 	
 
-	public Blase(OsmosServer server, double radius) {
+	public Blase(OsmosServer server, double radius, int farbe) {
 		this.id = ++idCounter;
 		this.server = server;
 		this.radius = radius;
+		this.farbe = farbe;
+	}
+	
+	public Blase(OsmosServer server, double radius) {
+		this(server, radius, -1);
 	}
 	
 	public void tick() {
@@ -109,6 +115,10 @@ public class Blase {
 		return geschwindigkeit;
 	}
 	
+	public int getFarbe() {
+		return farbe;
+	}
+
 	
 	public static boolean kollidiert(Blase b1, Blase b2) {
 		return kollidiert(b1, b2, new Vektor());
