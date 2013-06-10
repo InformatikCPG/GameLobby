@@ -14,7 +14,7 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.Spieler;
 public class OsmosServer extends ServerSpiel {
 	
 	public final Random rand = new Random();
-
+	
 	private double weltRadius;
 	private List<Blase> blasen = new ArrayList<Blase>();
 	private Tracker tracker = new Tracker(this);
@@ -24,7 +24,7 @@ public class OsmosServer extends ServerSpiel {
 	
 	public int toteSpieler;
 	private int restartTicks;
-
+	
 	@Override
 	protected PaketManager paketManagerErstellen(Spieler spieler) {
 		return new SpielerController(this, spieler);
@@ -34,7 +34,7 @@ public class OsmosServer extends ServerSpiel {
 	protected void starten() {
 		toteSpieler = 0;
 		restartTicks = -1;
-
+		
 		double teilnehmerFaktor = Math.log(teilnehmer.size() + Math.E);
 		
 		weltRadius = 1500.0 * teilnehmerFaktor;
@@ -46,7 +46,7 @@ public class OsmosServer extends ServerSpiel {
 			int farbe = (Helfer.zufallsZahl(0xCC) << 16) | (Helfer.zufallsZahl(0x99, 0xFF) << 8) | (Helfer.zufallsZahl(0xCC));
 			scoreboard.anzeigefarbeSetzen(spieler, farbe);
 			
-			Blase b = new Blase(this, 50.0, farbe);
+			Blase b = new Blase(this, 50.0, farbe, spieler.getName());
 			b.setController((SpielerController) getPaketManagerFür(spieler));
 			b.teleport(new Vektor(Math.sin(winkel) * weltRadius / 2, Math.cos(winkel) * weltRadius / 2));
 			blaseHinzufügen(b);
@@ -65,8 +65,8 @@ public class OsmosServer extends ServerSpiel {
 			
 			boolean kollidiert = true;
 			while (kollidiert) {
-				npc.getPosition().x = (rand.nextDouble() * 2 - 0.5) * (weltRadius - npcRadius);
-				npc.getPosition().y = (rand.nextDouble() * 2 - 0.5) * (weltRadius - npcRadius);
+				npc.getPosition().x = (rand.nextDouble() * 2 - 1) * (weltRadius - npcRadius);
+				npc.getPosition().y = (rand.nextDouble() * 2 - 1) * (weltRadius - npcRadius);
 				
 				// außerhalb des Kreises
 				if (npc.getPosition().längeQuadrat() > (weltRadius - npcRadius) * (weltRadius - npcRadius))
@@ -98,7 +98,7 @@ public class OsmosServer extends ServerSpiel {
 	@Override
 	public void tick() {
 		modBlasen = tempBlasen;
-
+		
 		Iterator<Blase> it = blasen.iterator();
 		while (it.hasNext()) {
 			Blase b = it.next();
@@ -111,7 +111,7 @@ public class OsmosServer extends ServerSpiel {
 			}
 			
 			b.tick();
-
+			
 			// in diesem Tick gestorben
 			if (b.istTot()) {
 				it.remove();
@@ -123,7 +123,7 @@ public class OsmosServer extends ServerSpiel {
 		
 		blasen.addAll(tempBlasen);
 		tempBlasen.clear();
-
+		
 		// jede Blase mit jeder auf Kollision prüfen
 		Blase b1, b2;
 		Vektor v = new Vektor();
@@ -148,7 +148,7 @@ public class OsmosServer extends ServerSpiel {
 						k = b1;
 					}
 					
-
+					
 					double alteFläche = Math.PI * k.getRadius() * k.getRadius();
 					k.vergrößern(-schnitt);
 					double deltaFläche = alteFläche - Math.PI * k.getRadius() * k.getRadius(); // neueFläche - alteFläche
@@ -165,7 +165,7 @@ public class OsmosServer extends ServerSpiel {
 				}
 			}
 		}
-
+		
 		tracker.tick();
 		
 		// wartet gerade auf Neustart
@@ -187,7 +187,7 @@ public class OsmosServer extends ServerSpiel {
 				}
 			}
 		}
-
+		
 		//		double sum = 0;
 		//		for (Blase b : blasen) {
 		//			sum += b.getRadius() * b.getRadius();
@@ -199,13 +199,13 @@ public class OsmosServer extends ServerSpiel {
 	
 	private void neustarten() {
 		scoreboard.punkteAnwenden();
-
+		
 		tracker.untrackAll();
 		blasen.clear();
 		tempBlasen.clear();
 		starten();
 	}
-
+	
 	public void blaseHinzufügen(Blase b) {
 		modBlasen.add(b);
 		tracker.track(b);
@@ -215,9 +215,9 @@ public class OsmosServer extends ServerSpiel {
 		scoreboard.punkteVorbereiten(spieler, toteSpieler);
 		toteSpieler++;
 	}
-
+	
 	public double getWeltRadius() {
 		return weltRadius;
 	}
-
+	
 }

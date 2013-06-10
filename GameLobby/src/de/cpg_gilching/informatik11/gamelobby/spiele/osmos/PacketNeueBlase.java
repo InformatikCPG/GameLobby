@@ -11,14 +11,16 @@ public class PacketNeueBlase extends SpielPacket {
 	public int id;
 	public boolean neu;
 	public int spielerfarbe;
+	public String label;
 	
 	public PacketNeueBlase() {
 	}
 	
-	public PacketNeueBlase(int id, boolean neu, int spielerfarbe) {
+	public PacketNeueBlase(int id, boolean neu, int spielerfarbe, String label) {
 		this.id = id;
 		this.neu = neu;
 		this.spielerfarbe = spielerfarbe;
+		this.label = label;
 	}
 	
 	@Override
@@ -26,6 +28,7 @@ public class PacketNeueBlase extends SpielPacket {
 		out.writeInt(id);
 		out.writeBoolean(neu);
 		out.writeInt(spielerfarbe);
+		out.writeUTF(label);
 	}
 	
 	@Override
@@ -33,6 +36,7 @@ public class PacketNeueBlase extends SpielPacket {
 		id = in.readInt();
 		neu = in.readBoolean();
 		spielerfarbe = in.readInt();
+		label = in.readUTF();
 	}
 	
 }

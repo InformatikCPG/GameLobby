@@ -186,7 +186,6 @@ public class FensterGameLobby {
 					box.add(Box.createHorizontalStrut(10));
 					
 					panelSpieler.add(box);
-					panelSpieler.add(Box.createVerticalStrut(10));
 					
 					platz++;
 				}

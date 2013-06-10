@@ -60,7 +60,7 @@ public class Vektor {
 		y = altX * +Math.sin(rad) + y * +Math.cos(rad);
 		return this;
 	}
-
+	
 	public Vektor kopiere(Vektor ziel) {
 		this.x = ziel.x;
 		this.y = ziel.y;
@@ -72,7 +72,7 @@ public class Vektor {
 		this.y = y;
 		return this;
 	}
-
+	
 	public Vektor klonen() {
 		return new Vektor(x, y);
 	}
@@ -115,5 +115,5 @@ public class Vektor {
 	public String toString() {
 		return "Vektor[" + x + ", " + y + "]";
 	}
-
+	
 }

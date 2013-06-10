@@ -41,22 +41,22 @@ public class Tracker {
 		public BlasenTracker(Blase blase) {
 			this.blase = blase;
 			
-			server.packetAnAlle(new PacketNeueBlase(blase.id, true, blase.getFarbe()));
+			server.packetAnAlle(new PacketNeueBlase(blase.id, true, blase.getFarbe(), blase.getLabel()));
 			server.packetAnAlle(new PacketBlaseBewegen(blase.id, blase.getPosition()));
 			server.packetAnAlle(new PacketBlaseDaten(blase.id, blase.getRadius()));
 		}
 		
 		public void entfernen() {
-			server.packetAnAlle(new PacketNeueBlase(blase.id, false, -1));
+			server.packetAnAlle(new PacketNeueBlase(blase.id, false, -1, ""));
 		}
-
+		
 		public void tick() {
 			if (!gesendetPosition.equals(blase.getPosition())) {
 				server.packetAnAlle(new PacketBlaseBewegen(blase.id, blase.getPosition()));
 				gesendetPosition.kopiere(blase.getPosition());
 			}
 			
-			if(gesendetRadius != blase.getRadius()) {
+			if (gesendetRadius != blase.getRadius()) {
 				server.packetAnAlle(new PacketBlaseDaten(blase.id, blase.getRadius()));
 				gesendetRadius = blase.getRadius();
 			}

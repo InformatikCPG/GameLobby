@@ -21,7 +21,7 @@ public class OsmosClient extends ClientSpiel implements PaketManager, IMausradLi
 	
 	private volatile float zielSkalierung = 1.0f;
 	private float skalierung = 1.0f;
-
+	
 	private Vektor gesendetePosition = new Vektor();
 	
 	@Override
@@ -87,7 +87,7 @@ public class OsmosClient extends ClientSpiel implements PaketManager, IMausradLi
 	
 	public void verarbeiten(PacketNeueBlase packet) {
 		if (packet.neu)
-			blasen.put(packet.id, new BlasenRenderer(this, packet.id, packet.spielerfarbe));
+			blasen.put(packet.id, new BlasenRenderer(this, packet.id, packet.spielerfarbe, packet.label));
 		else if (blasen.remove(packet.id) == aktiveBlase)
 			aktiveBlase = null;
 	}
@@ -112,5 +112,9 @@ public class OsmosClient extends ClientSpiel implements PaketManager, IMausradLi
 	public BlasenRenderer getAktiveBlase() {
 		return aktiveBlase;
 	}
-
+	
+	public float getSkalierung() {
+		return skalierung;
+	}
+	
 }

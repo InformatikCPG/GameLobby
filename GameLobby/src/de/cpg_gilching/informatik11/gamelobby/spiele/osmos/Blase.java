@@ -6,24 +6,27 @@ public class Blase {
 	
 	public final int id;
 	private final OsmosServer server;
+	private final int farbe;
+	private final String label;
+	
 	private SpielerController controller = null;
 	private Vektor position = new Vektor();
 	private Vektor geschwindigkeit = new Vektor();
 	private boolean tot = false;
-	private int farbe;
 	
 	private double radius;
 	
-
-	public Blase(OsmosServer server, double radius, int farbe) {
+	public Blase(OsmosServer server, double radius, int farbe, String label) {
 		this.id = ++idCounter;
 		this.server = server;
-		this.radius = radius;
 		this.farbe = farbe;
+		this.label = label;
+		
+		this.radius = radius;
 	}
 	
 	public Blase(OsmosServer server, double radius) {
-		this(server, radius, -1);
+		this(server, radius, -1, "");
 	}
 	
 	public void tick() {
@@ -43,7 +46,7 @@ public class Blase {
 			geschwindigkeit.x *= -1;
 			geschwindigkeit.drehen(kollisionsWinkel);
 		}
-
+		
 	}
 	
 	public void setController(SpielerController controller) {
@@ -55,21 +58,21 @@ public class Blase {
 	public SpielerController getController() {
 		return controller;
 	}
-
+	
 	public void beschleunigen(Vektor a) {
 		geschwindigkeit.add(a);
 		
-		double verloren = (Math.PI * radius * radius) * a.länge() * 0.015;
+		double verloren = (Math.PI * radius * radius) * a.länge() * 0.008;
 		double alterRadius = radius;
 		
 		// r3² = (r1²pi - A2) / pi
 		radius = Math.sqrt((Math.PI * alterRadius * alterRadius - verloren) / Math.PI);
-
+		
 		double bubbleRadius = Math.sqrt(verloren / Math.PI);
 		Blase neu = new Blase(server, bubbleRadius);
 		neu.getPosition().kopiere(a).einheit().mul(-radius - bubbleRadius - 5).add(position);
 		neu.getGeschwindigkeit().kopiere(a).mul(-6).add(geschwindigkeit);
-
+		
 		server.blaseHinzufügen(neu);
 	}
 	
@@ -84,11 +87,11 @@ public class Blase {
 			radius = 0;
 			return geändert;
 		}
-
+		
 		radius += wert;
 		return wert;
 	}
-
+	
 	public void teleport(Vektor ziel) {
 		position.kopiere(ziel);
 	}
@@ -102,7 +105,7 @@ public class Blase {
 	public boolean istTot() {
 		return tot;
 	}
-
+	
 	public double getRadius() {
 		return radius;
 	}
@@ -118,7 +121,11 @@ public class Blase {
 	public int getFarbe() {
 		return farbe;
 	}
-
+	
+	public String getLabel() {
+		return label;
+	}
+	
 	
 	public static boolean kollidiert(Blase b1, Blase b2) {
 		return kollidiert(b1, b2, new Vektor());
@@ -126,10 +133,10 @@ public class Blase {
 	
 	public static boolean kollidiert(Blase b1, Blase b2, Vektor v) {
 		v.kopiere(b1.getPosition()).sub(b2.getPosition());
-
+		
 		double radien = b1.getRadius() + b2.getRadius();
 		
 		return v.längeQuadrat() < (radien * radien);
 	}
-
+	
 }

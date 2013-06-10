@@ -24,10 +24,10 @@ public class SpielerController implements PaketManager {
 		if (gedrückt) {
 			beschleunigtTicks++;
 			double faktor = Math.max(1.0, 2.0 - 0.05 * beschleunigtTicks);
-
+			
 			Vektor richtung = new Vektor();
 			richtung.add(blase.getPosition()).sub(mausPosition).einheit().mul(faktor);
-
+			
 			blase.beschleunigen(richtung);
 		}
 		else {
@@ -38,8 +38,6 @@ public class SpielerController implements PaketManager {
 	public void verarbeiten(PacketSpielMaus packet) {
 		if (packet.maustaste == 1)
 			gedrückt = packet.zustand;
-		else if (packet.maustaste == 3)
-			blase.vergrößern(10);
 	}
 	
 	public void verarbeiten(PacketMausPosition packet) {
@@ -57,9 +55,9 @@ public class SpielerController implements PaketManager {
 	public Spieler getSpieler() {
 		return spieler;
 	}
-
+	
 	public OsmosServer getServer() {
 		return server;
 	}
-
+	
 }
