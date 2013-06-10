@@ -3,7 +3,6 @@ package de.cpg_gilching.informatik11.gamelobby.client;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -15,18 +14,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
+import javax.swing.*;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 
@@ -45,6 +33,7 @@ public class FensterServerLobby implements Runnable {
 	private JPanel panelAlleSpieler;
 	private JComboBox gameDropdown;
 	private JLabel gameAusgewähltLabel;
+	private JComboBox punktelimitDropdown;
 	private JButton gameStartBtn;
 	
 	public FensterServerLobby(BildschirmServerLobby dieServerLobby) {
@@ -61,6 +50,7 @@ public class FensterServerLobby implements Runnable {
 				panelAlleSpieler.setLayout(null);
 				
 				JButton trennenBtn = new JButton("Verbindung trennen");
+				trennenBtn.setFocusable(false);
 				trennenBtn.setBounds(590, 550, 200, 40);
 				trennenBtn.addActionListener(new ActionListener() {
 					@Override
@@ -101,20 +91,55 @@ public class FensterServerLobby implements Runnable {
 				});
 				hauptPanel.add(gameDropdown);
 				
-				JLabel ausgewähltBeschriftung = new JLabel("Ausgewählte Spieler:  ");
+				JLabel ausgewähltBeschriftung = new JLabel("Ausgewählte Spieler:", SwingConstants.RIGHT);
+				ausgewähltBeschriftung.setBounds(10, 460, 140, 20);
 				ausgewähltBeschriftung.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
+				hauptPanel.add(ausgewähltBeschriftung);
+
 				gameAusgewähltLabel = new JLabel();
+				gameAusgewähltLabel.setBounds(160, 460, 100, 20);
 				gameAusgewähltLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 15));
+				hauptPanel.add(gameAusgewähltLabel);
 				
-				JPanel ausgewähltAnzeige = new JPanel();
-				ausgewähltAnzeige.setBounds(10, 460, 300, 30);
-				ausgewähltAnzeige.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-				ausgewähltAnzeige.add(ausgewähltBeschriftung);
-				ausgewähltAnzeige.add(gameAusgewähltLabel);
-				hauptPanel.add(ausgewähltAnzeige);
+				//				JPanel ausgewähltAnzeige = new JPanel();
+				//				ausgewähltAnzeige.setBounds(10, 460, 300, 20);
+				//				ausgewähltAnzeige.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+				//				ausgewähltAnzeige.add(ausgewähltBeschriftung);
+				//				ausgewähltAnzeige.add(gameAusgewähltLabel);
+				//				hauptPanel.add(ausgewähltAnzeige);
 				
+				
+				JLabel punktelimitBeschriftung = new JLabel("Punktelimit:", SwingConstants.RIGHT);
+				punktelimitBeschriftung.setBounds(10, 490, 140, 30);
+				punktelimitBeschriftung.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
+				hauptPanel.add(punktelimitBeschriftung);
+				
+				punktelimitDropdown = new JComboBox();
+				punktelimitDropdown.setBounds(160, 492, 80, 25);
+				punktelimitDropdown.setBackground(Color.white);
+				punktelimitDropdown.addItem(10);
+				punktelimitDropdown.addItem(20);
+				punktelimitDropdown.addItem(50);
+				punktelimitDropdown.addItem(100);
+				punktelimitDropdown.addItemListener(new ItemListener() {
+					@Override
+					public void itemStateChanged(ItemEvent e) {
+						if (e.getStateChange() == ItemEvent.SELECTED) {
+							final int punktelimit = (Integer) e.getItem();
+							serverLobby.getClient().getScheduler().taskHinzufügen(new Runnable() {
+								@Override
+								public void run() {
+									serverLobby.punktelimitSetzen(punktelimit);
+								}
+							});
+						}
+					}
+				});
+
+				hauptPanel.add(punktelimitDropdown);
+
 				gameStartBtn = new JButton("Session starten");
-				gameStartBtn.setBounds(10, 500, 200, 40);
+				gameStartBtn.setBounds(10, 540, 200, 40);
 				gameStartBtn.addActionListener(new SynchronerListener(FensterServerLobby.this, serverLobby.getClient()));
 				hauptPanel.add(gameStartBtn);
 				

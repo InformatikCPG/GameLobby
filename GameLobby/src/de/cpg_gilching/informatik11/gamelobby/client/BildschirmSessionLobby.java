@@ -15,16 +15,18 @@ public class BildschirmSessionLobby {
 	private ControllerClient client;
 	private int sessionId;
 	private SpielBeschreibung beschreibung;
+	private int punktelimit;
 	
 	private Set<String> teilnehmer;
 	private Set<String> fertigeSpieler = new HashSet<String>();
 	
 	private FensterSessionLobby oberfläche;
 	
-	public BildschirmSessionLobby(ControllerClient client, int sessionId, SpielBeschreibung beschreibung, List<String> eingeladeneSpieler) {
+	public BildschirmSessionLobby(ControllerClient client, int sessionId, SpielBeschreibung beschreibung, List<String> eingeladeneSpieler, int punktelimit) {
 		this.client = client;
 		this.sessionId = sessionId;
 		this.beschreibung = beschreibung;
+		this.punktelimit = punktelimit;
 		this.teilnehmer = new TreeSet<String>(eingeladeneSpieler);
 		
 		this.oberfläche = new FensterSessionLobby(this);
@@ -65,4 +67,8 @@ public class BildschirmSessionLobby {
 		return sessionId;
 	}
 	
+	public int getPunktelimit() {
+		return punktelimit;
+	}
+
 }

@@ -164,8 +164,8 @@ public class ControllerServer {
 		return null;
 	}
 	
-	public void sessionStarten(SpielBeschreibung beschreibung, List<LobbySpieler> teilnehmer) {
-		Session neueSession = new Session(this, beschreibung, teilnehmer);
+	public void sessionStarten(SpielBeschreibung beschreibung, List<LobbySpieler> teilnehmer, int punktelimit) {
+		Session neueSession = new Session(this, beschreibung, teilnehmer, punktelimit);
 		offeneSessions.put(neueSession.getId(), neueSession);
 	}
 	
@@ -178,7 +178,7 @@ public class ControllerServer {
 	}
 	
 	
-	public void spielStarten(int id, SpielBeschreibung beschreibung, Set<LobbySpieler> teilnehmer) {
+	public void spielStarten(int id, SpielBeschreibung beschreibung, Set<LobbySpieler> teilnehmer, int punktelimit) {
 		// das ServerSpiel erzeugen
 		ServerSpiel serverSpiel = beschreibung.serverInstanzErstellen();
 		
@@ -187,7 +187,7 @@ public class ControllerServer {
 		
 		// alle Teilnehmer über den Spielstart informieren
 		for (LobbySpieler spieler : teilnehmer) {
-			spieler.packetSenden(new PacketSpielStarten(id, beschreibung.getSpielId()));
+			spieler.packetSenden(new PacketSpielStarten(id, beschreibung.getSpielId(), punktelimit));
 			
 			// alle Spieler beitreten lassen
 			for (LobbySpieler anderer : teilnehmer) {
@@ -196,7 +196,7 @@ public class ControllerServer {
 		}
 		
 		// nachdem die Umgebung richtig aufgesetzt wurde, kann es gestartet werden
-		serverSpiel._init(this, beschreibung, id, teilnehmer);
+		serverSpiel._init(this, beschreibung, id, teilnehmer, punktelimit);
 	}
 	
 	public void spielLöschen(ServerSpiel spiel) {

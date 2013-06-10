@@ -144,6 +144,11 @@ public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 			return;
 		}
 		
+		if (packet.punktelimit < 1) {
+			System.err.println("Ungültiges Punktelimit beim Starten der Session: " + packet.punktelimit);
+			return;
+		}
+
 		List<LobbySpieler> spielerListe = new ArrayList<LobbySpieler>(packet.eingeladeneSpieler.size() + 1);
 		spielerListe.add(spieler);
 		
@@ -162,7 +167,7 @@ public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 			return;
 		}
 		
-		spieler.getServer().sessionStarten(beschreibung, spielerListe);
+		spieler.getServer().sessionStarten(beschreibung, spielerListe, packet.punktelimit);
 	}
 	
 	public void handle(PacketSessionAnnehmen packet) {

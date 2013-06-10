@@ -91,8 +91,8 @@ public class ControllerClient implements Runnable {
 		return angemeldeteBeschreibungen.get(spielId);
 	}
 	
-	public void sessionErstellen(int sessionId, SpielBeschreibung beschreibung, List<String> eingeladeneSpieler) {
-		offeneSessions.put(sessionId, new BildschirmSessionLobby(this, sessionId, beschreibung, eingeladeneSpieler));
+	public void sessionErstellen(int sessionId, SpielBeschreibung beschreibung, List<String> eingeladeneSpieler, int punktelimit) {
+		offeneSessions.put(sessionId, new BildschirmSessionLobby(this, sessionId, beschreibung, eingeladeneSpieler, punktelimit));
 	}
 	
 	public void sessionLöschen(BildschirmSessionLobby sessionLobby) {
@@ -103,8 +103,8 @@ public class ControllerClient implements Runnable {
 		return offeneSessions.get(sessionId);
 	}
 	
-	public void spielErstellen(int spielId, SpielBeschreibung beschreibung) {
-		offeneSpiele.put(spielId, new BildschirmGameLobby(this, spielId, beschreibung));
+	public void spielErstellen(int spielId, SpielBeschreibung beschreibung, int punktelimit) {
+		offeneSpiele.put(spielId, new BildschirmGameLobby(this, spielId, beschreibung, punktelimit));
 	}
 	
 	public void spielLöschen(BildschirmGameLobby spielLobby) {

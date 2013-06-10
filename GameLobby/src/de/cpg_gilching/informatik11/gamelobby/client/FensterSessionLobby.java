@@ -50,9 +50,16 @@ public class FensterSessionLobby {
 				labelSpielname = new JLabel();
 				labelSpielname.setText(sessionLobby.getBeschreibung().getBezeichnung());
 				labelSpielname.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
-				labelSpielname.setBounds(0, 10, 250, 40);
+				labelSpielname.setBounds(0, 5, 250, 30);
 				labelSpielname.setHorizontalAlignment(JLabel.CENTER);
 				hauptPanel.add(labelSpielname);
+				
+				JLabel labelPunktelimit = new JLabel();
+				labelPunktelimit.setText(sessionLobby.getPunktelimit() + " Punkte");
+				labelPunktelimit.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
+				labelPunktelimit.setBounds(0, 35, 250, 20);
+				labelPunktelimit.setHorizontalAlignment(JLabel.CENTER);
+				hauptPanel.add(labelPunktelimit);
 				
 				panelSpieler = new JPanel();
 				panelSpieler.setLayout(new BoxLayout(panelSpieler, BoxLayout.Y_AXIS));

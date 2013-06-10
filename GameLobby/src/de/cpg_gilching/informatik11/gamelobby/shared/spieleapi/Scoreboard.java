@@ -54,6 +54,8 @@ public class Scoreboard {
 			tempPunkte.remove(entry.getKey());
 			punkteÄndern(entry.getKey(), entry.getValue());
 		}
+		
+		gewinnPrüfen();
 	}
 	
 	/**
@@ -75,6 +77,7 @@ public class Scoreboard {
 		punkte.put(spieler, neueAnzahl);
 		
 		datenSenden(spieler);
+		gewinnPrüfen();
 	}
 	
 	/**
@@ -129,6 +132,15 @@ public class Scoreboard {
 				temp = NICHTS;
 
 			((LobbySpieler) anderer).packetSenden(new PacketSpielTeilnehmerDaten(spiel.getSpielId(), spieler.getName(), farben.get(spieler), punkte.get(spieler), temp));
+		}
+	}
+	
+	private void gewinnPrüfen() {
+		for (Entry<Spieler, Integer> entry : punkte.entrySet()) {
+			if (entry.getValue() >= spiel.getPunktelimit()) {
+				spiel.beenden(String.format("%s hat das Spiel mit %d Punkten gewonnen!", entry.getKey().getName(), entry.getValue()));
+				break;
+			}
 		}
 	}
 

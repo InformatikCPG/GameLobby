@@ -42,6 +42,8 @@ public abstract class ServerSpiel {
 	
 	private ControllerServer server = null;
 	private int spielId = -1;
+	private int punktelimit = 10;
+
 	private int msVergangen = 0;
 	private boolean beendenSperre = false;
 	private boolean beendet = false;
@@ -54,10 +56,11 @@ public abstract class ServerSpiel {
 	// Speichert alle PaketManager der Spieler
 	private Map<Spieler, PaketManager> paketManagerMap = new HashMap<Spieler, PaketManager>();
 	
-	public final void _init(ControllerServer server, SpielBeschreibung beschreibung, int id, Collection<LobbySpieler> teilnehmer) {
+	public final void _init(ControllerServer server, SpielBeschreibung beschreibung, int id, Collection<LobbySpieler> teilnehmer, int punktelimit) {
 		this.server = server;
 		this.beschreibung = beschreibung;
 		this.spielId = id;
+		this.punktelimit = punktelimit;
 		this.teilnehmer = new ArrayList<Spieler>(teilnehmer);
 		Collections.shuffle(this.teilnehmer);
 		this.scoreboard = new Scoreboard(this);
@@ -173,6 +176,10 @@ public abstract class ServerSpiel {
 	
 	public final boolean istBeendet() {
 		return beendet;
+	}
+
+	public final int getPunktelimit() {
+		return punktelimit;
 	}
 
 }

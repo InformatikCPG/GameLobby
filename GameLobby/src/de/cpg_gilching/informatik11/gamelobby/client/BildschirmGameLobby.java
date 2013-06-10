@@ -41,6 +41,7 @@ public class BildschirmGameLobby {
 	private ControllerClient client;
 	private int spielId;
 	private SpielBeschreibung beschreibung;
+	private int punktelimit;
 	private ClientSpiel clientSpiel;
 	private int msVergangen = 0;
 	
@@ -50,12 +51,13 @@ public class BildschirmGameLobby {
 	private SpielOberfläche spielView = new SpielOberfläche(this);
 	private FensterGameLobby oberfläche;
 	
-	public BildschirmGameLobby(ControllerClient client, int spielId, SpielBeschreibung beschreibung) {
+	public BildschirmGameLobby(ControllerClient client, int spielId, SpielBeschreibung beschreibung, int punktelimit) {
 		this.client = client;
 		this.spielId = spielId;
 		this.beschreibung = beschreibung;
+		this.punktelimit = punktelimit;
 		
-		this.oberfläche = new FensterGameLobby(this, beschreibung.getBezeichnung(), spielView);
+		this.oberfläche = new FensterGameLobby(this, spielView);
 		
 		clientSpiel = beschreibung.clientInstanzErstellen();
 		clientSpiel._init(spielView);
@@ -158,6 +160,14 @@ public class BildschirmGameLobby {
 		return spielId;
 	}
 	
+	public SpielBeschreibung getBeschreibung() {
+		return beschreibung;
+	}
+	
+	public int getPunktelimit() {
+		return punktelimit;
+	}
+
 	public ControllerClient getClient() {
 		return client;
 	}

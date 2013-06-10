@@ -15,14 +15,16 @@ public class PacketSessionStarten extends Packet {
 	public int sessionId;
 	public int spielId;
 	public List<String> eingeladeneSpieler;
+	public int punktelimit;
 	
 	public PacketSessionStarten() {
 	}
 	
-	public PacketSessionStarten(int sessionId, int spielId, Collection<String> eingeladeneSpieler) {
+	public PacketSessionStarten(int sessionId, int spielId, Collection<String> eingeladeneSpieler, int punktelimit) {
 		this.sessionId = sessionId;
 		this.spielId = spielId;
 		this.eingeladeneSpieler = Collections.unmodifiableList(new ArrayList<String>(eingeladeneSpieler));
+		this.punktelimit = punktelimit;
 	}
 	
 	
@@ -33,6 +35,7 @@ public class PacketSessionStarten extends Packet {
 		out.writeInt(eingeladeneSpieler.size());
 		for (String str : eingeladeneSpieler)
 			out.writeUTF(str);
+		out.writeInt(punktelimit);
 	}
 	
 	@Override
@@ -46,6 +49,8 @@ public class PacketSessionStarten extends Packet {
 			namen.add(in.readUTF());
 		
 		eingeladeneSpieler = Collections.unmodifiableList(namen);
+		
+		punktelimit = in.readInt();
 	}
 	
 }

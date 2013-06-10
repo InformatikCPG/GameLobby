@@ -21,7 +21,7 @@ public class PongSpielServer extends ServerSpiel {
 	private int schlägerRechts = 300;
 	
 	// die Anzahl der Ticks, die vor Neustart noch gewartet wird; am Anfang 90, um Spielstart etwas zu verzögern
-	private int pauseTicks = 90;
+	private int pauseTicks = 60;
 	
 	// die Position des Balls
 	private int ballX = -100;

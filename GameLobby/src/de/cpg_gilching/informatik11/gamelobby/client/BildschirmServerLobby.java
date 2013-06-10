@@ -35,6 +35,7 @@ public class BildschirmServerLobby {
 	private Map<String, SpielerZustand> spielerTabelle = new TreeMap<String, SpielerZustand>();
 	private int ausgewähltAnzahl = 0;
 	private SpielBeschreibung spielAusgewählt = null;
+	private int punktelimit = 10;
 	
 	public BildschirmServerLobby(ControllerClient clientController) {
 		this.client = clientController;
@@ -130,11 +131,15 @@ public class BildschirmServerLobby {
 		oberfläche.spielDropdownFüllen(dropDownEinträge);
 	}
 	
+	public void punktelimitSetzen(int punktelimit) {
+		this.punktelimit = punktelimit;
+	}
+	
 	public void sessionStartAnfragen() {
 		if (spielAusgewählt == null)
 			return;
 		
-		int spielId = spielAusgewählt.getSpielId();
+		int beschreibungId = spielAusgewählt.getSpielId();
 		
 		List<String> spielerNamen = new ArrayList<String>();
 		for (SpielerZustand spieler : spielerTabelle.values()) {
@@ -146,7 +151,7 @@ public class BildschirmServerLobby {
 			}
 		}
 		
-		client.getVerbindung().sendPacket(new PacketSessionStarten(-1, spielId, spielerNamen));
+		client.getVerbindung().sendPacket(new PacketSessionStarten(-1, beschreibungId, spielerNamen, punktelimit));
 	}
 	
 	public ControllerClient getClient() {

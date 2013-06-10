@@ -31,7 +31,7 @@ class ArtificialWorker implements Runnable {
 		if (p instanceof PacketSessionStarten) {
 			PacketSessionStarten psess = (PacketSessionStarten) p;
 			
-			Helfer.warten(Helfer.zufallsZahl(10, 2000));
+			//Helfer.warten(Helfer.zufallsZahl(10, 2000));
 			
 			pout(new PacketSessionAnnehmen(psess.sessionId));
 		}

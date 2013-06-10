@@ -109,7 +109,7 @@ public class AllgemeinerPacketProcessorClient extends PacketProcessor {
 			return;
 		}
 		
-		client.sessionErstellen(packet.sessionId, beschreibung, packet.eingeladeneSpieler);
+		client.sessionErstellen(packet.sessionId, beschreibung, packet.eingeladeneSpieler, packet.punktelimit);
 	}
 	
 	public void handle(PacketSessionVerlassen packet) {
@@ -142,7 +142,7 @@ public class AllgemeinerPacketProcessorClient extends PacketProcessor {
 			return;
 		}
 		
-		client.spielErstellen(packet.spielId, beschreibung);
+		client.spielErstellen(packet.spielId, beschreibung, packet.punktelimit);
 	}
 	
 	public void handle(PacketSpielVerlassen packet) {

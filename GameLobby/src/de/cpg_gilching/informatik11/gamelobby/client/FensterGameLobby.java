@@ -35,7 +35,7 @@ public class FensterGameLobby {
 	private JScrollPane chatTextScroller;
 	private JTextField chatTextField;
 	
-	public FensterGameLobby(BildschirmGameLobby lobby, final String spielBezeichnung, final SpielOberfläche spielView) {
+	public FensterGameLobby(BildschirmGameLobby lobby, final SpielOberfläche spielView) {
 		this.gameLobby = lobby;
 		
 		Helfer.alsSwingTask(new Runnable() {
@@ -55,13 +55,20 @@ public class FensterGameLobby {
 				panelSidebar.setPreferredSize(new Dimension(280, 1));
 				panelSidebar.setLayout(null);
 				hauptPanel.add(panelSidebar, BorderLayout.WEST);
-				
+
 				labelSpielname = new JLabel();
-				labelSpielname.setText(spielBezeichnung);
+				labelSpielname.setText(gameLobby.getBeschreibung().getBezeichnung());
 				labelSpielname.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
-				labelSpielname.setBounds(0, 0, 280, 30);
-				labelSpielname.setHorizontalAlignment(JLabel.CENTER);
+				labelSpielname.setBounds(5, 0, 265, 30);
+				labelSpielname.setHorizontalAlignment(JLabel.LEFT);
 				panelSidebar.add(labelSpielname);
+				
+				JLabel labelPunktelimit = new JLabel();
+				labelPunktelimit.setText(gameLobby.getPunktelimit() + " Punkte");
+				labelPunktelimit.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+				labelPunktelimit.setBounds(5, 10, 265, 30);
+				labelPunktelimit.setHorizontalAlignment(JLabel.RIGHT);
+				panelSidebar.add(labelPunktelimit);
 				
 				panelSpieler = new JPanel();
 				panelSpieler.setLayout(new BoxLayout(panelSpieler, BoxLayout.Y_AXIS));
@@ -101,7 +108,7 @@ public class FensterGameLobby {
 				
 				
 				
-				fenster = new JFrame("Spiel: " + spielBezeichnung);
+				fenster = new JFrame("Spiel: " + gameLobby.getBeschreibung().getBezeichnung());
 				fenster.setResizable(false);
 				fenster.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 				fenster.setLayout(new BorderLayout());

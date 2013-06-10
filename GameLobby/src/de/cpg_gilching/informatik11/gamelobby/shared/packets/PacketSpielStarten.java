@@ -10,13 +10,15 @@ public class PacketSpielStarten extends Packet {
 	
 	public int spielId;
 	public int beschreibungId;
+	public int punktelimit;
 	
 	public PacketSpielStarten() {
 	}
 	
-	public PacketSpielStarten(int spielId, int beschreibungId) {
+	public PacketSpielStarten(int spielId, int beschreibungId, int punktelimit) {
 		this.spielId = spielId;
 		this.beschreibungId = beschreibungId;
+		this.punktelimit = punktelimit;
 	}
 	
 	
@@ -24,12 +26,14 @@ public class PacketSpielStarten extends Packet {
 	public void write(DataOutputStream out) throws IOException {
 		out.writeInt(spielId);
 		out.writeInt(beschreibungId);
+		out.writeInt(punktelimit);
 	}
 	
 	@Override
 	public void read(DataInputStream in) throws IOException {
 		spielId = in.readInt();
 		beschreibungId = in.readInt();
+		punktelimit = in.readInt();
 	}
 	
 }

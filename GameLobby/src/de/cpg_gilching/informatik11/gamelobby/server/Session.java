@@ -18,17 +18,19 @@ public class Session {
 	
 	private ControllerServer server;
 	private int id;
+	private int punktelimit;
 	private SpielBeschreibung beschreibung;
 	private Set<LobbySpieler> teilnehmer;
 	private Set<LobbySpieler> fertigeSpieler = new HashSet<LobbySpieler>();
 	
-	public Session(ControllerServer server, SpielBeschreibung beschreibung, List<LobbySpieler> teilnehmerListe) {
+	public Session(ControllerServer server, SpielBeschreibung beschreibung, List<LobbySpieler> teilnehmerListe, int punktelimit) {
 		this.server = server;
 		this.id = ++idZähler;
+		this.punktelimit = punktelimit;
 		this.beschreibung = beschreibung;
 		this.teilnehmer = new HashSet<LobbySpieler>(teilnehmerListe);
 		
-		System.out.println("Session " + id + " für Spiel " + beschreibung.getBezeichnung() + " mit Teilnehmern " + Helfer.verketten(teilnehmer, ", ") + " angelegt!");
+		System.out.format("Session %d für Spiel %s mit Teilnehmern %s und Punktelimit %d angelegt!%n", id, beschreibung.getBezeichnung(), Helfer.verketten(teilnehmer, ", "), punktelimit);
 		
 		// alle Teilnehmer über die Session informieren
 		List<String> teilnehmerNamen = new ArrayList<String>(teilnehmer.size());
@@ -36,7 +38,7 @@ public class Session {
 			teilnehmerNamen.add(spieler.getName());
 		
 		for (LobbySpieler spieler : teilnehmer) {
-			spieler.packetSenden(new PacketSessionStarten(id, beschreibung.getSpielId(), teilnehmerNamen));
+			spieler.packetSenden(new PacketSessionStarten(id, beschreibung.getSpielId(), teilnehmerNamen, punktelimit));
 		}
 	}
 	
@@ -78,7 +80,7 @@ public class Session {
 	public void spielStarten() {
 		System.out.println("Spiel wird gestartet mit Spiel " + beschreibung.getBezeichnung() + " und Teilnehmern " + Helfer.verketten(teilnehmer, ", "));
 		beenden();
-		server.spielStarten(id, beschreibung, teilnehmer);
+		server.spielStarten(id, beschreibung, teilnehmer, punktelimit);
 	}
 	
 	public void beenden() {
