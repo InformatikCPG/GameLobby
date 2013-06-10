@@ -11,7 +11,6 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
 public class RealmofthemadschoolClient extends ClientSpiel implements PaketManager {
 
 	Image Hintergrund;
-	Image Player;
 	EntityRenderVerwaltung entities;
 
 	@Override
@@ -23,8 +22,7 @@ public class RealmofthemadschoolClient extends ClientSpiel implements PaketManag
 		netzwerkTasteRegistrieren(KeyEvent.VK_S);
 		netzwerkTasteRegistrieren(KeyEvent.VK_D);
 		netzwerkTasteRegistrieren(KeyEvent.VK_SPACE);
-		Hintergrund = Helfer.bildLaden("Realmofthemadschool/Hintergrund.png");
-		Player = Helfer.bildLaden("Realmofthemadschool/Player.png");
+		Hintergrund = Helfer.bildLaden("realm/realmbackground.png");
 		
 		entities = new EntityRenderVerwaltung();
 	}
