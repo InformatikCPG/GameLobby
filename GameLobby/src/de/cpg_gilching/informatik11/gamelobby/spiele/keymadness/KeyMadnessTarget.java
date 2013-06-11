@@ -16,7 +16,6 @@ public class KeyMadnessTarget implements Trackbar {
 	double x;
 	double y;
 	KeyMadnessServer server;
-	double geschwindigkeit;
 	boolean tot;
 	public Point[] punkte;
 	
@@ -25,7 +24,7 @@ public class KeyMadnessTarget implements Trackbar {
 		this.punkte = punkte;
 		richtung = Helfer.zufallsZahl(2) == 0;
 		tastencode = Helfer.zufallsElement(server.daten.tastencodes, false);
-		valid = Helfer.zufallsZahl(3) != 0;
+		valid = Helfer.zufallsZahl(8) != 0;
 		if(richtung){
 			ziel = 1;
 			x=punkte[0].x;
@@ -36,7 +35,6 @@ public class KeyMadnessTarget implements Trackbar {
 			x=punkte[punkte.length - 1].x;
 			y=punkte[punkte.length - 1].y;
 		}
-		geschwindigkeit = 2.0;
 	}
 	
 	public void tick(){
@@ -44,14 +42,14 @@ public class KeyMadnessTarget implements Trackbar {
 		int ziely = punkte[ziel].y;
 		Vektor v = new Vektor(zielx, ziely).sub(x, y);
 		if (v.längeQuadrat() > 0) {
-			v.einheit().mul(geschwindigkeit);
+			v.einheit().mul(server.geschwindigkeit[server.level]);
 			x = x + v.x;
 			y = y + v.y;
 		}
 		
 
 		double abstand = v.kopiere(x, y).sub(zielx, ziely).länge();
-		if(abstand <= geschwindigkeit){
+		if(abstand <= server.geschwindigkeit[server.level]){
 			if(richtung){
 				ziel = ziel + 1;
 				if(ziel >= punkte.length){

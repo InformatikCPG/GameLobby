@@ -33,11 +33,11 @@ public class KeyMadnessPunkteDaten {
 			break;
 		case 4:
 			pfade = new Point[][]{
-			new Point[]{},
-			new Point[]{},
-			new Point[]{},
-			new Point[]{}};
-			checkpoints = new Point[]{};
+			new Point[]{new Point(-100, 300), new Point(100, 300), new Point(100, 500), new Point(500, 500), new Point(500, 100), new Point(100, 100), new Point(100, 300), new Point(-100, 300)},
+			new Point[]{new Point(300, 700), new Point(300, 500), new Point(500, 500), new Point(500, 100), new Point(100, 100), new Point(100, 500), new Point(300, 500), new Point(300, 700)},
+			new Point[]{new Point(700, 300), new Point(500, 300), new Point(500, 100), new Point(100, 100), new Point(100, 500), new Point(500, 500), new Point(500, 300), new Point(700, 300)},
+			new Point[]{new Point(300, -100), new Point(300, 100), new Point(100, 100), new Point(100, 500), new Point(500, 500), new Point(500, 100), new Point(300, 100), new Point(300, -100)}};
+			checkpoints = new Point[]{new Point(100, 100), new Point(100, 500), new Point(500, 500), new Point(500, 100)};
 			break;
 		}
 	}

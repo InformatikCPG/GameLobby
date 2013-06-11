@@ -1,6 +1,5 @@
 package de.cpg_gilching.informatik11.gamelobby.spiele.keymadness;
 
-import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -18,6 +17,10 @@ public class KeyMadnessServer extends ServerSpiel {
 	ArrayList<KeyMadnessTarget> targets;
 	EntityTracker tracker;
 	int targetSpawnActivate;
+	int level;
+	double[] geschwindigkeit = {1.5, 1.9, 2.4, 2.8, 3.5, 4, 6.5, 1.5};
+	int[] spawnrate = {40, 35, 30, 20, 12, 8, 6, 4};
+	int[] radius = {8, 8, 9, 10, 11, 11, 12, 5};
 	
 	
 	@Override
@@ -30,6 +33,7 @@ public class KeyMadnessServer extends ServerSpiel {
 		daten = new KeyMadnessPunkteDaten(teilnehmer.size());
 		targets = new ArrayList<KeyMadnessTarget>();
 		tracker = new EntityTracker(this);
+		level = 0;
 		switch(teilnehmer.size()) {
 		case 4:
 		    scoreboard.anzeigefarbeSetzen(teilnehmer.get(3), 0x00FFFF);
@@ -49,7 +53,7 @@ public class KeyMadnessServer extends ServerSpiel {
 			KeyMadnessTarget target = new KeyMadnessTarget(this,  daten.pfade[p]);
 			targets.add(target);
 			tracker.trackTarget(target);
-			targetSpawnActivate = Helfer.zufallsZahl(25) + 30;
+			targetSpawnActivate = Helfer.zufallsZahl(spawnrate[level] / teilnehmer.size()) + 25;
 		}
 		
 		for(int i = 0; i <= (targets.size() - 1); i++){
@@ -70,7 +74,7 @@ public class KeyMadnessServer extends ServerSpiel {
 		Vektor v = new Vektor();
 		boolean getroffen = false;
 		for(int i = 0; i <= (targets.size() - 1); i++){
-			if(v.kopiere(targets.get(i).x, targets.get(i).y).sub(checkpoint.x, checkpoint.y).länge() <= 15){
+			if(v.kopiere(targets.get(i).x, targets.get(i).y).sub(checkpoint.x, checkpoint.y).länge() <= radius[level]){
 				if (targets.get(i).tastencode == tastencode && targets.get(i).valid) {
 					scoreboard.punktHinzufügen(spieler);
 					targets.get(i).tot = true;
@@ -80,6 +84,28 @@ public class KeyMadnessServer extends ServerSpiel {
 		}
 		if(!getroffen){
 			scoreboard.punkteÄndern(spieler, -1);
+		}
+		
+		if(scoreboard.getPunkte(spieler) == 8){
+			level = 1;
+		}
+		else if(scoreboard.getPunkte(spieler) == 15) {
+			level = 2;
+		}
+		else if(scoreboard.getPunkte(spieler) == 20) {
+			level = 3;
+		}
+		else if(scoreboard.getPunkte(spieler) == 30) {
+			level = 4;
+		}
+		else if(scoreboard.getPunkte(spieler) == 50) {
+			level = 5;
+		}
+		else if(scoreboard.getPunkte(spieler) == 80) {
+			level = 6;
+		}
+		else if(scoreboard.getPunkte(spieler) == 95) {
+			level = 7;
 		}
 	}
 }
