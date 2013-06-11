@@ -1,25 +1,37 @@
 Desert Kings
 
-Die Könige haben sich versammelt, um das letzte Stück Land zu Kämpfen.
-Aufgrund Ihrer unglaublichen HADUKEN! Fähigkeiten, brauchen sie weder Schwert noch  
-Schild. (naja und weil ich mich nicht dazu aufraffen konnte Klassen zu erstellen, die  
-sich unterschiedlich voneinander verhalten ... Ich hab das Gefühl der große Meister  
-hatte auch keine Lust mehr mich durch diese Aufgabe durchzulotsen(ja, das ist ein  
-Wort, habs grad erfunden)).ÄÄhhm wo waren wir? Ach ja! Ein epischer Kampf um Leben  
-und Tod, Gut und Böse, Gemein und Freundlich, eine Geschichte von Liebe und Verrat,  
-und vor allem DRAMA BABY, DRAMA! Leider konnte ich nirgends solche Könige finden, die  
-bereit waren, für diese Geschichte sich bereitzustellen, aber ich habe euch gefunden,  
-ja ich rede mit dir, ja du, der der diesen Text gerade liest! Finde Freunde (oder  
-Feinde) und wählt euren König, um gemeinsam gegeneinander zu Kämpfen, in einer...  
-Nun ja nicht ganz so epischen Schlacht, ach was rede ich, ich bin mir sicher ihr  
-schafft das! AUF AUF ein Abenteuer erwartet euch !
+Die KÃ¶nige versammeln sich,
+um um das letzte StÃ¼ck Land zu KÃ¤mpfen.
+Aufgrund Ihrer unglaublichen HADUKEN! FÃ¤higkeiten,
+brauchen sie weder Schwert noch Schild.
+(naja und weil ich mich nicht dazu aufraffen konnte Klassen zu
+erstellen, die sich unterschiedlich voneinander verhalten ...
+Ich hab das GefÃ¼hl der groÃŸe Meister hatte auch keine Lust
+mehr mich durch diese Aufgabe durchzulotsen(ja, das ist ein Wort,
+habs grad erfunden)).
+
+Ã„Ã„hhm wo waren wir? Ach ja! Ein epischer Kampf um Leben  
+und Tod, Gut und BÃ¶se, Gemein und Freundlich,
+eine Geschichte von Liebe und Verrat, und vor allem 
+nichts von dem oben genannten!
+Leider konnte ich nirgends solche KÃ¶nige finden.
+Niemand war bereit ,sich fÃ¼r diese Geschichte sich bereitzustellen,
+aber dann habe ich euch gefunden,
+und ihr seht aus wie ein Haufen,
+der alles fÃ¼r ein paar GoldstÃ¼ckchen macht, ja ich rede auch mit dir,
+ja du, der der diesen Text gerade liest! Finde Freunde (oder Feinde)
+und wÃ¤hlt euren KÃ¶nig, 
+um gemeinsam gegeneinander zu KÃ¤mpfen,
+in einer...  nun ja nicht ganz so epischen Schlacht,
+ach was rede ich, ich bin mir sicher ihr schafft das!
+AUF AUF ein Abenteuer erwartet euch !
 
 
 Movement:
-		W 	Forward
-		A 	Left
-		S	Backwards
-		D 	Right
+		W 	VorwÃ¤rts
+		A 	Links
+		S	RÃ¼ckwÃ¤rts
+		D 	Rechts
 		
 Attack:
-		Space   Shoot
+		Space   SchieÃŸen
