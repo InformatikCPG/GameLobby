@@ -9,7 +9,7 @@ public class RealmofthemadschoolBeschreibung extends SpielBeschreibung {
 	
 	@Override
 	public String getBezeichnung() {
-		return "Realm of the mad School";
+		return "Desert Kings";
 	}
 	
 	@Override

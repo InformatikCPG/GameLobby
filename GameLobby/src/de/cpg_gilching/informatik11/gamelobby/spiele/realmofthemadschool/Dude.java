@@ -38,17 +38,17 @@ public class Dude extends Entity {
 			Ausrichtung = 1;
 		}
 
-		if (x <= 0) {
-			x = 0;
+		if (x <= 20) {
+			x = 20;
 		}
-		if (x >= 600) {
-			x = 600;
+		if (x >= 580) {
+			x = 580;
 		}
-		if (y <= 0) {
-			y = 0;
+		if (y <= 20) {
+			y = 20;
 		}
-		if (y >= 600) {
-			y = 600;
+		if (y >= 580) {
+			y = 580;
 		}
 	}
 

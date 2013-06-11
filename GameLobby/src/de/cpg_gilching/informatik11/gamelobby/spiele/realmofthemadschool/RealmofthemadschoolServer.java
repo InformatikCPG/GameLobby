@@ -32,8 +32,8 @@ public class RealmofthemadschoolServer extends ServerSpiel {
 
 		for (int i=0;i<teilnehmer.size();i++) {
 			Dude dude = new Dude(this, teilnehmer.get(i));
-			dude.x = Helfer.zufallsZahl(600);
-			dude.y = Helfer.zufallsZahl(600);
+			dude.x = Helfer.zufallsZahl(500);
+			dude.y = Helfer.zufallsZahl(500);
 			Dudeliste.add(dude);
 			einfügen(dude);
 		}
