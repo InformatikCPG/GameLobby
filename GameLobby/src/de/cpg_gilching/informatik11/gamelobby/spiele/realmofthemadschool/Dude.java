@@ -63,14 +63,10 @@ public class Dude extends Entity {
 	}
 	
 	public void regeneratemana() {
-		if(mana != 0 && mana != 15 && time >= 30) {
+		if(mana != 15 && time >= 30) {
 		 mana++;
 		 time = 0;
 		}
-		if(mana == 0 && time >= 50) {
-			 mana = 15;
-			 time = 0;
-			}
 	}
 	
 	public void attack() {
