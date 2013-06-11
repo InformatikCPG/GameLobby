@@ -46,8 +46,8 @@ public class BlasenRenderer {
 				farbe = new Color(spielerfarbe);
 			}
 			else {
-				float r = Helfer.clamp((+radiusRatio - 0.7f) * 2.0f, 0.4f, 1.0f);
-				float g = 0.4f;
+				float r = Helfer.clamp((+radiusRatio - 0.7f) * 2.0f, 0.2f, 1.0f);
+				float g = 0.2f;
 				float b = Helfer.clamp((-radiusRatio - 0.7f) * 2.0f, 0.4f, 1.0f);
 				
 				farbe = new Color(r, g, b);

@@ -65,7 +65,7 @@ public class FensterAnleitung {
 					}
 				});
 				
-				fenster.addKeyListener(new KeyAdapter() {
+				textPane.addKeyListener(new KeyAdapter() {
 					@Override
 					public void keyReleased(KeyEvent e) {
 						if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -74,7 +74,7 @@ public class FensterAnleitung {
 					}
 				});
 				
-				fenster.requestFocusInWindow(); // damit der KeyListener funktioniert
+				textPane.requestFocusInWindow(); // damit der KeyListener funktioniert
 			}
 		});
 	}
