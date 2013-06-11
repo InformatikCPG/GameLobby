@@ -11,6 +11,7 @@ public class Dude extends Entity {
 	boolean Dgedrückt;
 	RealmofthemadschoolServer server;
 	Spieler spieler;
+	int time;
 
 	public Dude(RealmofthemadschoolServer ROMSS, Spieler spieler) {
 		super(PacketEntityNeu.TYP_DUDE);
@@ -50,11 +51,35 @@ public class Dude extends Entity {
 		if (y >= 580) {
 			y = 580;
 		}
+		time++;
+		regeneratemana();
+		dowehavesomemanaleft();
 	}
 
+	public void dowehavesomemanaleft() {
+		if(mana >=1) {
+			nomana = false;
+		}
+	}
+	
+	public void regeneratemana() {
+		if(mana != 0 && mana != 15 && time >= 30) {
+		 mana++;
+		 time = 0;
+		}
+		if(mana == 0 && time >= 50) {
+			 mana = 15;
+			 time = 0;
+			}
+	}
+	
 	public void attack() {
-		if (dead == false) {
+		if (dead == false && nomana == false) {
+			mana--;
 			server.einfügen(new Bullet(this));
+			if (mana <= 0) {
+				nomana = true;
+			}
 		}
 
 	}

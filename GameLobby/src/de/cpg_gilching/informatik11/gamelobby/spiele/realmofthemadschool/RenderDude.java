@@ -1,6 +1,6 @@
 package de.cpg_gilching.informatik11.gamelobby.spiele.realmofthemadschool;
 
-//import java.awt.Color;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 
@@ -122,7 +122,8 @@ public class RenderDude extends EntityRenderer {
 				
 		g.drawImage (bild,x-20, y-20, null);		
 	    g.drawImage (Hbild,x-20, y-30, null);
-			//g.fillRect(x-13, y-27, health, 5);
+		g.setColor(Color.blue);	
+	    g.fillRect(x-25,y-15, 5, mana);
 	}
 	
 }

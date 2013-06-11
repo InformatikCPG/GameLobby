@@ -29,13 +29,14 @@ public class EntityRenderVerwaltung {
 		renderer.x = packet.x;
 		renderer.y = packet.y;
 		renderer.health = packet.health;
+		renderer.mana = packet.mana;
 
 		targetsMap.put(packet.id, renderer);
 	}
 	
 	public void entityBewegen(PacketEntityBewegen packet) {
 		EntityRenderer renderer = targetsMap.get(packet.id);
-		renderer.bewegen(packet.x, packet.y, packet.ausrichtung, packet.health);
+		renderer.bewegen(packet.x, packet.y, packet.ausrichtung, packet.health, packet.mana);
 	}
 	
 	public void entityEntfernen(PacketEntityTot packet) {

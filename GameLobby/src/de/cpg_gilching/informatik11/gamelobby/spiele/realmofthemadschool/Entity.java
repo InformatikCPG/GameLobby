@@ -6,7 +6,9 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.EntityTracker.Tra
 public abstract class Entity implements Trackbar {
 	
 	boolean dead = false;
+	boolean nomana = false;
 	int health=20;
+	int mana=15;
 	int x;
 	int y;
 	int Ausrichtung;
@@ -18,13 +20,13 @@ public abstract class Entity implements Trackbar {
 	
 	public abstract void tick(); 
 	
-	private int gesendetX, gesendetY, gesendetAusrichtung, gesendetHealth;
+	private int gesendetX, gesendetY, gesendetAusrichtung, gesendetHealth, gesendetMana;
 	
 	@Override
 	public SpielPacket spawnPacketErstellen(int id) {
 		gesendetX = x;
 		gesendetY = y;
-		return new PacketEntityNeu(id,Typ, x, y, health);
+		return new PacketEntityNeu(id,Typ, x, y, health, mana);
 	}
 	
 	@Override
@@ -34,7 +36,7 @@ public abstract class Entity implements Trackbar {
 	
 	@Override
 	public SpielPacket bewegungsPacketErstellen(int id) {
-		if (gesendetX == x && gesendetY == y && gesendetAusrichtung == Ausrichtung && gesendetHealth == health) {
+		if (gesendetX == x && gesendetY == y && gesendetAusrichtung == Ausrichtung && gesendetHealth == health && gesendetMana == mana) {
 			return null;
 		}
 		else {
@@ -42,8 +44,9 @@ public abstract class Entity implements Trackbar {
 			gesendetY = y;
 			gesendetAusrichtung = Ausrichtung;
 			gesendetHealth = health;
+			gesendetMana = mana;
 			
-			return new PacketEntityBewegen(id, x, y, Ausrichtung, health);
+			return new PacketEntityBewegen(id, x, y, Ausrichtung, health, mana);
 		}
 	}
 

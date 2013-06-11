@@ -16,16 +16,18 @@ public class PacketEntityNeu extends SpielPacket {
 	public int x;
 	public int y;
 	public int health;
+	public int mana;
 	
 	public PacketEntityNeu() {
 	}
 	
-	public PacketEntityNeu(int id, int typ, int x, int y, int health) {
+	public PacketEntityNeu(int id, int typ, int x, int y, int health, int mana) {
 		this.id = id;
 		this.typ = typ;
 		this.x = x;
 		this.y = y;
 		this.health = health;
+		this.mana = mana;
 	}
 	
 	@Override
@@ -35,6 +37,7 @@ public class PacketEntityNeu extends SpielPacket {
 		out.writeShort(x);
 		out.writeShort(y);
 		out.writeShort(health);
+		out.writeShort(mana);
 	}
 	
 	@Override
@@ -44,6 +47,7 @@ public class PacketEntityNeu extends SpielPacket {
 		x = in.readShort();
 		y = in.readShort();
 		health = in.readShort();
+		mana = in.readShort();
 	}
 	
 }
