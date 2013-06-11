@@ -1,0 +1,13 @@
+Das Ziel von Osmos ist es, möglichst viele andere Blasen zu absorbieren, um größer zu werden.
+Jeder Spieler kontrolliert eine Blase. Mit Mausklicks kann man sich fortbewegen. Dabei stößt man jedoch eine kleinere Blase aus und verliert etwas von seiner eigenen Größe.
+
+Wenn zwei Blasen sich berühren, absorbiert die größere Blase die kleinere.
+Größere Blasen als man selbst werden rot dargestellt, kleinere blau. Andere Spieler sind grün.
+Man verliert die Runde, wenn die eigene Blase absorbiert wurde. Die Runde wird neugestartet, wenn nur noch ein Spieler am Leben ist.
+
+Die Welt ist durch einen großen Kreis abgegrenzt, der einen abstößt.
+
+Steuerung:
+- Maus: Richtung für Rückstoß-Bewegung bestimmen
+- linke Maustaste: Bewegen
+- Mausrad: Zoom verändern
