@@ -1,5 +1,6 @@
 package de.cpg_gilching.informatik11.gamelobby.shared.spieleapi;
 
+
 public abstract class SpielBeschreibung {
 	
 	private int spielId = -1;
@@ -24,6 +25,10 @@ public abstract class SpielBeschreibung {
 	
 	public abstract int tickrateGeben();
 	
+	public String getAnleitungDateiname() {
+		return getBezeichnung().replaceAll("\\s", "").toLowerCase() + ".txt";
+	}
+
 	public void paketeAnmelden(PaketLexikon lexikon) {
 	}
 	

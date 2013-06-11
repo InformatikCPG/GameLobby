@@ -1,10 +1,12 @@
 package de.cpg_gilching.informatik11.gamelobby.shared;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -156,8 +158,9 @@ public class Helfer {
 	 * @return ein BufferedImage mit den Daten des geladenen Bilds; im Fehlerfall wird ein leeres Bild zurückgegeben
 	 */
 	public static BufferedImage bildLaden(String name) {
+		InputStream bildStream = null;
 		try {
-			InputStream bildStream = Helfer.class.getResourceAsStream("/bilder/" + name);
+			bildStream = Helfer.class.getResourceAsStream("/bilder/" + name);
 			if (bildStream == null) {
 				File bildDatei = new File("bilder", name);
 				if (bildDatei.isFile()) {
@@ -169,15 +172,74 @@ public class Helfer {
 				}
 			}
 			
-			return ImageIO.read(bildStream);
+			BufferedImage bild = ImageIO.read(bildStream);
+			bildStream.close();
+			return bild;
 		} catch (IOException e) {
 			System.err.println("Fehler beim Laden von Bild " + name);
 			e.printStackTrace();
 			
 			return new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+		} finally {
+			if (bildStream != null)
+				try {
+					bildStream.close();
+				} catch (IOException e) {
+					System.err.println("Fehler beim Schließen des Streams von Bild " + name);
+					e.printStackTrace();
+					return new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+				}
 		}
 	}
 	
+	/**
+	 * Lädt einen Anleitungstext aus dem "anleitungen"-Verzeichnis oder aus der JAR-Datei.
+	 * 
+	 * @param name der Name der Anleitungsdatei, relativ zum "bilder"-Verzeichnis
+	 * @return der geladene Text, im Fehlerfall eine String-Repräsentation des Fehlers
+	 */
+	public static String anleitungLaden(String dateiname) {
+		InputStream anleitungsStream = null;
+		try {
+			anleitungsStream = Helfer.class.getResourceAsStream("/anleitungen/" + dateiname);
+			if (anleitungsStream == null) {
+				File anleitungsDatei = new File("anleitungen", dateiname);
+				if (anleitungsDatei.isFile()) {
+					anleitungsStream = new FileInputStream(anleitungsDatei);
+				}
+				else {
+					System.err.println("Anleitung " + dateiname + " wurde nicht gefunden!");
+					return "Anleitung " + dateiname + " wurde nicht gefunden!";
+				}
+			}
+			
+			
+			BufferedReader in = new BufferedReader(new InputStreamReader(anleitungsStream, "UTF-8"));
+			
+			StringBuilder ergebnis = new StringBuilder();
+			String line;
+			while ((line = in.readLine()) != null) {
+				ergebnis.append(line).append('\n');
+			}
+			
+			return ergebnis.toString().trim();
+		} catch (IOException e) {
+			System.err.println("Fehler beim Laden von Anleitung " + dateiname);
+			e.printStackTrace();
+			
+			return e.toString();
+		} finally {
+			if (anleitungsStream != null)
+				try {
+					anleitungsStream.close();
+				} catch (IOException e) {
+					System.err.println("Fehler beim Schließen des Streams von Anleitung " + dateiname);
+					e.printStackTrace();
+					return "Fehler beim Schließen des Streams von Anleitung " + dateiname + ": " + e.toString();
+				}
+		}
+	}
+
 	public static double clamp(double val, double min, double max) {
 		return Math.max(Math.min(val, max), min);
 	}

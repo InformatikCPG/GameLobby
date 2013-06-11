@@ -87,10 +87,16 @@ public class BildschirmServerLobby {
 		spielFormularFüllen();
 	}
 	
+	public void spielanleitungAnzeigen() {
+		if (spielAusgewählt != null) {
+			client.anleitungÖffnen(spielAusgewählt);
+		}
+	}
+	
 	
 	private void spielFormularFüllen() {
 		if (spielAusgewählt == null) {
-			oberfläche.spielFormularAktualisieren(ausgewähltAnzahl, -1, false);
+			oberfläche.spielFormularAktualisieren(false, ausgewähltAnzahl, -1, false);
 		}
 		else {
 			int minSpieler = spielAusgewählt.minimalspielerGeben();
@@ -104,7 +110,7 @@ public class BildschirmServerLobby {
 			if (maxSpieler > -1 && anzahl > maxSpieler)
 				gültig = false;
 			
-			oberfläche.spielFormularAktualisieren(ausgewähltAnzahl, maxSpieler - 1, gültig);
+			oberfläche.spielFormularAktualisieren(true, ausgewähltAnzahl, maxSpieler - 1, gültig);
 		}
 	}
 	

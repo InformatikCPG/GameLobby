@@ -217,6 +217,8 @@ public class ServerMain implements Runnable {
 	public void onCommand(String name, List<String> arguments) {
 		if (name.equalsIgnoreCase("stop"))
 			stop();
+		else if (name.equalsIgnoreCase("bot"))
+			connectClient(createAISocket());
 	}
 	
 	

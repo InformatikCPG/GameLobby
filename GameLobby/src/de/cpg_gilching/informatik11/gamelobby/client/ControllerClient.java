@@ -36,6 +36,7 @@ public class ControllerClient implements Runnable {
 	private BildschirmServerLobby serverLobby = null;
 	private Map<Integer, BildschirmSessionLobby> offeneSessions = new HashMap<Integer, BildschirmSessionLobby>();
 	private Map<Integer, BildschirmGameLobby> offeneSpiele = new HashMap<Integer, BildschirmGameLobby>();
+	private List<BildschirmAnleitung> offeneAnleitungen = new ArrayList<BildschirmAnleitung>();
 	
 	private int zeitSeitKeepAlive = 0;
 	private boolean aktiv = true;
@@ -52,7 +53,7 @@ public class ControllerClient implements Runnable {
 		verbindung.setPacketProcessor(new AllgemeinerPacketProcessorClient(this));
 
 		System.out.println("Versuche Validierung ...");
-		if(!verbindung.sendMagicNumber()) {
+		if (!verbindung.sendMagicNumber()) {
 			verbindung.close();
 			throw new IOException("Fehler bei der Validierung des Servers!");
 		}
@@ -115,6 +116,14 @@ public class ControllerClient implements Runnable {
 		return offeneSpiele.get(spielId);
 	}
 	
+	public void anleitungÖffnen(SpielBeschreibung beschreibung) {
+		offeneAnleitungen.add(new BildschirmAnleitung(this, beschreibung));
+	}
+	
+	public void anleitungEntfernen(BildschirmAnleitung bildschirm) {
+		offeneAnleitungen.remove(bildschirm);
+	}
+
 	private void initialisieren() {
 		serverLobby = new BildschirmServerLobby(this);
 	}
@@ -182,6 +191,11 @@ public class ControllerClient implements Runnable {
 			spiel.jetztBeenden();
 		}
 		
+		// Spiele-Anleitungen schließen
+		for (BildschirmAnleitung anleitung : new ArrayList<BildschirmAnleitung>(offeneAnleitungen)) {
+			anleitung.schließen();
+		}
+
 		serverLobby.verlassen();
 	}
 	

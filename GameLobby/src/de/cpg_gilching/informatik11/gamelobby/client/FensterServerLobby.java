@@ -35,6 +35,7 @@ public class FensterServerLobby implements Runnable {
 	private JLabel gameAusgewähltLabel;
 	private JComboBox punktelimitDropdown;
 	private JButton gameStartBtn;
+	private JButton gameHelpBtn;
 	
 	public FensterServerLobby(BildschirmServerLobby dieServerLobby) {
 		this.serverLobby = dieServerLobby;
@@ -142,6 +143,16 @@ public class FensterServerLobby implements Runnable {
 				gameStartBtn.setBounds(10, 540, 200, 40);
 				gameStartBtn.addActionListener(new SynchronerListener(FensterServerLobby.this, serverLobby.getClient()));
 				hauptPanel.add(gameStartBtn);
+				
+				gameHelpBtn = new JButton("Spielanleitung");
+				gameHelpBtn.setBounds(220, 540, 150, 40);
+				gameHelpBtn.addActionListener(new SynchronerListener(new Runnable() {
+					@Override
+					public void run() {
+						serverLobby.spielanleitungAnzeigen();
+					}
+				}, serverLobby.getClient()));
+				hauptPanel.add(gameHelpBtn);
 				
 				
 				
@@ -252,7 +263,7 @@ public class FensterServerLobby implements Runnable {
 		});
 	}
 	
-	public void spielFormularAktualisieren(final int anzahl, final int maximum, final boolean gültig) {
+	public void spielFormularAktualisieren(final boolean istEtwasAusgewählt, final int anzahl, final int maximum, final boolean gültig) {
 		Helfer.alsSwingTask(new Runnable() {
 			@Override
 			public void run() {
@@ -263,6 +274,7 @@ public class FensterServerLobby implements Runnable {
 				gameAusgewähltLabel.setForeground(gültig ? Color.black : Color.red);
 				
 				gameStartBtn.setEnabled(gültig);
+				gameHelpBtn.setEnabled(istEtwasAusgewählt);
 			}
 		});
 	}
