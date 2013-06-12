@@ -24,13 +24,11 @@ public class SnakeBeschreibung extends SpielBeschreibung {
 
 	@Override
 	public ClientSpiel clientInstanzErstellen() {
-		// TODO Auto-generated method stub
 		return new SnakeSpielClient();
 	}
 
 	@Override
 	public ServerSpiel serverInstanzErstellen() {
-		// TODO Auto-generated method stub
 		return new SnakeSpielServer();
 	}
 	

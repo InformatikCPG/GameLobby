@@ -15,7 +15,6 @@ public class ROMSPmanager implements PaketManager {
 	public ROMSPmanager(Spieler spieler,
 			RealmofthemadschoolServer realmofthemadschoolServer) {
 				this.spieler = spieler;
-		// TODO Auto-generated constructor stub
 				this.server = realmofthemadschoolServer;
 	}
 	

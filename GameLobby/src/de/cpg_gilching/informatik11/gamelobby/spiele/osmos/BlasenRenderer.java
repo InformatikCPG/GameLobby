@@ -101,8 +101,6 @@ public class BlasenRenderer {
 		letztesUpdate = 0;
 		
 		abweichung.kopiere(richtigePosition).sub(this.position);
-		if (this == client.getAktiveBlase())
-		System.out.println("abweichung: " + abweichung.länge());
 	}
 	
 }

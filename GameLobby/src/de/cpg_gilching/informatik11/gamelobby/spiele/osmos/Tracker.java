@@ -6,7 +6,7 @@ import java.util.Map;
 public class Tracker {
 	
 	private static final int POSITION_RESEND_INTERVALL = 30;
-
+	
 	private OsmosServer server;
 	private Map<Integer, BlasenTracker> blasen = new HashMap<Integer, BlasenTracker>();
 	

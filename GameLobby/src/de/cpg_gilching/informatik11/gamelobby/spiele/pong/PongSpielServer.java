@@ -42,7 +42,7 @@ public class PongSpielServer extends ServerSpiel {
 		packetAnAlle(new PacketSchlägerBewegen(schlägerLinks, schlägerRechts));
 		
 		// die Chat-Befehle registrieren
-
+		
 		chat.befehlRegistrieren("ballspeed", new ChatBefehl() {
 			@Override
 			public void ausführen(Spieler sender, String[] argumente) {
@@ -115,7 +115,7 @@ public class PongSpielServer extends ServerSpiel {
 			packetAnAlle(new PacketSchlägerBewegen(schlägerLinks, schlägerRechts));
 		}
 		
-
+		
 		// ===========================
 		// ===== Gewonnen-Timer ======
 		// ===========================
