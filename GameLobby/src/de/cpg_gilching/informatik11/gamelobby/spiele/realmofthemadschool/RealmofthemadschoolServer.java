@@ -102,4 +102,18 @@ public class RealmofthemadschoolServer extends ServerSpiel {
 		}
 	}
 	
+	public void spcollisiondetecting(SuperBullet spbullet) {
+		for (int i=0;i<Dudeliste.size();i++) {
+			Dude d = Dudeliste.get(i);
+			int abstand = 35;
+			if(d.dead == false && d!=spbullet.dude && (d.x-spbullet.x)*(d.x-spbullet.x) + (d.y-spbullet.y)*(d.y-spbullet.y) < abstand * abstand) {
+				spbullet.dead = true;
+                d.superdamage();
+			}
+		}
+		if(spbullet.x <=0 || spbullet.x>=600||spbullet.y <=0 || spbullet.y>=600) {
+			spbullet.dead = true;
+		}
+	}
+	
 }

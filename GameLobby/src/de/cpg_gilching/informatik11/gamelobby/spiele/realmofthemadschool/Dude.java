@@ -9,9 +9,12 @@ public class Dude extends Entity {
 	boolean Agedrückt;
 	boolean Sgedrückt;
 	boolean Dgedrückt;
+	boolean SPACEgedrückt;
 	RealmofthemadschoolServer server;
 	Spieler spieler;
 	int time;
+	int charge;
+	int chargetime;
 
 	public Dude(RealmofthemadschoolServer ROMSS, Spieler spieler) {
 		super(PacketEntityNeu.TYP_DUDE);
@@ -51,7 +54,15 @@ public class Dude extends Entity {
 		if (y >= 580) {
 			y = 580;
 		}
+	    charging();
 		time++;
+		if (SPACEgedrückt) {
+		chargetime++;
+		}
+		else {
+		chargetime = 0;
+		}
+		
 		regeneratemana();
 		dowehavesomemanaleft();
 	}
@@ -59,6 +70,33 @@ public class Dude extends Entity {
 	public void dowehavesomemanaleft() {
 		if(mana >=1) {
 			nomana = false;
+		}
+	}
+	public void supderduperwaschbär() {
+		if (SPACEgedrückt == false) {
+			if(charge >= 5) {
+				superattack();
+			}
+			else {
+				attack();
+			}
+		}
+	}
+	public void charging() {
+		if (chargetime == 15) {
+			charge++;
+		}
+		if (chargetime == 30) {
+			charge++;
+		}
+		if (chargetime == 45) {
+			charge++;
+		}
+		if (chargetime == 60) {
+			charge++;
+		}
+		if (chargetime == 75) {
+			charge++;
 		}
 	}
 	
@@ -77,10 +115,41 @@ public class Dude extends Entity {
 				nomana = true;
 			}
 		}
+	}
+			
+			public void superattack() {
+				if (dead == false && nomana == false && mana >= 5) {
+					mana --;
+					mana --;
+					mana --;
+					mana --;
+					mana --;
+					server.einfügen(new SuperBullet(this));
+					charge = 0;
+					if (mana <= 0) {
+						nomana = true;
+					}
+		}
 
 	}
 
 	public void damage() {
+		health--;
+		if (health <= 0) {
+			dead = true;
+		}
+	}
+
+	public void superdamage() {
+		health--;
+		health--;
+		health--;
+		health--;
+		health--;
+		health--;
+		health--;
+		health--;
+		health--;
 		health--;
 		if (health <= 0) {
 			dead = true;

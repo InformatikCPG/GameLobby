@@ -10,6 +10,7 @@ public class PacketEntityNeu extends SpielPacket {
 	
 	public static final int TYP_DUDE = 1;
 	public static final int TYP_BULLET = 2;
+	public static final int TYP_SuperBULLET = 3;
 	
 	public int id;
 	public int typ;
@@ -17,17 +18,19 @@ public class PacketEntityNeu extends SpielPacket {
 	public int y;
 	public int health;
 	public int mana;
+	public int charge;
 	
 	public PacketEntityNeu() {
 	}
 	
-	public PacketEntityNeu(int id, int typ, int x, int y, int health, int mana) {
+	public PacketEntityNeu(int id, int typ, int x, int y, int health, int mana, int charge) {
 		this.id = id;
 		this.typ = typ;
 		this.x = x;
 		this.y = y;
 		this.health = health;
 		this.mana = mana;
+		this.charge = charge;
 	}
 	
 	@Override
@@ -38,6 +41,7 @@ public class PacketEntityNeu extends SpielPacket {
 		out.writeShort(y);
 		out.writeShort(health);
 		out.writeShort(mana);
+		out.writeShort(charge);
 	}
 	
 	@Override
@@ -48,6 +52,7 @@ public class PacketEntityNeu extends SpielPacket {
 		y = in.readShort();
 		health = in.readShort();
 		mana = in.readShort();
+		charge = in.readShort();
 	}
 	
 }

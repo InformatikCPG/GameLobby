@@ -9,13 +9,15 @@ public abstract class EntityRenderer {
 	public int ausrichtung;
 	public int health;
 	public int mana;
+	public int charge;
 
-	public void bewegen(int x, int y, int ausrichtung, int health, int mana) {
+	public void bewegen(int x, int y, int ausrichtung, int health, int mana, int charge) {
 		this.x = x;
 		this.y = y;
 		this.ausrichtung = ausrichtung;
 		this.health = health;
 		this.mana = mana;
+		this.charge = charge;
 	}
 
 	public abstract void rendern(Graphics2D g);

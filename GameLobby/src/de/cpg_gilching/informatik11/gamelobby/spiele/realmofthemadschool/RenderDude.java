@@ -122,8 +122,11 @@ public class RenderDude extends EntityRenderer {
 				
 		g.drawImage (bild,x-20, y-20, null);		
 	    g.drawImage (Hbild,x-20, y-30, null);
-		g.setColor(Color.blue);	
+	    g.setColor(Color.orange);	
+	    g.fillRect(x+45,y-15, 5, charge); 
+	    g.setColor(Color.blue);	
 	    g.fillRect(x-25,y-15, 5, mana);
+	    
 	}
 	
 }

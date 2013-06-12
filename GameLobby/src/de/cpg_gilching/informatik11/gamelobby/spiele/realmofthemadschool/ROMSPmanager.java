@@ -10,6 +10,7 @@ public class ROMSPmanager implements PaketManager {
 
 	private Spieler spieler;
 	private RealmofthemadschoolServer server;
+	public int charge;
 
 	public ROMSPmanager(Spieler spieler,
 			RealmofthemadschoolServer realmofthemadschoolServer) {
@@ -31,8 +32,9 @@ public class ROMSPmanager implements PaketManager {
 		if(packet.tastencode==KeyEvent.VK_D) {
 			server.sucheDude(spieler).Dgedrückt=packet.zustand;
 		}
-		if(packet.tastencode==KeyEvent.VK_SPACE && packet.zustand) {
-			server.sucheDude(spieler).attack();
+		if(packet.tastencode==KeyEvent.VK_SPACE) {
+			server.sucheDude(spieler).SPACEgedrückt=packet.zustand;
+			server.sucheDude(spieler).supderduperwaschbär();
 		}
 	}
 

@@ -21,6 +21,9 @@ public class EntityRenderVerwaltung {
 		case PacketEntityNeu.TYP_BULLET:
 			renderer = new RenderKreis();
 			break;
+		case PacketEntityNeu.TYP_SuperBULLET:
+			renderer = new RenderSuper();
+			break;
 		default:
 			renderer = null;
 			break;
@@ -30,13 +33,14 @@ public class EntityRenderVerwaltung {
 		renderer.y = packet.y;
 		renderer.health = packet.health;
 		renderer.mana = packet.mana;
+		renderer.charge = packet.charge;
 
 		targetsMap.put(packet.id, renderer);
 	}
 	
 	public void entityBewegen(PacketEntityBewegen packet) {
 		EntityRenderer renderer = targetsMap.get(packet.id);
-		renderer.bewegen(packet.x, packet.y, packet.ausrichtung, packet.health, packet.mana);
+		renderer.bewegen(packet.x, packet.y, packet.ausrichtung, packet.health, packet.mana, packet.charge);
 	}
 	
 	public void entityEntfernen(PacketEntityTot packet) {
