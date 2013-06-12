@@ -74,18 +74,15 @@ public class SnakeSpielServer extends ServerSpiel {
 		}
 		
 		//counter, um Pause zwischen Spielende, Reset und Spielstart zu schaffen
-		if(sleep != -1) {
+		if (sleep > -1) {
 			sleep--;
-		}
-		if(snakes.size() == toteSnakes.size()) {
-			sleep = 80;
-			if(sleep <= 40) {
-				sleep = 0;
+			if (sleep == 40) {
 				reset();
 			}
 			return;
 		}
-		if(sleep >= 0) {
+		else if (snakes.size() == toteSnakes.size()) {
+			sleep = 80;
 			return;
 		}
 		
