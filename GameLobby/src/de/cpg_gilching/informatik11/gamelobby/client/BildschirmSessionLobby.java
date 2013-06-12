@@ -10,6 +10,10 @@ import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionAnnehm
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionVerlassen;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
 
+/**
+ * Die Controller- und Model-Komponente der Session-Lobby.<br>
+ * Hier werden die Daten des Servers verarbeitet und die Oberfläche über Änderungen informiert.
+ */
 public class BildschirmSessionLobby {
 	
 	private ControllerClient client;

@@ -10,6 +10,9 @@ import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.IPacketDictionary;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.PotentialSocket;
 
+/**
+ * Eine Socket-Implementierung für die Bots.
+ */
 public class ArtificialSocket extends PotentialSocket {
 	
 	private final String repr = "AI-" + Helfer.zufallsZahl(1000, 10000);

@@ -9,6 +9,9 @@ import java.util.List;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 
+/**
+ * Ein Thread, der auf Eingaben von der Konsole wartet. Da er als Daemon-Thread deklariert ist, verhindert er nicht das Programmende.
+ */
 public class ServerConsoleReader extends Thread {
 	
 	private final ServerMain server;

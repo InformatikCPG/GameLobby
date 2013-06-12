@@ -20,6 +20,10 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ServerSpiel;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielPacket;
 
+/**
+ * Der {@link PacketProcessor} des Servers, der alle Netzwerk-Pakete der Lobby entgegennimmt.<br>
+ * Empfangene {@link SpielPacket}s werden an das entsprechende Spiel weitergegeben, der Rest wird hier verarbeitet.
+ */
 public class AllgemeinerPacketProcessorServer extends PacketProcessor {
 	
 	private LobbySpieler spieler;

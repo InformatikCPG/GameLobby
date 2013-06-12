@@ -19,23 +19,48 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketLexikon;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpieleListe;
 
+/**
+ * Dies ist die zentrale Verwaltungs-KLasse eines verbundenen Clients. Hier werden alle geöffneten Module und die Verbindung verwaltet.
+ */
 public class ControllerClient implements Runnable {
 	
+	/**
+	 * Die globale Tickrate des Clients. Öfter als dieser Wert wird nichts auf der Hauptschleife ausgeführt.
+	 */
 	private static final int CLIENT_TPS = 30;
 	private static final int MS_PER_TICK = 1000 / CLIENT_TPS;
 	
 	private Connection verbindung;
 	private PaketLexikon paketLexikon;
+	/**
+	 * Der Benutzername des verbundenen Spielers.
+	 */
 	private String username;
 	
 	private TaskScheduler scheduler;
 	
+	/**
+	 * Die Sammlung aller verfügbaren Spiele-Beschreibungen, die im Programm vorhanden sind.
+	 */
 	private SpieleListe beschreibungenListe;
+	/**
+	 * Die Sammlung aller Spiele-Beschreibungen, die der Server mit einer ID angemeldet hat.
+	 */
 	private Map<Integer, SpielBeschreibung> angemeldeteBeschreibungen = new HashMap<Integer, SpielBeschreibung>();
 	
 	private BildschirmServerLobby serverLobby = null;
+	
+	/**
+	 * Alle geöffneten Sessions, nach ihrer ID indiziert.
+	 */
 	private Map<Integer, BildschirmSessionLobby> offeneSessions = new HashMap<Integer, BildschirmSessionLobby>();
+	/**
+	 * Alle gefönneten Spiele, nach ihrer ID indiziert.
+	 */
 	private Map<Integer, BildschirmGameLobby> offeneSpiele = new HashMap<Integer, BildschirmGameLobby>();
+	/**
+	 * Eine Liste aller geöffneten Anleitungen. Wird benötigt, damit diese bei Programm-Ende richtig geschlossen werden können.
+	 */
 	private List<BildschirmAnleitung> offeneAnleitungen = new ArrayList<BildschirmAnleitung>();
 	
 	private int zeitSeitKeepAlive = 0;

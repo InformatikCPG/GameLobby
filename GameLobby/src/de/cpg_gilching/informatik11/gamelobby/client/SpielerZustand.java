@@ -1,5 +1,8 @@
 package de.cpg_gilching.informatik11.gamelobby.client;
 
+/**
+ * Model-Klasse für einen verbundenen Spieler in der Server-Lobby.
+ */
 public class SpielerZustand {
 	
 	private final String name;

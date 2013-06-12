@@ -4,6 +4,12 @@ import de.cpg_gilching.informatik11.gamelobby.shared.net.Connection;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Packet;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.Spieler;
 
+/**
+ * Die Implementierung des {@link Spieler}-Interfaces der Spiele-API. Bietet zusätzlich Zugriff auf die Verbindung des Spielers.
+ * 
+ * @author Lukas
+ * 
+ */
 public class LobbySpieler implements Spieler {
 	
 	private Connection verbindung;

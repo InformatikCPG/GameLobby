@@ -9,6 +9,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * Das JPanel in der Server-Lobby, das die verbundenen Spieler anzeigt und die Auswählen/Abwählen - Buttons verwaltet.
+ */
 public class PanelSpielerEintrag extends JPanel implements Runnable {
 	private static final long serialVersionUID = 1L;
 	

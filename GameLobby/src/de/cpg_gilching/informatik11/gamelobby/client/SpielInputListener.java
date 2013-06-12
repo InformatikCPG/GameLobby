@@ -17,6 +17,9 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.IMausListener;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.IMausradListener;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ITastaturListener;
 
+/**
+ * Der Java-Input-Listener, der alle Tastatureingaben in einem Ingame-Fenster verarbeitet.
+ */
 public class SpielInputListener implements KeyListener, MouseListener, MouseWheelListener, FocusListener {
 	
 	private Map<Integer, ITastaturListener> registrierteTasten = new HashMap<Integer, ITastaturListener>();
@@ -36,7 +39,7 @@ public class SpielInputListener implements KeyListener, MouseListener, MouseWhee
 	public void mausradRegistrieren(IMausradListener listener) {
 		mausradListener = listener;
 	}
-
+	
 	private void tasteSetzen(KeyEvent e, boolean zustand) {
 		int tastencode = e.getKeyCode();
 		

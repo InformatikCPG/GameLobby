@@ -22,7 +22,7 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpieleListe;
 
 /**
  * Die Hauptklasse für die Lobby-Logik auf dem Server.
- * Bekommt die vereinfachten Methodenaufrufe von der technischen Klasse {@link ServerMain}, die sich um Verbindungen kümmert und dient als zentrales Verbindungsstück der einzelnen Funktionen.
+ * Bekommt die vereinfachten Methodenaufrufe von der technischen Klasse {@link ServerMain}, die sich um Verbindungen kümmert und dient als zentrales Verbindungsstück der einzelnen Module.
  */
 public class ControllerServer {
 	

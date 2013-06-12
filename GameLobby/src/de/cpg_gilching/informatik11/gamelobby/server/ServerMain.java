@@ -21,7 +21,10 @@ import de.cpg_gilching.informatik11.gamelobby.shared.net.Packet;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.PotentialSocket;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketDisconnect;
 
-
+/**
+ * Die technische Hauptklasse des Servers. Hier werden die Verbindungen verwaltet, neue akzeptiert und validiert.<br>
+ * Relevante Ereignisse werden an {@link ControllerServer} weitergeleitet.
+ */
 public class ServerMain implements Runnable {
 	
 	private static final int SERVER_TPS = 30;

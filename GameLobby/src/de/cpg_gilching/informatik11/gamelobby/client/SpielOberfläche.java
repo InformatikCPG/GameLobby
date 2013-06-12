@@ -9,6 +9,9 @@ import javax.swing.JPanel;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ClientSpiel;
 
+/**
+ * Eine eher technische Klasse, die die Oberfläche eines laufenden Spiels verwaltet, hauptsächlich dessen {@link Canvas}.
+ */
 public class SpielOberfläche extends JPanel {
 	private static final long serialVersionUID = 1L;
 	

@@ -3,6 +3,9 @@ package de.cpg_gilching.informatik11.gamelobby.shared;
 import java.util.Deque;
 import java.util.LinkedList;
 
+/**
+ * Eine synchronisierte Hilfsklasse, die eine Warteschlange von auszuführenden Befehlen bereitstellt.
+ */
 public class TaskScheduler {
 	
 	private Deque<Runnable> wartendeTasks = new LinkedList<Runnable>();

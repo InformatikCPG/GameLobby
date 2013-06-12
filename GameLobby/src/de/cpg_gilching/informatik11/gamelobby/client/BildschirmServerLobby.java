@@ -9,6 +9,9 @@ import java.util.TreeMap;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionStarten;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
 
+/**
+ * Eine Model-Klasse für ein dargestelles Spiel in der Combobox.
+ */
 class SpielEintrag {
 	String bezeichner;
 	int spielId;
@@ -45,27 +48,49 @@ public class BildschirmServerLobby {
 		spielFormularFüllen();
 	}
 	
+	/**
+	 * Zeigt eine eingehende Chat-Nachricht auf der Oberfläche an.
+	 */
 	public void chatNachrichtAnzeigen(String nachricht) {
 		oberfläche.chatNachrichtAnzeigen(nachricht);
 	}
 	
+	/**
+	 * Schickt eine ausgehende Chat-Nachricht an den Server.
+	 */
 	public void chatNachrichtSenden(String nachricht) {
 		client.chatNachrichtSenden(-1, nachricht);
 	}
 	
+	/**
+	 * Schließt das Fenster der Oberfläche.
+	 */
 	public void verlassen() {
 		oberfläche.fensterSchliessen();
 	}
 	
+	/**
+	 * Informiert den Server, dass die Verbindung beendet werden soll.
+	 */
 	public void verbindungTrennen() {
 		client.verbindungTrennen();
 	}
 	
+	/**
+	 * Fügt einen Spieler auf der Anzeigeliste hinzu.
+	 * 
+	 * @param username der Name des Spielers
+	 */
 	public void spielerAnlegen(String username) {
 		spielerTabelle.put(username, new SpielerZustand(username));
 		oberfläche.spielerListeAktualisieren(spielerTabelle.values());
 	}
 	
+	/**
+	 * Entfernt einen Spieler von der Anzeigeliste. Wenn er gerade ausgewählt ist, wird er davor noch abgewählt.
+	 * 
+	 * @param username der Name des Spielers
+	 */
 	public void spielerEntfernen(String username) {
 		SpielerZustand entfernt = spielerTabelle.remove(username);
 		if (entfernt != null && entfernt.istAusgewählt()) {
@@ -88,13 +113,18 @@ public class BildschirmServerLobby {
 		spielFormularFüllen();
 	}
 	
+	/**
+	 * Zeigt die Anleitung des gerade ausgewählten Spiels an.
+	 */
 	public void spielanleitungAnzeigen() {
 		if (spielAusgewählt != null) {
 			client.anleitungÖffnen(spielAusgewählt);
 		}
 	}
 	
-	
+	/**
+	 * Initialisiert das Formular mit den korrekten Daten für das Spiel und der richtigen Markierung anhand der ausgewählten Spieler-Anzahl.
+	 */
 	private void spielFormularFüllen() {
 		if (spielAusgewählt == null) {
 			oberfläche.spielFormularAktualisieren(false, ausgewähltAnzahl, -1, false);
@@ -115,6 +145,11 @@ public class BildschirmServerLobby {
 		}
 	}
 	
+	/**
+	 * Ändert, welcher Eintrag gerade ausgewählt ist.
+	 * 
+	 * @param eintrag der neue SpielEintrag
+	 */
 	public void spielAusgewählt(SpielEintrag eintrag) {
 		if (eintrag == null) {
 			spielAusgewählt = null;
@@ -142,6 +177,9 @@ public class BildschirmServerLobby {
 		this.punktelimit = punktelimit;
 	}
 	
+	/**
+	 * Informiert den Server, dass eine Session mit den ausgewählten Einstellungen gestartet werden soll.
+	 */
 	public void sessionStartAnfragen() {
 		if (spielAusgewählt == null)
 			return;

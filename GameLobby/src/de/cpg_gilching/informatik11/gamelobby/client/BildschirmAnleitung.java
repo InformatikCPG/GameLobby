@@ -3,6 +3,9 @@ package de.cpg_gilching.informatik11.gamelobby.client;
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
 
+/**
+ * Die Controller- und Model-Komponente des Anleitungs-Bildschirms.
+ */
 public class BildschirmAnleitung {
 	
 	private ControllerClient client;

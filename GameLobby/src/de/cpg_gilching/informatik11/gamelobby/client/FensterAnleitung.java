@@ -18,6 +18,9 @@ import javax.swing.SwingConstants;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 
+/**
+ * Die View-Komponente eines Anleitung-Fensters.
+ */
 public class FensterAnleitung {
 	
 	private BildschirmAnleitung bildschirm;

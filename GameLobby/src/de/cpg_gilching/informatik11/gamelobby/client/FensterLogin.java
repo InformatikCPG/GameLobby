@@ -153,6 +153,13 @@ public class FensterLogin {
 		
 	}
 	
+	/**
+	 * Versucht, die Verbindung zum übergebenen Server herzustellen. Im Fehlerfall wird eine Fehlermeldung angezeigt.
+	 * 
+	 * @param adresse die Adresse des Servers
+	 * @param port der Port des Servers
+	 * @param username der Benutzername, der verwendet werden soll; darf nicht länger als 20 Zeichen sein, damit die Verbindung erfolgt
+	 */
 	public void verbindungHerstellen(String adresse, int port, String username) {
 		if (username.trim().length() > 20) {
 			Helfer.meldungAnzeigen("Der Benutzername darf nicht länger als 20 Zeichen sein!", true);

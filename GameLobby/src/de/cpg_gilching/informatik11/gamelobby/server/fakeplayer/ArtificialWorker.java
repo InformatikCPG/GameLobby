@@ -15,8 +15,16 @@ import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketHallo;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionAnnehmen;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionStarten;
 
+/**
+ * Der Arbeiter der Bots, der auf eingehende Packets entsprechend antwortet. Hier liegt das Herzstück der "künstlichen Intelligenz" (die gar nicht so intelligent ist, wie sie sich anhört ...).
+ */
 class ArtificialWorker implements Runnable {
 	
+	/**
+	 * Ein Array mit allen möglichen Nachrichten, die ein Bot auf seinen Namen erwidert.
+	 */
+	private static final String[] nachrichten = { "hey :)", "was gibts? ;)", "hallo welt ...", "ich mag züge", "das bin ich!", "danke!", "warum nicht?", "die zahl " + Helfer.zufallsZahl(100000) + " ist toll!" };
+
 	private final IPacketDictionary dictionary;
 	private final DataInputStream in;
 	private final DataOutputStream out;
@@ -31,18 +39,14 @@ class ArtificialWorker implements Runnable {
 		if (p instanceof PacketSessionStarten) {
 			PacketSessionStarten psess = (PacketSessionStarten) p;
 			
-			//Helfer.warten(Helfer.zufallsZahl(10, 2000));
-			
 			pout(new PacketSessionAnnehmen(psess.sessionId));
 		}
 		else if (p instanceof PacketChatNachricht) {
 			String msg = ((PacketChatNachricht) p).nachricht.toLowerCase();
 			String me = Thread.currentThread().getName().toLowerCase();
 			
-			if (msg.contains(me) && !msg.startsWith("<" + me)) {
+			if (msg.contains(me) && !msg.startsWith("<" + me) && msg.contains("<")) {
 				Helfer.warten(100L);
-				
-				String[] nachrichten = { "hey :)", "was gibts? ;)", "hallo welt ...", "ich mag züge", "das bin ich!", "danke!", "warum nicht?", "die zahl " + Helfer.zufallsZahl(100000) + " ist toll!" };
 				pout(new PacketChatNachricht(((PacketChatNachricht) p).spielId, nachrichten[Helfer.zufallsZahl(nachrichten.length)]));
 			}
 		}

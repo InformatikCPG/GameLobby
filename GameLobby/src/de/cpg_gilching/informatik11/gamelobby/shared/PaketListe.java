@@ -6,6 +6,9 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PacketSpielTaste;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PacketSpielerAnzahl;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketLexikon;
 
+/**
+ * Enthält eine Liste aller spielunabhängigen Netzwerk-Pakete des Programms.
+ */
 public class PaketListe {
 	
 	public static void normalePaketeAnmelden(PaketLexikon lexikon) {

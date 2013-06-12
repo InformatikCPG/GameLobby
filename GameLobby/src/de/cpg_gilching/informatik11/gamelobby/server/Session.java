@@ -11,8 +11,14 @@ import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionStarte
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSessionVerlassen;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
 
+/**
+ * Die Server-Repräsentation einer laufenden Session.
+ */
 public class Session {
 	
+	/**
+	 * Ein statischer Counter, damit jede Session ihre eigene ID bekommt.
+	 */
 	private static int idZähler = 0;
 	
 	

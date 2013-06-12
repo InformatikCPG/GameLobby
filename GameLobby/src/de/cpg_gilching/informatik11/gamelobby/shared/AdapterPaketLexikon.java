@@ -7,6 +7,9 @@ import de.cpg_gilching.informatik11.gamelobby.shared.net.IPacketDictionary;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Packet;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketLexikon;
 
+/**
+ * Adapterklasse zwischen dem internen Interface {@link IPacketDictionary} und das der Spiele-API, {@link PaketLexikon}.
+ */
 public class AdapterPaketLexikon implements IPacketDictionary, PaketLexikon {
 	
 	private Map<Integer, Class<? extends Packet>> nachId = new HashMap<Integer, Class<? extends Packet>>();

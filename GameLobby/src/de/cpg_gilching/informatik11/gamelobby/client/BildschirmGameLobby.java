@@ -13,6 +13,17 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielPacket;
 
+/**
+ * <p>
+ * Eine Model-Klasse, um einen Spielerzustand auf dem Scoreboard zu speichern.
+ * </p>
+ * <p>
+ * Die Attribute werden von der Oberfläche gelesen, wenn der Zustand aktualisiert wird, deswegen sind sie als volatile deklariert.
+ * </p>
+ * <p>
+ * Die Klasse implementiert das {@link Comparable}-Interface, um automatisch nach Punktestand sortiert werden zu können.
+ * </p>
+ */
 class SpielerIngameZustand implements Comparable<SpielerIngameZustand> {
 	final String name;
 	volatile int punkte = 0;
@@ -36,6 +47,14 @@ class SpielerIngameZustand implements Comparable<SpielerIngameZustand> {
 	}
 }
 
+/**
+ * Der Controller für den Ingame-Bildschirm.<br>
+ * Hier wird das {@link ClientSpiel} der Spiele-API gestartet und verwaltet sowie die allgemeinen Daten vom Server verarbeitet.
+ * 
+ * <p>
+ * Außerdem werden Ticks kontrolliert und die Schnittstelle von der API zur {@link SpielOberfläche} bereitgestellt.
+ * </p>
+ */
 public class BildschirmGameLobby {
 	
 	private ControllerClient client;
@@ -64,6 +83,8 @@ public class BildschirmGameLobby {
 	}
 	
 	public void tick(int ms) {
+		// um die Tickrate des Spiels zu berücksichtigen, wird nur in bestimmten Zeitintervallen gerendert
+
 		msVergangen += ms;
 		int tickAlleMs = 1000 / beschreibung.tickrateGeben();
 		

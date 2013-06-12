@@ -12,6 +12,10 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielBeschreibung;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielPacket;
 
+/**
+ * Der {@link PacketProcessor} des Clients, der alle Netzwerk-Pakete der Lobby entgegennimmt.<br>
+ * Empfangene {@link SpielPacket}s werden an das entsprechende Spiel weitergegeben, der Rest wird hier verarbeitet.
+ */
 public class AllgemeinerPacketProcessorClient extends PacketProcessor {
 	
 	private ControllerClient client;
@@ -67,6 +71,7 @@ public class AllgemeinerPacketProcessorClient extends PacketProcessor {
 	}
 	
 	public void handle(PacketKeepAlive packet) {
+		// kann ignoriert werden, dies ist eine Antwort auf unseren Ping
 	}
 	
 	public void handle(PacketDisconnect packet) {
