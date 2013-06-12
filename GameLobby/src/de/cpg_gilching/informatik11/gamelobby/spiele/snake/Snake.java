@@ -13,6 +13,7 @@ public class Snake {
 	private int farbe;
 	private int richtung = 0; //0=rechts, 1=unten, 2=links, 3=oben
 	public boolean tot;
+	private LinkedList<Integer> warteschlangeRichtung;
 	
 	Snake(SnakeSpielServer server, Spieler spieler, Point start, int mode) {
 		tot = false;
@@ -20,6 +21,7 @@ public class Snake {
 		this.spieler = spieler;
 		farbe = Helfer.zufallsZahl(0xFFFFFF);
 		elemente = new LinkedList<Point>();
+		warteschlangeRichtung = new LinkedList<Integer>();
 		
 		elemente.add(start);
 		elemente.add(new Point(start.x-1,start.y));
@@ -33,9 +35,17 @@ public class Snake {
 	}
 	
 	public void tick() {
+		//wenn Schlange tot, dann nichts mehr tun
 		if(tot) {
 			return;
 		}
+		
+		//Richtung verändern
+		if(!warteschlangeRichtung.isEmpty()) {
+			setRichtung(warteschlangeRichtung.removeFirst());
+		}
+		
+		//auf Spielmodus prüfen; wenn mode = 0, dann elemente hinten entfernen
 		if(server.mode == 0) {
 			Point gelöscht = elemente.removeLast();
 			server.feldUpdaten(gelöscht, -1);
@@ -93,29 +103,15 @@ public class Snake {
 		return false;
 	}
 	
-	/*public void speedAnpassen() {
-		int länge = elemente.size();
-		switch (länge) {
-		case 5:
-			server.setSpeed(4);
-			break;
-		case 10:
-			server.setSpeed(3);
-			break;
-		case 20:
-			server.setSpeed(2);
-			break;
-		case 30:
-			server.setSpeed(1);
-			break;
-		}
-	} */
-	
 	public Spieler spielerGeben() {
 		return spieler;
 	}
 	
 	public LinkedList<Point> elementeGeben() {
 		return elemente;
+	}
+	
+	public void richtungSpeichern(int richtungNeu) {
+		warteschlangeRichtung.addLast(richtungNeu);
 	}
 }

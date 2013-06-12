@@ -3,6 +3,7 @@ package de.cpg_gilching.informatik11.gamelobby.spiele.snake;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.*;
@@ -56,5 +57,17 @@ public class SnakeSpielClient extends ClientSpiel implements PaketManager {
 	
 	public void verarbeiten(PacketNachrichtSenden packet) {
 		msg = packet.msg;
+	}
+	
+	public void verarbeiten(PacketReset packet) {
+		//alle Felder zurücksetzen
+		for (int i = 0; i < 60; i++) {
+			for (int j = 0; j < 60; j++) {
+				feldMatrix[i][j] = null;
+			}
+		}
+		
+		//Nachricht zurücksetzen
+		msg = "";
 	}
 }

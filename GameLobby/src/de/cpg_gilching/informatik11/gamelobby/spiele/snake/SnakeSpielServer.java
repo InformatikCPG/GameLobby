@@ -77,6 +77,7 @@ public class SnakeSpielServer extends ServerSpiel {
 		if (sleep > -1) {
 			sleep--;
 			if (sleep == 40) {
+				packetAnAlle(new PacketReset());
 				reset();
 			}
 			return;
@@ -166,12 +167,6 @@ public class SnakeSpielServer extends ServerSpiel {
 	}
 	
 	public void reset() {
-		for (int i = 0; i < 60; i++) {
-			for (int j = 0; j < 60; j++) {
-				Point p = new Point(i,j);
-				feldUpdaten(p,-1);
-			}
-		}
 		for(int i=0;i<teilnehmer.size();i++) {
 			nachrichtSenden(teilnehmer.get(i),"");
 		}
@@ -187,6 +182,7 @@ public class SnakeSpielServer extends ServerSpiel {
 				if (argumente.length >= 1) {
 					try {
 						speed = Integer.parseInt(argumente[0]);
+						chat.nachrichtAnSpieler(sender, sender.getName() + "hat den Speed auf" + speed + "gesetzt!");
 					} catch (NumberFormatException e) {
 						chat.nachrichtAnSpieler(sender, "Du musst eine Zahl eingeben!");
 					}
@@ -200,6 +196,7 @@ public class SnakeSpielServer extends ServerSpiel {
 				if (argumente.length >= 1) {
 					try {
 						mode = Integer.parseInt(argumente[0]);
+						chat.nachrichtAnSpieler(sender, sender.getName() + "hat den Spielmodus auf " + mode + "gesetzt!");
 					} catch (NumberFormatException e) {
 						chat.nachrichtAnSpieler(sender, "Du musst eine Zahl eingeben!");
 					}
@@ -213,6 +210,7 @@ public class SnakeSpielServer extends ServerSpiel {
 				if (argumente.length >= 1) {
 					try {
 						essenSpawnrate = Integer.parseInt(argumente[0]);
+						chat.nachrichtAnSpieler(sender, sender.getName() + "hat die Spawnrate von Essen auf" + essenSpawnrate + "gesetzt!");
 					} catch (NumberFormatException e) {
 						chat.nachrichtAnSpieler(sender, "Du musst eine Zahl eingeben!");
 					}
@@ -223,7 +221,7 @@ public class SnakeSpielServer extends ServerSpiel {
 		chat.befehlRegistrieren("help", new ChatBefehl() {
 			@Override
 			public void ausführen(Spieler sender, String[] argumente) {
-				if (argumente.length >= 1) {
+				if (argumente.length >= 0) {
 					try {
 						//Liste aller Commands + Erklärung
 						chat.nachrichtAnSpieler(sender, "!speed -> reguliert die Geschwindigkeit der Snakes");

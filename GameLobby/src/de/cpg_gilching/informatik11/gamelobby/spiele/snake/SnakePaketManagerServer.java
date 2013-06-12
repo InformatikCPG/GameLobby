@@ -21,16 +21,16 @@ public class SnakePaketManagerServer implements PaketManager {
 			Snake snake = snakeServer.sucheSnake(spieler);
 			switch (packet.tastencode) {
 			case KeyEvent.VK_UP:
-				snake.setRichtung(3);
+				snake.richtungSpeichern(3);
 				break;
 			case KeyEvent.VK_RIGHT:
-				snake.setRichtung(0);
+				snake.richtungSpeichern(0);
 				break;
 			case KeyEvent.VK_DOWN:
-				snake.setRichtung(1);
+				snake.richtungSpeichern(1);
 				break;
 			case KeyEvent.VK_LEFT:
-				snake.setRichtung(2);
+				snake.richtungSpeichern(2);
 				break;
 			}
 		}

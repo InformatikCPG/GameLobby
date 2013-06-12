@@ -38,5 +38,6 @@ public class SnakeBeschreibung extends SpielBeschreibung {
 	public void paketeAnmelden(PaketLexikon lexikon) {
 		lexikon.anmelden(PacketFeldSetzen.class);
 		lexikon.anmelden(PacketNachrichtSenden.class);
+		lexikon.anmelden(PacketReset.class);
 	}
 }
