@@ -1,0 +1,11 @@
+Pong ist ein Spiel mit maximal 2 Spielern.
+Hierbei handelt es sich auch um einen Arcade-Klassiker. Die Spieler haben links und rechts auf dem Spielfeld einen Schläger, mit dem sie versuchen müssen, den Ball, der von der Mitte des Spielfelds aus zufällig eingeschossen wird, von ihrer Seite abzuwehren.
+Einen Punkt bekommt, wer den Ball auf die Seite des Gegners befördern kann ohne dass dieser ihn noch abwehren kann.
+
+Nach jedem Punkt wird der Ball erneut zufällig eingeworfen.
+
+Steuerung:
+- Pfeiltaste oben: Schläger nach oben bewegen
+- Pfeiltaste unten: Schläger nach unten bewegen
+
+© Lukas Bonauer
