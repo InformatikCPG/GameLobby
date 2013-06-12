@@ -31,7 +31,7 @@ public class TicTacToeClient extends ClientSpiel implements PaketManager,
 
 	@Override
 	public void onMaustasteGeändert(MouseEvent event, boolean zustand) {
-		if (zustand) {
+		if (zustand && event.getButton() == MouseEvent.BUTTON1) {
 			int feld;
 			if (event.getX() <= 200 && event.getY() <= 200) {
 				feld = 0;
