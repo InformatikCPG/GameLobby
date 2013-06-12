@@ -17,7 +17,7 @@ public class SnakeSpielServer extends ServerSpiel {
 	private ArrayList<Point> essen;
 	private ArrayList<Point> startPunkte;
 	private int zähler;
-	private int sleep = 10;
+	private int sleep = -1;
 	private int speed = 3;
 	private int essenSpawnrate = 5;
 	public int mode = 0; //0 = Snake; 1 = CurveFever
@@ -29,6 +29,7 @@ public class SnakeSpielServer extends ServerSpiel {
 
 	@Override
 	protected void starten() {
+		//Initialisierung der Attribute
 		snakes = new ArrayList<Snake>();
 		startPunkte = new ArrayList<Point>();
 		essen = new ArrayList<Point>();
@@ -42,6 +43,7 @@ public class SnakeSpielServer extends ServerSpiel {
 			snakes.add(new Snake(this, teilnehmer.get(i), Helfer.zufallsElement(startPunkte, true), mode));
 		}
 		
+		//Initialisierung der Commands
 		commandsInitialisieren();
 	}
 	
@@ -61,6 +63,7 @@ public class SnakeSpielServer extends ServerSpiel {
 	@Override
 	public void tick() {
 		
+		//wenn alle Spieler bis auf einen tot sind, dann wird die Snake vom letzten Spieler zur Liste toteSnakes hinzugefügt
 		if(snakes.size() - 1 == toteSnakes.size() ) {
 			for(int i=0;i<snakes.size();i++){
 				if(snakes.get(i).tot == false) {
@@ -69,16 +72,24 @@ public class SnakeSpielServer extends ServerSpiel {
 				}
 			}
 		}
-		//counter, um Pause zwischen Spielende und Spielstart zu schaffen
+		
+		//counter, um Pause zwischen Spielende, Reset und Spielstart zu schaffen
+		if(sleep != -1) {
+			sleep--;
+		}
 		if(snakes.size() == toteSnakes.size()) {
-			sleep++;
-			if(sleep >= 40) {
+			sleep = 80;
+			if(sleep <= 40) {
 				sleep = 0;
 				reset();
 			}
 			return;
 		}
+		if(sleep >= 0) {
+			return;
+		}
 		
+		//Speed wird festgelegt
 		zähler++;
 		if (zähler >= speed) {
 			for(int i=0;i<snakes.size();i++) {
@@ -86,6 +97,8 @@ public class SnakeSpielServer extends ServerSpiel {
 			}
 			zähler = 0;
 		}
+		
+		//Essen Spwanrate wird festgelegt und p für Essen an den Client geschickt
 		if (Helfer.zufallsZahl(100) < essenSpawnrate) {
 			int x = Helfer.zufallsZahl(60);
 			int y = Helfer.zufallsZahl(60);
@@ -170,7 +183,7 @@ public class SnakeSpielServer extends ServerSpiel {
 	}
 	
 	public void commandsInitialisieren() {
-		//speed ändern
+		//Speed ändern
 		chat.befehlRegistrieren("speed", new ChatBefehl() {
 			@Override
 			public void ausführen(Spieler sender, String[] argumente) {
