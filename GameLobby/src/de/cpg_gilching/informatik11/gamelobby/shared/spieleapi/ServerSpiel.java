@@ -25,7 +25,7 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielChat.ChatBef
  * <ul>
  * <li>{@link #teilnehmer}: Eine {@link List}e von allen teilnehmenden Spielern</li>
  * <li>{@link #scoreboard}: Eine API zur Verwaltung des Punktestandes von Spielern</li>
- * <li>{@link #chat}: Eine API zum Senden von Chatnachrichten und Registrieren von Chat-Befehlen("!befehl")</li>
+ * <li>{@link #chat}: Eine API zum Senden von Chatnachrichten und Registrieren von Chat-Befehlen ("!befehl")</li>
  * <li>{@link #packetAnSpieler(Spieler, SpielPacket)}: Sendet ein Paket an einen einzelnen Spieler</li>
  * <li>{@link #packetAnAlle(SpielPacket)}: Sendet ein Paket an alle Teilnehmer, z.B. um den Spielzustand an alle zu übermitteln.</li>
  * </ul>
@@ -37,6 +37,11 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielChat.ChatBef
  * <li>{@link #paketManagerErstellen(Spieler)}: Wird vor Start des Spiels für jeden Teilnehmer aufgerufen und erzeugt einen {@link PaketManager} für diesen, der Pakete empfängt.</li>
  * <li>{@link #spielerVerlassen(LobbySpieler)}:
  * </ul>
+ * 
+ * @see Scoreboard
+ * @see SpielChat
+ * @see SpielPacket
+ * @see Spieler
  */
 public abstract class ServerSpiel {
 	

@@ -11,6 +11,9 @@ import de.cpg_gilching.informatik11.gamelobby.spiele.realmofthemadschool.Realmof
 import de.cpg_gilching.informatik11.gamelobby.spiele.snake.SnakeBeschreibung;
 import de.cpg_gilching.informatik11.gamelobby.spiele.tictactoe.TicTacToeBeschreibung;
 
+/**
+ * Diese Klasse enthält die Liste aller im Projekt verfügbaren Spiel-Beschreibungen
+ */
 public class SpieleListe implements Iterable<SpielBeschreibung> {
 	
 	private List<SpielBeschreibung> spiele = new ArrayList<SpielBeschreibung>();

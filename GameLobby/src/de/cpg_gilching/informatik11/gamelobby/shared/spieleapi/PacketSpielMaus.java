@@ -4,6 +4,13 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+/**
+ * Ein {@link SpielPacket}, das von der automatischen Netzwerk-Maus des Clients gesendet wird, um Mausklicks zu signalisieren.
+ * 
+ * Es muss vom PaketManager des Servers manuell verarbeitet werden.
+ * 
+ * @see ClientSpiel#netzwerkMausRegistrieren()
+ */
 public class PacketSpielMaus extends SpielPacket {
 	
 	public int maustaste;

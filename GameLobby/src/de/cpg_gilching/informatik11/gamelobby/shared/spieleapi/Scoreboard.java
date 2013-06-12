@@ -9,10 +9,21 @@ import java.util.Map.Entry;
 import de.cpg_gilching.informatik11.gamelobby.server.LobbySpieler;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielTeilnehmerDaten;
 
+/**
+ * Eine API für {@link ServerSpiel}e, um einfach den Punktestand der teilnehmenden Spieler zu verwalten.<br>
+ * Es wird unterschieden zwischen zwei Arten von Punkten:
+ * <p>
+ * 1. "Echte" Punkte. Diese Punkte werden regulär in der Liste angezeigt. Wenn diese Punkte das im Spiel eingestellte Punktelimit überschreiten, hat der Spieler das Spiel gewonnen. Diese Punkte können auch negativ werden.
+ * </p>
+ * <p>
+ * 2. "Vorbereitete" Punkte. Diese Punkte werden neben den echten Punkten angezeigt und dienen als Vorschau für Punkte, die der Spieler nach der Runde bekommen wird.<br>
+ * Diese werden zum Zeitpunkt gesetzt, wenn sie feststehen (z.B. da der Spieler die Runde an x.ter Stelle verloren hat) und werden in der Regel am Ende jeder Runde angewendet. Dann werden sie zum echten Score hinzugezählt.
+ * </p>
+ */
 public class Scoreboard {
 	
 	/**
-	 * Ein Wert, der angibt, dass keine vorbereiteten Punkte angezeigt werden sollen. Standard
+	 * Ein Wert, der angibt, dass keine vorbereiteten Punkte angezeigt werden sollen. Standard-Wert für alle Spieler
 	 */
 	public static final int NICHTS = Integer.MIN_VALUE;
 

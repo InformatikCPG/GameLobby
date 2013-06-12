@@ -4,8 +4,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+/**
+ * Eine Hilfsklasse, um das Verbreiten des Zustands (= "Tracken") von Entities eines Spiels zu vereinfachen.
+ * <p>
+ * Entities, die getrackt werden sollen, müssen das {@link Trackbar}-Interface implementieren. Das heißt, dass sie selbst die Packets zum Tracken zur Verfügung stellen müssen.
+ * </p>
+ * <p>
+ * Spiele, die diese Klasse verwenden, müssen die {@link #tick()}-Methode regelmäßig aufrufen, damit die Bewegungs-Packets richtig überprüft werden können.
+ * </p>
+ */
 public class EntityTracker {
 	
+	/**
+	 * Dieses Interface muss von Entities implementiert werden, die vom {@link EntityTracker} getrackt werden sollen. Die zu implementierenden Methoden stellen die Packets zum Spawnen, Despawnen und Bewegen der Entity.<br>
+	 * Ob das Senden eines Bewegungs-Packets angebracht ist, liegt im Ermessen der Entity.
+	 */
 	public static interface Trackbar {
 		
 		/**
@@ -34,7 +47,7 @@ public class EntityTracker {
 		public SpielPacket bewegungsPacketErstellen(int id);
 		
 	}
-
+	
 	private int idCounter = 1;
 	private ServerSpiel server;
 	private Map<Integer, Trackbar> targets = new HashMap<Integer, Trackbar>();
@@ -45,6 +58,8 @@ public class EntityTracker {
 	
 	/**
 	 * Fügt etwas {@link Trackbar}es dem Tracker hinzu, sodass es an Clients gesendet wird.
+	 * 
+	 * @param target das Element, das getrackt werden soll
 	 */
 	public void trackTarget(Trackbar target) {
 		int id = idCounter++;
@@ -55,6 +70,8 @@ public class EntityTracker {
 	
 	/**
 	 * Entfernt etwas {@link Trackbar}es vom Tracker, sodass Clients es nicht mehr anzeigen.
+	 * 
+	 * @param target das Element, das nicht mehr getrackt werden soll
 	 */
 	public void untrackTarget(Trackbar target) {
 		for (Entry<Integer, Trackbar> e : targets.entrySet()) {
@@ -67,12 +84,15 @@ public class EntityTracker {
 		}
 	}
 	
+	/**
+	 * Entfernt alle derzeit getrackten Elemente vom Tracker.
+	 */
 	public void untrackAll() {
 		for (Entry<Integer, Trackbar> e : targets.entrySet()) {
 			server.packetAnAlle(e.getValue().despawnPacketErstellen(e.getKey()));
 		}
 	}
-
+	
 	/**
 	 * Kümmert sich um Positions-Updates, die an Clients gesendet werden müssen.
 	 */
@@ -83,5 +103,5 @@ public class EntityTracker {
 				server.packetAnAlle(p);
 		}
 	}
-
+	
 }

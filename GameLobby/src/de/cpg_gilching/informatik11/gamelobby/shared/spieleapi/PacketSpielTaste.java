@@ -4,6 +4,13 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+/**
+ * Ein {@link SpielPacket}, das von der automatischen Netzwerk-Tastatur des Clients gesendet wird, um einen Tastendruck zu signalisieren.
+ * 
+ * Es muss vom PaketManager des Servers manuell verarbeitet werden.
+ * 
+ * @see ClientSpiel#netzwerkTasteRegistrieren(int)
+ */
 public class PacketSpielTaste extends SpielPacket {
 	
 	public int tastencode;

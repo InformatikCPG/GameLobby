@@ -7,7 +7,7 @@ import java.io.IOException;
 /**
  * Ein {@link SpielPacket}, das vom Server gesendet werden kann, um die aktuelle Anzahl der Spieler im Spiel zu übertragen.
  * 
- * Es muss vom PaketManager des Clients verarbeitet werden.
+ * Es muss vom PaketManager des Clients manuell verarbeitet werden.
  */
 public class PacketSpielerAnzahl extends SpielPacket {
 	
