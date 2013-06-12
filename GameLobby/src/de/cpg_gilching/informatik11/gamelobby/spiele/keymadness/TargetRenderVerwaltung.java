@@ -32,5 +32,9 @@ public class TargetRenderVerwaltung {
 			renderer.rendern(g);
 		}
 	}
+	
+	public KeyMadnessClient getClient() {
+		return client;
+	}
 
 }

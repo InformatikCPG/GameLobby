@@ -10,13 +10,15 @@ public class PacketBlaseBewegen extends SpielPacket {
 	
 	public int id;
 	public Vektor position;
+	public Vektor geschwindigkeit;
 	
 	public PacketBlaseBewegen() {
 	}
 	
-	public PacketBlaseBewegen(int id, Vektor position) {
+	public PacketBlaseBewegen(int id, Vektor position, Vektor geschwindigkeit) {
 		this.id = id;
 		this.position = position;
+		this.geschwindigkeit = geschwindigkeit;
 	}
 	
 	@Override
@@ -24,12 +26,15 @@ public class PacketBlaseBewegen extends SpielPacket {
 		out.writeInt(id);
 		out.writeDouble(position.x);
 		out.writeDouble(position.y);
+		out.writeDouble(geschwindigkeit.x);
+		out.writeDouble(geschwindigkeit.y);
 	}
 	
 	@Override
 	public void einlesen(DataInputStream in) throws IOException {
 		id = in.readInt();
 		position = new Vektor(in.readDouble(), in.readDouble());
+		geschwindigkeit = new Vektor(in.readDouble(), in.readDouble());
 	}
 	
 }

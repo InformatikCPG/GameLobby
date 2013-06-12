@@ -9,6 +9,7 @@ import de.cpg_gilching.informatik11.gamelobby.server.LobbySpieler;
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ServerSpiel;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielChat;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.Spieler;
 
 public class OsmosServer extends ServerSpiel {
@@ -82,6 +83,18 @@ public class OsmosServer extends ServerSpiel {
 			
 			blaseHinzufügen(npc);
 		}
+		
+		chat.befehlRegistrieren("kill", new SpielChat.ChatBefehl() {
+			@Override
+			public void ausführen(Spieler sender, String[] argumente) {
+				for (Blase b : blasen) {
+					if (b.getController() != null && b.getController().getSpieler().getName().startsWith(argumente[0])) {
+						b.vergrößern(-1000000);
+						break;
+					}
+				}
+			}
+		});
 	}
 	
 	@Override

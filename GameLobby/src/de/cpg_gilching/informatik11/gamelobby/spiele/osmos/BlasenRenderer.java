@@ -20,15 +20,25 @@ public class BlasenRenderer {
 	public double radius = 0;
 	public Vektor position = new Vektor();
 	
+	private Vektor richtigePosition = new Vektor();
+	private Vektor geschwindigkeit = new Vektor();
+	private Vektor abweichung = new Vektor();
+	private int letztesUpdate = 0;
+	
+	private final Vektor tempVec = new Vektor();
+	
 	private Color farbe = Color.white;
 	private Color rahmenFarbe = Color.green;
 	
 	
-	public BlasenRenderer(OsmosClient client, int id, int spielerfarbe, String label) {
+	public BlasenRenderer(OsmosClient client, int id, int spielerfarbe, String label, Vektor startPosition) {
 		this.client = client;
 		this.id = id;
 		this.spielerfarbe = spielerfarbe;
 		this.label = label;
+		
+		position.kopiere(startPosition);
+		richtigePosition.kopiere(startPosition);
 		
 		neueFarbe();
 	}
@@ -76,6 +86,23 @@ public class BlasenRenderer {
 			int strBreite = g.getFontMetrics().stringWidth(label);
 			g.drawString(label, posx + (int) radius - strBreite / 2, posy - (15 / client.getSkalierung()));
 		}
+		
+		
+		// Client-side prediction: Die Position ändert sich durch die Geschwindigkeit.
+		abweichung.mul(letztesUpdate > 10 ? 0.9 : 0.65);
+		tempVec.kopiere(geschwindigkeit).mul(letztesUpdate);
+		position.kopiere(richtigePosition).add(tempVec).sub(abweichung);
+		letztesUpdate++;
+	}
+	
+	public void positionUpdaten(Vektor position, Vektor geschwindigkeit) {
+		this.richtigePosition.kopiere(position);
+		this.geschwindigkeit.kopiere(geschwindigkeit);
+		letztesUpdate = 0;
+		
+		abweichung.kopiere(richtigePosition).sub(this.position);
+		if (this == client.getAktiveBlase())
+		System.out.println("abweichung: " + abweichung.länge());
 	}
 	
 }

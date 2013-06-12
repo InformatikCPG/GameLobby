@@ -12,15 +12,17 @@ public class PacketNeueBlase extends SpielPacket {
 	public boolean neu;
 	public int spielerfarbe;
 	public String label;
+	public Vektor position;
 	
 	public PacketNeueBlase() {
 	}
 	
-	public PacketNeueBlase(int id, boolean neu, int spielerfarbe, String label) {
+	public PacketNeueBlase(int id, boolean neu, int spielerfarbe, String label, Vektor position) {
 		this.id = id;
 		this.neu = neu;
 		this.spielerfarbe = spielerfarbe;
 		this.label = label;
+		this.position = position;
 	}
 	
 	@Override
@@ -29,6 +31,8 @@ public class PacketNeueBlase extends SpielPacket {
 		out.writeBoolean(neu);
 		out.writeInt(spielerfarbe);
 		out.writeUTF(label);
+		out.writeDouble(position.x);
+		out.writeDouble(position.y);
 	}
 	
 	@Override
@@ -37,6 +41,7 @@ public class PacketNeueBlase extends SpielPacket {
 		neu = in.readBoolean();
 		spielerfarbe = in.readInt();
 		label = in.readUTF();
+		position = new Vektor(in.readDouble(), in.readDouble());
 	}
 	
 }
