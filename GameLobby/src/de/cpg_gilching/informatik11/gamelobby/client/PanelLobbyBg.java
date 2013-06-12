@@ -13,7 +13,7 @@ import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 public class PanelLobbyBg extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
-	private static final Image bgBild = Helfer.bildLaden("lobby_hintergrund.png");
+	private static final Image bgBild = Helfer.bildLaden("lobby_hintergrund.jpg");
 	
 	@Override
 	protected void paintComponent(Graphics g) {
