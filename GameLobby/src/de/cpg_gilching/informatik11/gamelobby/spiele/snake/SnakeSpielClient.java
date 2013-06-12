@@ -3,10 +3,10 @@ package de.cpg_gilching.informatik11.gamelobby.spiele.snake;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.event.KeyEvent;
 
-import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.*;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.ClientSpiel;
+import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.PaketManager;
 
 public class SnakeSpielClient extends ClientSpiel implements PaketManager {
 

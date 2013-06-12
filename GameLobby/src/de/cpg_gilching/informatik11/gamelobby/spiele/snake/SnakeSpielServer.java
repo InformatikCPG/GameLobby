@@ -182,7 +182,7 @@ public class SnakeSpielServer extends ServerSpiel {
 				if (argumente.length >= 1) {
 					try {
 						speed = Integer.parseInt(argumente[0]);
-						chat.nachrichtAnSpieler(sender, sender.getName() + " hat den Speed auf " + speed + " gesetzt!");
+						chat.nachrichtAnAlleTeilnehmer(sender.getName() + " hat den Speed auf " + speed + " gesetzt!");
 					} catch (NumberFormatException e) {
 						chat.nachrichtAnSpieler(sender, "Du musst eine Zahl eingeben!");
 					}
