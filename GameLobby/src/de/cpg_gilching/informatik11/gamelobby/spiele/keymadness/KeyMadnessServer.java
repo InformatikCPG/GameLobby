@@ -20,7 +20,7 @@ public class KeyMadnessServer extends ServerSpiel {
 	int level;
 	double[] geschwindigkeit = {1.5, 1.9, 2.4, 2.8, 3.5, 4, 6.5, 1.5};
 	int[] spawnrate = {40, 35, 30, 20, 12, 8, 6, 4};
-	int[] radius = {8, 8, 9, 10, 11, 11, 12, 5};
+	int[] radius = {8, 8, 9, 10, 12, 14, 17, 5};
 	
 	
 	@Override
@@ -87,25 +87,39 @@ public class KeyMadnessServer extends ServerSpiel {
 		}
 		
 		if(scoreboard.getPunkte(spieler) == 8){
-			level = 1;
+			if(level < 1){
+				level = 1;
+			}
 		}
 		else if(scoreboard.getPunkte(spieler) == 15) {
-			level = 2;
+			if(level < 2){
+				level = 2;
+			}
 		}
 		else if(scoreboard.getPunkte(spieler) == 20) {
-			level = 3;
+			if(level < 3){
+				level = 3;
+			}
 		}
 		else if(scoreboard.getPunkte(spieler) == 30) {
-			level = 4;
+			if(level < 4){
+				level = 4;
+			}
 		}
 		else if(scoreboard.getPunkte(spieler) == 50) {
-			level = 5;
+			if(level < 5){
+				level = 5;
+			}
 		}
 		else if(scoreboard.getPunkte(spieler) == 80) {
-			level = 6;
+			if(level < 6){
+				level = 6;
+			}
 		}
 		else if(scoreboard.getPunkte(spieler) == 95) {
-			level = 7;
+			if(level < 7){
+				level = 7;
+			}
 		}
 	}
 }
