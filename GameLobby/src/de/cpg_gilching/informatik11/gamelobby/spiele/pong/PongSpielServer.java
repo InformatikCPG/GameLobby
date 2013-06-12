@@ -86,7 +86,7 @@ public class PongSpielServer extends ServerSpiel {
 		else
 			ballGeschwindigkeitX = -1;
 		
-		ballGeschwindigkeitY = Helfer.zufallsZahl(-5, 5);
+		ballGeschwindigkeitY = Helfer.zufallsZahl(-4, 5);
 	}
 	
 	@Override
