@@ -182,7 +182,7 @@ public class SnakeSpielServer extends ServerSpiel {
 				if (argumente.length >= 1) {
 					try {
 						speed = Integer.parseInt(argumente[0]);
-						chat.nachrichtAnSpieler(sender, sender.getName() + "hat den Speed auf" + speed + "gesetzt!");
+						chat.nachrichtAnSpieler(sender, sender.getName() + " hat den Speed auf " + speed + " gesetzt!");
 					} catch (NumberFormatException e) {
 						chat.nachrichtAnSpieler(sender, "Du musst eine Zahl eingeben!");
 					}
@@ -195,8 +195,8 @@ public class SnakeSpielServer extends ServerSpiel {
 			public void ausführen(Spieler sender, String[] argumente) {
 				if (argumente.length >= 1) {
 					try {
-						mode = Integer.parseInt(argumente[0]);
-						chat.nachrichtAnSpieler(sender, sender.getName() + "hat den Spielmodus auf " + mode + "gesetzt!");
+						mode = Integer.parseInt(argumente[0]); 
+						chat.nachrichtAnSpieler(sender, sender.getName() + " hat den Spielmodus auf " + mode + " gesetzt!");
 					} catch (NumberFormatException e) {
 						chat.nachrichtAnSpieler(sender, "Du musst eine Zahl eingeben!");
 					}
@@ -210,7 +210,7 @@ public class SnakeSpielServer extends ServerSpiel {
 				if (argumente.length >= 1) {
 					try {
 						essenSpawnrate = Integer.parseInt(argumente[0]);
-						chat.nachrichtAnSpieler(sender, sender.getName() + "hat die Spawnrate von Essen auf" + essenSpawnrate + "gesetzt!");
+						chat.nachrichtAnSpieler(sender, sender.getName() + " hat die Spawnrate von Essen auf " + essenSpawnrate + " gesetzt!");
 					} catch (NumberFormatException e) {
 						chat.nachrichtAnSpieler(sender, "Du musst eine Zahl eingeben!");
 					}
@@ -225,7 +225,7 @@ public class SnakeSpielServer extends ServerSpiel {
 					try {
 						//Liste aller Commands + Erklärung
 						chat.nachrichtAnSpieler(sender, "!speed -> reguliert die Geschwindigkeit der Snakes");
-						chat.nachrichtAnSpieler(sender, "!mode	 -> verändert den Spielmodus");
+						chat.nachrichtAnSpieler(sender, "!mode	-> verändert den Spielmodus");
 						chat.nachrichtAnSpieler(sender, "!essen -> reguliert die Spawnrate von Essen");
 					} catch (NumberFormatException e) {
 						chat.nachrichtAnSpieler(sender, "Du musst eine Zahl eingeben!");
