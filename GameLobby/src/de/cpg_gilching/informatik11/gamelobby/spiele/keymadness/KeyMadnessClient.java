@@ -29,6 +29,13 @@ public class KeyMadnessClient extends ClientSpiel implements PaketManager{
 		netzwerkTasteRegistrieren(KeyEvent.VK_DOWN);
 		netzwerkTasteRegistrieren(KeyEvent.VK_LEFT);
 		netzwerkTasteRegistrieren(KeyEvent.VK_RIGHT);
+		
+		// Alias-Tasten
+		netzwerkTasteRegistrieren(KeyEvent.VK_W, KeyEvent.VK_UP);
+		netzwerkTasteRegistrieren(KeyEvent.VK_S, KeyEvent.VK_DOWN);
+		netzwerkTasteRegistrieren(KeyEvent.VK_A, KeyEvent.VK_LEFT);
+		netzwerkTasteRegistrieren(KeyEvent.VK_D, KeyEvent.VK_RIGHT);
+
 		Hintergrund = Helfer.bildLaden("keymadness/background.png");
 		checkpoint = Helfer.bildLaden("keymadness/checkpoint.png");
 	}

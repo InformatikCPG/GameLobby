@@ -22,6 +22,13 @@ public class RealmofthemadschoolClient extends ClientSpiel implements PaketManag
 		netzwerkTasteRegistrieren(KeyEvent.VK_S);
 		netzwerkTasteRegistrieren(KeyEvent.VK_D);
 		netzwerkTasteRegistrieren(KeyEvent.VK_SPACE);
+		
+		// Alias-Tasten
+		netzwerkTasteRegistrieren(KeyEvent.VK_UP, KeyEvent.VK_W);
+		netzwerkTasteRegistrieren(KeyEvent.VK_LEFT, KeyEvent.VK_A);
+		netzwerkTasteRegistrieren(KeyEvent.VK_DOWN, KeyEvent.VK_S);
+		netzwerkTasteRegistrieren(KeyEvent.VK_RIGHT, KeyEvent.VK_D);
+
 		Hintergrund = Helfer.bildLaden("realm/realmbackground.png");
 		
 		entities = new EntityRenderVerwaltung();

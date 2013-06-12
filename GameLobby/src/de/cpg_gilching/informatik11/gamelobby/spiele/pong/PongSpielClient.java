@@ -28,6 +28,13 @@ public class PongSpielClient extends ClientSpiel implements PaketManager, ITasta
 		
 		netzwerkTasteRegistrieren(KeyEvent.VK_UP);
 		netzwerkTasteRegistrieren(KeyEvent.VK_DOWN);
+		
+		// Alias-Tasten
+		netzwerkTasteRegistrieren(KeyEvent.VK_W, KeyEvent.VK_UP);
+		netzwerkTasteRegistrieren(KeyEvent.VK_S, KeyEvent.VK_DOWN);
+		netzwerkTasteRegistrieren(KeyEvent.VK_PAGE_UP, KeyEvent.VK_UP);
+		netzwerkTasteRegistrieren(KeyEvent.VK_PAGE_DOWN, KeyEvent.VK_DOWN);
+		
 		tasteRegistrieren(KeyEvent.VK_H, this);
 	}
 	
