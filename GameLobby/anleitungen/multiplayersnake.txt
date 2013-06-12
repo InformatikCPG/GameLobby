@@ -1,0 +1,9 @@
+Das Ziel von Multiplayer Snake ist es die anderen Spieler auszuschalten und als letzter Spieler zu überleben. Dabei besteht die Taktik vor allem im Einkreisen der anderen Spieler.
+
+Eine Snake stirbt beim Berühren einer anderen Snake oder des äußeren Randes. Die weißen Punkte sind Essen. Beim aufsammeln bzw. essen der weißen Punkte wächst die Snake.
+
+Steuerung
+	- Pfeiltasten: geben Bewegungsrichtung an
+	
+	
+© Timo Angerer

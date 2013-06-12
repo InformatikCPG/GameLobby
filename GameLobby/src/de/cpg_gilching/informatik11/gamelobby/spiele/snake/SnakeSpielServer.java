@@ -209,5 +209,21 @@ public class SnakeSpielServer extends ServerSpiel {
 				}
 			}
 		});
+		//help Command
+		chat.befehlRegistrieren("help", new ChatBefehl() {
+			@Override
+			public void ausführen(Spieler sender, String[] argumente) {
+				if (argumente.length >= 1) {
+					try {
+						//Liste aller Commands + Erklärung
+						chat.nachrichtAnSpieler(sender, "!speed -> reguliert die Geschwindigkeit der Snakes");
+						chat.nachrichtAnSpieler(sender, "!mode	 -> verändert den Spielmodus");
+						chat.nachrichtAnSpieler(sender, "!essen -> reguliert die Spawnrate von Essen");
+					} catch (NumberFormatException e) {
+						chat.nachrichtAnSpieler(sender, "Du musst eine Zahl eingeben!");
+					}
+				}
+			}
+		});
 	}
 }
