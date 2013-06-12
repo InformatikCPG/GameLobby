@@ -5,6 +5,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 
 public class Connection implements IReadWriteErrorHandler {
@@ -20,12 +23,29 @@ public class Connection implements IReadWriteErrorHandler {
 	
 	private volatile boolean closed = false;
 	
+	private volatile int writec, writes;
+	private volatile int readc, reads;
+	private long last = 0;
 	
 	public Connection(PotentialSocket socket, IPacketDictionary dictionary) throws IOException {
+		IStatsListener stats = new IStatsListener() {
+			@Override
+			public void packetWritten(int size) {
+				writec++;
+				writes += size;
+			}
+			
+			@Override
+			public void packetRead(int size) {
+				readc++;
+				reads += size;
+			}
+		};
+
 		this.socket = socket;
 		this.dictionary = dictionary;
-		readThread = new PacketReadThread(socket.getInputStream(), dictionary, null, this, "NetworkReaderThread-" + ++instanceCounter);
-		writeThread = new PacketWriteThread(socket.getOutputStream(), dictionary, null, this, "NetworkWriterThread-" + instanceCounter);
+		readThread = new PacketReadThread(socket.getInputStream(), dictionary, stats, this, "NetworkReaderThread-" + ++instanceCounter);
+		writeThread = new PacketWriteThread(socket.getOutputStream(), dictionary, stats, this, "NetworkWriterThread-" + instanceCounter);
 	}
 	
 	public void startThreads() {
@@ -90,6 +110,15 @@ public class Connection implements IReadWriteErrorHandler {
 		if (netProcessor == null)
 			return;
 		
+		long now = System.currentTimeMillis();
+		if (now - last >= 6000) {
+			double seconds = (now - last) / 1000.0;
+			last = now;
+			
+			System.out.format("written: %.2f (%s/s); read: %.2f (%s/s)%n", writec / seconds, formatBytes(writes / seconds), readc / seconds, formatBytes(reads / seconds));
+			writec = writes = readc = reads = 0;
+		}
+		
 		Packet p;
 		while ((p = readThread.peekPacket()) != null) {
 			try {
@@ -113,4 +142,29 @@ public class Connection implements IReadWriteErrorHandler {
 		return dictionary;
 	}
 	
+	private static final NumberFormat decimalFormatter;
+	
+	static {
+		decimalFormatter = DecimalFormat.getInstance(Locale.US);
+		decimalFormatter.setMinimumFractionDigits(2);
+		decimalFormatter.setMaximumFractionDigits(2);
+	}
+	
+	/**
+	 * Formats a given amount of bytes into an applicable bigger unit.
+	 * <p />
+	 * Everything from 512 bytes will be displayed in KB, everything from 1024 KB in MB. A conversion factor of 1024 is used.
+	 * 
+	 * @param b the amount of byte
+	 * @return a formatted string
+	 */
+	private static String formatBytes(double b) {
+		if (b >= 1024 * 1024)
+			return decimalFormatter.format(b / 1024.0 / 1024.0) + " MB";
+		if (b >= 512)
+			return decimalFormatter.format(b / 1024.0) + " KB";
+		
+		return decimalFormatter.format(b) + " B";
+	}
+
 }

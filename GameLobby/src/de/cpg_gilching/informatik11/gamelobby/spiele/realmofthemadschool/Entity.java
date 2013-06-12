@@ -6,7 +6,6 @@ import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.EntityTracker.Tra
 public abstract class Entity implements Trackbar {
 	
 	boolean dead = false;
-	boolean nomana = false;
 	int health=20;
 	int mana=15;
 	int charge=0;

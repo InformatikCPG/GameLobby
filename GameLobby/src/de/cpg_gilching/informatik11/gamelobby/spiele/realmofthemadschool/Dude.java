@@ -10,11 +10,10 @@ public class Dude extends Entity {
 	boolean Sgedrückt;
 	boolean Dgedrückt;
 	boolean SPACEgedrückt;
+	boolean nomana = false;
 	RealmofthemadschoolServer server;
 	Spieler spieler;
 	int time;
-	int charge;
-	int chargetime;
 
 	public Dude(RealmofthemadschoolServer ROMSS, Spieler spieler) {
 		super(PacketEntityNeu.TYP_DUDE);
@@ -54,13 +53,15 @@ public class Dude extends Entity {
 		if (y >= 580) {
 			y = 580;
 		}
-	    charging();
+
 		time++;
 		if (SPACEgedrückt) {
-		chargetime++;
+			if (charge < 60) {
+				charge++;
+			}
 		}
 		else {
-		chargetime = 0;
+			charge = 0;
 		}
 		
 		regeneratemana();
@@ -74,29 +75,12 @@ public class Dude extends Entity {
 	}
 	public void supderduperwaschbär() {
 		if (SPACEgedrückt == false) {
-			if(charge >= 5) {
+			if (charge >= 60) {
 				superattack();
 			}
 			else {
 				attack();
 			}
-		}
-	}
-	public void charging() {
-		if (chargetime == 15) {
-			charge++;
-		}
-		if (chargetime == 30) {
-			charge++;
-		}
-		if (chargetime == 45) {
-			charge++;
-		}
-		if (chargetime == 60) {
-			charge++;
-		}
-		if (chargetime == 75) {
-			charge++;
 		}
 	}
 	

@@ -35,9 +35,9 @@ public class PacketEntityBewegen extends SpielPacket {
 		out.writeInt(x);
 		out.writeInt(y);
 		out.write(ausrichtung);
-		out.writeShort(health);
-		out.writeShort(mana);
-		out.writeShort(charge);
+		out.write(health);
+		out.write(mana);
+		out.write(charge);
 	}
 	
 	@Override
@@ -46,9 +46,9 @@ public class PacketEntityBewegen extends SpielPacket {
 		x = in.readInt();
 		y = in.readInt();
 		ausrichtung = in.read();
-		health = in.readShort();
-		mana = in.readShort();
-		charge = in.readShort();
+		health = in.read();
+		mana = in.read();
+		charge = in.read();
 	}
 	
 }

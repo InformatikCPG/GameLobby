@@ -1,5 +1,3 @@
-Desert Kings
-
 Die Könige versammeln sich,
 um um das letzte Stück Land zu kämpfen.
 Aufgrund Ihrer unglaublichen HADUKEN! Fähigkeiten,
@@ -7,7 +5,7 @@ brauchen sie weder Schwert noch Schild.
 (naja und weil ich mich nicht dazu aufraffen konnte Klassen zu
 erstellen, die sich unterschiedlich voneinander verhalten ...
 Ich hab das Gefühl der große Meister hatte auch keine Lust
-mehr mich durch diese Aufgabe durchzulotsen(ja, das ist ein Wort,
+mehr mich durch diese Aufgabe durchzulotsen (ja, das ist ein Wort,
 habs grad erfunden)).
 
 ÄÄhhm wo waren wir? Ach ja! Ein epischer Kampf um Leben  
@@ -15,23 +13,27 @@ und Tod, Gut und Böse, Gemein und Freundlich,
 eine Geschichte von Liebe und Verrat, und vor allem 
 nichts von dem oben genannten!
 Leider konnte ich nirgends solche Könige finden.
-Niemand war bereit ,sich für diese Geschichte bereitzustellen,
+Niemand war bereit, sich für diese Geschichte bereitzustellen,
 aber dann habe ich euch gefunden,
 und ihr seht aus wie ein Haufen,
 der alles für ein paar Goldstückchen macht, ja ich rede auch mit dir,
 ja du, der der diesen Text gerade liest! Finde Freunde (oder Feinde)
 und wählt euren König, 
-um gemeinsam gegeneinander zu Kämpfen,
+um gemeinsam gegeneinander zu kämpfen,
 in einer...  nun ja nicht ganz so epischen Schlacht,
 ach was rede ich, ich bin mir sicher ihr schafft das!
-AUF AUF ein Abenteuer erwartet euch !
+AUF AUF ein Abenteuer erwartet euch!
 
 
-Movement:
+Bewegung:
 		W 	Vorwärts
 		A 	Links
 		S	Rückwärts
 		D 	Rechts
 		
-Attack:
+Angreifen:
 		Space   Schießen
+
+Space gedrückt halten, um einen Special-Angriff aufzuladen!
+
+© Vincent Powell
