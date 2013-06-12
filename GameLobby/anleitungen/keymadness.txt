@@ -2,19 +2,16 @@ Key Madness
 
 Jeder Spieler besitzt ein Kontrollkästchen, das mit seiner Farbe im Scoreboard links im Bildschirm übereinstimmt. 
 Auf den Linien werden sich Zielscheiben mit Befehlen durch das Spielfeld bewegen. 
-Auf den Zielscheiben sind zufällig Pfeiltasten abgebildet. Sobald eine Zielscheibe genau unter dem 
-Kontrollkästchen ist, kann die abgebildete Pfeiltaste gedrückt werden. Der jeweilige Spieler erhält einen Punkt und 
-die Zielscheibe verschwindet. Bei falscher Eingabe oder wenn keine Zielscheibe im Bereich des Kontrollkästchens ist, wird ein Punkt abgezogen 
-und die Zielscheibe bewegt sich weiter. Wenn zwei Zielscheiben mit verschiedenen Aktionen unter dem Kontrollkästchen sind, 
-kann eine der beiden Pfeiltasten gedrückt werden um einen Punkt zu bekommen, die andere Zielscheibe wird sich ohne Effekt weiterbewegen. 
+Auf den Zielscheiben sind zufällig Pfeiltasten abgebildet. Sobald eine Zielscheibe genau unter dem Kontrollkästchen ist, kann die abgebildete Pfeiltaste gedrückt werden. Der jeweilige Spieler erhält einen Punkt und die Zielscheibe verschwindet.
+Bei falscher Eingabe oder wenn keine Zielscheibe im Bereich des Kontrollkästchens ist, wird ein Punkt abgezogen und die Zielscheibe bewegt sich weiter.
+Wenn zwei Zielscheiben mit verschiedenen Aktionen unter dem Kontrollkästchen sind, kann eine der beiden Pfeiltasten gedrückt werden um einen Punkt zu bekommen, die andere Zielscheibe wird sich ohne Punktabzug weiterbewegen. 
 Aber Achtung, es gibt auch getarnte schwarze Schafe unter den Zielscheiben!!
-Mit ansteigender Punktezahl werden höhere Schwierigkeitsgrade erreicht, die die Schnelligkeit der Zielscheiben, die Häufigkeit der Zielscheiben und
-den Prüfradius der Kontrollkästchen verändern!
+Mit ansteigender Punktezahl werden höhere Schwierigkeitsgrade erreicht, die die Schnelligkeit der Zielscheiben, die Häufigkeit der Zielscheiben und den Prüfradius der Kontrollkästchen verändern!
 
 Steuerung:
-Pfeiltassten: up, down, right, left
+Pfeiltasten: up, down, right, left
 
 Anmerkung:
-Die maximale Anzahl an Leveln und der höchste Schwierigkeitsgrad wird nur erreicht, wenn die maximale Punktzahl auf [100] gestellt ist!
+Die maximale Anzahl an Leveln und der höchste Schwierigkeitsgrad wird nur erreicht, wenn das Punktelimit auf [100] gestellt ist!
 
 © Philipp
