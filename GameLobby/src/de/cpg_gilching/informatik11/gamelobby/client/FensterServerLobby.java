@@ -43,7 +43,7 @@ public class FensterServerLobby implements Runnable {
 		Helfer.alsSwingTask(new Runnable() {
 			@Override
 			public void run() {
-				JPanel hauptPanel = new JPanel();
+				JPanel hauptPanel = new PanelLobbyBg();
 				hauptPanel.setLayout(null);
 				hauptPanel.setPreferredSize(new Dimension(800, 600));
 				
