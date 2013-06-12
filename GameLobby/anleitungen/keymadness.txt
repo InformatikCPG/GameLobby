@@ -1,5 +1,3 @@
-Key Madness
-
 Jeder Spieler besitzt ein Kontrollkästchen, das mit seiner Farbe im Scoreboard links im Bildschirm übereinstimmt. 
 Auf den Linien werden sich Zielscheiben mit Befehlen durch das Spielfeld bewegen. 
 Auf den Zielscheiben sind zufällig Pfeiltasten abgebildet. Sobald eine Zielscheibe genau unter dem Kontrollkästchen ist, kann die abgebildete Pfeiltaste gedrückt werden. Der jeweilige Spieler erhält einen Punkt und die Zielscheibe verschwindet.
@@ -14,4 +12,4 @@ Pfeiltasten: up, down, right, left
 Anmerkung:
 Die maximale Anzahl an Leveln und der höchste Schwierigkeitsgrad wird nur erreicht, wenn das Punktelimit auf [100] gestellt ist!
 
-© Philipp
+© Philipp Kosian

@@ -11,3 +11,5 @@ Steuerung:
 - Maus: Richtung für Rückstoß-Bewegung bestimmen
 - linke Maustaste: Bewegen
 - Mausrad: Zoom verändern
+
+© Lukas Bonauer

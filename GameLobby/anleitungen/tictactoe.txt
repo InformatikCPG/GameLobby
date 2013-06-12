@@ -1,0 +1,5 @@
+Tic Tac Toe ist ein bekanntes Positionsspiel. Das Ziel ist es, eine Reihe aus 3 gleichen Symbolen zu bilden und dies schneller als der Gegner.
+Die Spielfiguren "X" und "O" werden dann abwechselnd von den beiden Spielern durch einen Klick mit der Maus auf einem 3x3-Feld gesetzt.
+Der Beginner wird zufällig ausgewählt und die maximale Spieleranzahl beträgt 2. Nach einem Sieg, einer Niederlage oder einem Unentschieden wird das Spielfeld zurückgesetzt.
+
+© Tobias Zimmermann
