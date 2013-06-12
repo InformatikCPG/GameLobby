@@ -118,10 +118,7 @@ public class FensterServerLobby implements Runnable {
 				punktelimitDropdown = new JComboBox();
 				punktelimitDropdown.setBounds(160, 492, 80, 25);
 				punktelimitDropdown.setBackground(Color.white);
-				punktelimitDropdown.addItem(10);
-				punktelimitDropdown.addItem(20);
-				punktelimitDropdown.addItem(50);
-				punktelimitDropdown.addItem(100);
+
 				punktelimitDropdown.addItemListener(new ItemListener() {
 					@Override
 					public void itemStateChanged(ItemEvent e) {
@@ -136,6 +133,9 @@ public class FensterServerLobby implements Runnable {
 						}
 					}
 				});
+				
+				for (int limit : serverLobby.getPunktelimitAuswahl())
+					punktelimitDropdown.addItem(limit);
 
 				hauptPanel.add(punktelimitDropdown);
 

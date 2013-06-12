@@ -36,6 +36,7 @@ public class BildschirmServerLobby {
 	private int ausgewähltAnzahl = 0;
 	private SpielBeschreibung spielAusgewählt = null;
 	private int punktelimit = 10;
+	private int[] punktelimitAuswahl = { 10, 20, 50, 100, 200, 500 };
 	
 	public BildschirmServerLobby(ControllerClient clientController) {
 		this.client = clientController;
@@ -164,4 +165,8 @@ public class BildschirmServerLobby {
 		return client;
 	}
 	
+	public int[] getPunktelimitAuswahl() {
+		return punktelimitAuswahl;
+	}
+
 }
