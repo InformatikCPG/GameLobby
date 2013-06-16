@@ -19,7 +19,8 @@ public class SnakeSpielClient extends ClientSpiel implements PaketManager {
 		setPaketManager(this);
 		feldMatrix = new Color[60][60];
 		msg = null;
-
+		
+		//Registrieren der Tasten
 		netzwerkTasteRegistrieren(KeyEvent.VK_UP);
 		netzwerkTasteRegistrieren(KeyEvent.VK_DOWN);
 		netzwerkTasteRegistrieren(KeyEvent.VK_LEFT);
@@ -31,9 +32,11 @@ public class SnakeSpielClient extends ClientSpiel implements PaketManager {
 		netzwerkTasteRegistrieren(KeyEvent.VK_A, KeyEvent.VK_LEFT);
 		netzwerkTasteRegistrieren(KeyEvent.VK_D, KeyEvent.VK_RIGHT);
 	}
-
+	
+	//Rendern der Oberfläche
 	@Override
 	public void leinwandRendern(Graphics2D g) {
+		//Teilen der Oberfläche in 10*10 große Bereiche -> wenn "feldMatrix[j][i]" nicht "null" ist, dann mit der gespeicherten Farbe füllen
 		for (int i = 0; i < 60; i++) {
 			for (int j = 0; j < 60; j++) {
 				if (feldMatrix[j][i] != null) {
@@ -43,6 +46,7 @@ public class SnakeSpielClient extends ClientSpiel implements PaketManager {
 			}
 		}
 		
+		//Anzeigen einer Nachricht, wenn "msg" nicht "null" und nicht "leer" ist
 		if(msg != null && !msg.isEmpty()) {			
 			g.setColor(Color.GREEN);
 			g.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,30));
@@ -51,6 +55,7 @@ public class SnakeSpielClient extends ClientSpiel implements PaketManager {
 		}
 	}
 
+	//Wenn ein Packet "PacketFeldSetzen" ankommt den x- und den y-Wert auslesen und die Farbe bei "feldMatrix[x][y]" speichern
 	public void verarbeiten(PacketFeldSetzen packet) {
 		if (packet.x >= 0 && packet.x < 60 && packet.y >= 0 && packet.y < 60) {
 			if (packet.farbe != -1) {
@@ -61,10 +66,12 @@ public class SnakeSpielClient extends ClientSpiel implements PaketManager {
 		}
 	}
 	
+	//Wenn ein Packet "PacketReset" ankommt die Oberfläche komplett zurücksetzen
 	public void verarbeiten(PacketNachrichtSenden packet) {
 		msg = packet.msg;
 	}
 	
+	//Wenn ein Packet "PacketNachrichtSenden" ankommt den Wert von "msg" zu "msg" übergeben
 	public void verarbeiten(PacketReset packet) {
 		//alle Felder zurücksetzen
 		for (int i = 0; i < 60; i++) {

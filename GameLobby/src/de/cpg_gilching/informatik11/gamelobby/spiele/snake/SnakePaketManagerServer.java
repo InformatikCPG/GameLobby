@@ -11,11 +11,13 @@ public class SnakePaketManagerServer implements PaketManager {
 	private SnakeSpielServer snakeServer;
 	private Spieler spieler;	
 	
+	//Konstruktor
 	public SnakePaketManagerServer(SnakeSpielServer snake, Spieler spieler) {
 		this.snakeServer = snake;
 		this.spieler = spieler;
 	}
 	
+	//was beim Aktivieren, der in SnakeBeschreibung definierten Tasten passieren soll
 	public void verarbeiten(PacketSpielTaste packet) {
 		if(packet.zustand) {
 			Snake snake = snakeServer.sucheSnake(spieler);

@@ -15,7 +15,8 @@ public class Snake {
 	public boolean tot;
 	private LinkedList<Integer> warteschlangeRichtung;
 	
-	Snake(SnakeSpielServer server, Spieler spieler, Point start, int mode) {
+	//Konstruktor
+	public Snake(SnakeSpielServer server, Spieler spieler, Point start, int mode) {
 		tot = false;
 		this.server = server;
 		this.spieler = spieler;
@@ -35,22 +36,23 @@ public class Snake {
 	}
 	
 	public void tick() {
-		//wenn Schlange tot, dann nichts mehr tun
+		//Wenn die Snake tot ist, dann abbrechen
 		if(tot) {
 			return;
 		}
 		
-		//Richtung verändern
+		//Richtung verändern, wenn die Liste "warteschlangeRichtung" nicht "leer" ist
 		if(!warteschlangeRichtung.isEmpty()) {
 			setRichtung(warteschlangeRichtung.removeFirst());
 		}
 		
-		//auf Spielmodus prüfen; wenn mode = 0, dann elemente hinten entfernen
+		//Auf Spielmodus prüfen; wenn mode = 0, dann Elemente hinten entfernen
 		if(server.mode == 0) {
 			Point gelöscht = elemente.removeLast();
 			server.feldUpdaten(gelöscht, -1);
 		}
 		
+		//Vorwärtsbewegung der Snake in Abhängigkeit von der Richtung
 		Point vorneNeu = null;
 		Point vorne = elemente.getFirst();
 		switch (richtung) {
@@ -68,6 +70,7 @@ public class Snake {
 			break;
 		}
 		
+		//Prüfen, ob die Snake stirbt
 		if(server.feldZustandPrüfen(vorneNeu) == 2) {
 			tot = true;
 			server.nachrichtSenden(spieler, "Du bist gestorben!");
@@ -75,25 +78,30 @@ public class Snake {
 			return;
 		}
 		
+		//neues Element zur Liste "elemente" hinzufügen
 		elemente.addFirst(vorneNeu);
 		
 		server.feldUpdaten(elemente.getFirst(), farbe);
 		server.essenPrüfen(vorneNeu, this);
 	}
 	
+	//Richtung setzen
 	public void setRichtung(int richtungNeu) {
+		//Richtung soll nur um 90 Grad veränderbar sein
 		int differenz = richtung - richtungNeu;
 		if(differenz != 2 && differenz != -2) {
 			richtung = richtungNeu;
 		}
 	}
 	
+	//Bei der Liste "elemente" wird hinten ein Element eingefügt
 	public void wachsen(int anzahl) {
 		for (int i=0;i<anzahl;i++) {
 			elemente.addLast(elemente.getLast());
 		}
 	}
 	
+	//Hilfsmethode für die Methode "feldZustandPrüfen" in der Klasse "SnakeSpielServer"
 	public boolean feldPrüfen(Point p) {
 		for(int i=0;i<elemente.size();i++) {
 			if(elemente.get(i).x == p.x && elemente.get(i).y == p.y) {
