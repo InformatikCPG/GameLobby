@@ -7,16 +7,22 @@ import java.util.List;
 
 public class KeyMadnessPunkteDaten {
 
+	// Zweidimensionales Array für verschiedene Pfade bestehend aus Punkten:
 	public Point[][] pfade;
+	// Array, das die Checkpoints festlegt:
 	public Point[] checkpoints;
+	// Liste, in der die möglichen Tastencodes gespeichert sind:
 	public List<Integer> tastencodes;
 	
 	public KeyMadnessPunkteDaten(int spieleranzahl){
+		// Liste mit Tastencodes wird erstellt:
 		tastencodes = new ArrayList<Integer>();
 		tastencodes.add(KeyEvent.VK_UP);
 		tastencodes.add(KeyEvent.VK_DOWN);
 		tastencodes.add(KeyEvent.VK_LEFT);
 		tastencodes.add(KeyEvent.VK_RIGHT);
+		
+		// Je nach Spieleranzahl werden Pfade und Checkpoints eingespeichert:
 		switch (spieleranzahl) {
 		case 2:
 			pfade = new Point[][]{
