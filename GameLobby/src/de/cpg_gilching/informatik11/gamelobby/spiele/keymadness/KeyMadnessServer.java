@@ -45,7 +45,7 @@ public class KeyMadnessServer extends ServerSpiel {
 		level = 0;
 		chat.nachrichtAnAlleTeilnehmer("Level 1!");
 		
-		// den Teilnehmern werden Farben im Scoreboard zugewiesen:
+		// den Teilnehmern werden je nach Position in der Liste Farben im Scoreboard zugewiesen:
 		switch(teilnehmer.size()) {
 		case 4:
 		    scoreboard.anzeigefarbeSetzen(teilnehmer.get(3), 0x00FFFF);
