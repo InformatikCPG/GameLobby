@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -92,6 +93,7 @@ public class FensterSessionLobby {
 				
 				
 				fenster = new JFrame("Session-Lobby");
+				fenster.setIconImages(Arrays.asList(Helfer.bildLaden("icon_16.png"), Helfer.bildLaden("icon_32.png")));
 				fenster.setResizable(false);
 				fenster.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 				fenster.setLayout(new BorderLayout());

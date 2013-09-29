@@ -34,5 +34,6 @@ public class PaketListe {
 		lexikon.anmelden(PacketSpielStarten.class);
 		lexikon.anmelden(PacketSpielTeilnehmer.class);
 		lexikon.anmelden(PacketSpielTeilnehmerDaten.class);
+		lexikon.anmelden(PacketSound.class);
 	}
 }

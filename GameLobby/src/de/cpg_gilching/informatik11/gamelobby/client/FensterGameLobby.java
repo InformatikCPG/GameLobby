@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 import javax.swing.*;
@@ -109,6 +110,7 @@ public class FensterGameLobby {
 				
 				
 				fenster = new JFrame("Spiel: " + gameLobby.getBeschreibung().getBezeichnung());
+				fenster.setIconImages(Arrays.asList(Helfer.bildLaden("icon_16.png"), Helfer.bildLaden("icon_32.png")));
 				fenster.setResizable(false);
 				fenster.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 				fenster.setLayout(new BorderLayout());

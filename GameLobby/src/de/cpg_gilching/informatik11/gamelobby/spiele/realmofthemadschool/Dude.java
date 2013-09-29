@@ -98,6 +98,7 @@ public class Dude extends Entity {
 			if (mana <= 0) {
 				nomana = true;
 			}
+			server.soundAnAlle("rotmsBasic");
 		}
 	}
 			
@@ -113,6 +114,7 @@ public class Dude extends Entity {
 					if (mana <= 0) {
 						nomana = true;
 					}
+			server.soundAnAlle("rotmsSpecial");
 		}
 
 	}

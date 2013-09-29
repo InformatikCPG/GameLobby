@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.Inet4Address;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 import javax.swing.BorderFactory;
@@ -44,8 +45,9 @@ public class FensterLogin {
 		
 		
 		
-		fenster = new JFrame("Lobby-System Client");
+		fenster = new JFrame("CersysGames Client");
 		//		frame.setResizable(false);
+		fenster.setIconImages(Arrays.asList(Helfer.bildLaden("icon_16.png"), Helfer.bildLaden("icon_32.png")));
 		fenster.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		fenster.setLayout(new BorderLayout());
 		fenster.add(hauptPanel, BorderLayout.NORTH);

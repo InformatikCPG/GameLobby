@@ -195,5 +195,17 @@ public class AllgemeinerPacketProcessorClient extends PacketProcessor {
 		
 		spiel.spielerPunkteSetzen(packet.spielerName, packet.farbe, packet.punkte, packet.tempPunkte);
 	}
+	
+	public void handle(PacketSound packet) {
+		if (client.tonAngeschaltet) {
+			Sound sound = Sound.getByName(packet.soundName);
+			if (sound == null) {
+				System.err.println("PacketSpielPunkte: Ungültiger Sound: " + packet.soundName);
+				return;
+			}
+
+			sound.play(false);
+		}
+	}
 
 }

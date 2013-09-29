@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +13,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 import javax.swing.*;
@@ -23,6 +25,11 @@ import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
  * Die View-Komponente der "Server-Lobby".
  */
 public class FensterServerLobby implements Runnable {
+
+	private static final Image btnTonAus = Helfer.bildLaden("btn_mute.png");
+	private static final Image btnTonAn = Helfer.bildLaden("btn_unmute.png");
+	private static final Image btnMusikAus = Helfer.bildLaden("btn_music_mute.png");
+	private static final Image btnMusikAn = Helfer.bildLaden("btn_music_unmute.png");
 	
 	private BildschirmServerLobby serverLobby;
 	private JFrame fenster;
@@ -43,11 +50,12 @@ public class FensterServerLobby implements Runnable {
 		Helfer.alsSwingTask(new Runnable() {
 			@Override
 			public void run() {
-				JPanel hauptPanel = new PanelLobbyBg();
+				JPanel hauptPanel = new JPanelHintergrund("lobby_hintergrund.jpg");
 				hauptPanel.setLayout(null);
 				hauptPanel.setPreferredSize(new Dimension(800, 600));
 				
-				panelAlleSpieler = new JPanel();
+				panelAlleSpieler = new JPanelHintergrund("spieler_hintergrund.png");
+				panelAlleSpieler.setBackground(new Color(0xb3dee9));
 				panelAlleSpieler.setLayout(null);
 				
 				JButton trennenBtn = new JButton("Verbindung trennen");
@@ -60,6 +68,52 @@ public class FensterServerLobby implements Runnable {
 					}
 				});
 				hauptPanel.add(trennenBtn);
+				
+				final JButton musikBtn = new JButton(new ImageIcon(btnMusikAus));
+				musikBtn.setBounds(490, 550, 40, 40);
+				musikBtn.setToolTipText("Musik ausschalten");
+				musikBtn.addActionListener(new ActionListener() {
+					private boolean musikAn = true;
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						musikAn = !musikAn;
+						if (musikAn) {
+							musikBtn.setIcon(new ImageIcon(btnMusikAus));
+							musikBtn.setToolTipText("Musik ausschalten");
+						}
+						else {
+							musikBtn.setIcon(new ImageIcon(btnMusikAn));
+							musikBtn.setToolTipText("Musik anschalten");
+						}
+						
+						serverLobby.setMusikAn(musikAn);
+					}
+				});
+				hauptPanel.add(musikBtn);
+				
+				final JButton sfxBtn = new JButton(new ImageIcon(btnTonAus));
+				sfxBtn.setBounds(540, 550, 40, 40);
+				sfxBtn.setToolTipText("Ton im Spiel ausschalten");
+				sfxBtn.addActionListener(new ActionListener() {
+					private boolean tonAn = true;
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						tonAn = !tonAn;
+						if (tonAn) {
+							sfxBtn.setIcon(new ImageIcon(btnTonAus));
+							sfxBtn.setToolTipText("Ton im Spiel ausschalten");
+						}
+						else {
+							sfxBtn.setIcon(new ImageIcon(btnTonAn));
+							sfxBtn.setToolTipText("Ton im Spiel anschalten");
+						}
+						
+						serverLobby.setTonAn(tonAn);
+					}
+				});
+				hauptPanel.add(sfxBtn);
 				
 				
 				JScrollPane spielerScroller = new JScrollPane(panelAlleSpieler);
@@ -158,18 +212,26 @@ public class FensterServerLobby implements Runnable {
 				
 				// Chat
 				chatTextArea = new JTextArea();
+				chatTextArea.setOpaque(false);
+				chatTextArea.setBackground(null);
 				chatTextArea.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 12));
 				chatTextArea.setEditable(false);
 				chatTextArea.setLineWrap(true);
 				chatTextArea.setMargin(new Insets(5, 5, 5, 5));
 				
-				chatTextScroller = new JScrollPane(chatTextArea);
+				JPanel chatTextContainer = new JPanelHintergrund("chat_hintergrund.png");
+				chatTextContainer.setLayout(new BorderLayout());
+				chatTextContainer.setBackground(new Color(0xfffece));
+				chatTextContainer.add(chatTextArea, BorderLayout.CENTER);
+				
+				chatTextScroller = new JScrollPane(chatTextContainer);
 				chatTextScroller.setBounds(490, 10, 300, 480);
 				chatTextScroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 				hauptPanel.add(chatTextScroller);
 				
 				chatTextField = new JTextField();
 				chatTextField.setBounds(490, 500, 210, 30);
+				chatTextField.setBackground(new Color(0xfffece));
 				chatTextField.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -190,7 +252,8 @@ public class FensterServerLobby implements Runnable {
 				// Chat ENDE
 				
 				
-				fenster = new JFrame("Server-Lobby");
+				fenster = new JFrame("CersysGames");
+				fenster.setIconImages(Arrays.asList(Helfer.bildLaden("icon_16.png"), Helfer.bildLaden("icon_32.png")));
 				fenster.setResizable(false);
 				fenster.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 				fenster.setLayout(new BorderLayout());

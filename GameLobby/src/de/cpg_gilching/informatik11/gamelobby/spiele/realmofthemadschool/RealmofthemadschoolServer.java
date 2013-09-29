@@ -66,6 +66,7 @@ public class RealmofthemadschoolServer extends ServerSpiel {
 				if (entity instanceof Dude) {
 					scoreboard.punkteVorbereiten(((Dude) entity).spieler, toteDudes.size());
 					toteDudes.add((Dude) entity);
+					soundAnAlle("rotmsDeath");
 				}
 			}
 		}

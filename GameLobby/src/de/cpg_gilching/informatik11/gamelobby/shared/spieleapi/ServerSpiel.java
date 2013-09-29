@@ -12,6 +12,7 @@ import de.cpg_gilching.informatik11.gamelobby.server.ControllerServer;
 import de.cpg_gilching.informatik11.gamelobby.server.LobbySpieler;
 import de.cpg_gilching.informatik11.gamelobby.shared.Helfer;
 import de.cpg_gilching.informatik11.gamelobby.shared.net.Packet;
+import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSound;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielTeilnehmer;
 import de.cpg_gilching.informatik11.gamelobby.shared.packets.PacketSpielVerlassen;
 import de.cpg_gilching.informatik11.gamelobby.shared.spieleapi.SpielChat.ChatBefehl;
@@ -141,6 +142,17 @@ public abstract class ServerSpiel {
 			packetAnSpieler(spieler, packet);
 	}
 	
+	public final void soundAnAlle(String name) {
+		PacketSound packet = new PacketSound(name);
+		
+		for (Spieler spieler : teilnehmer)
+			((LobbySpieler) spieler).packetSenden(packet);
+	}
+	
+	public final void soundAnSpieler(Spieler spieler, String name) {
+		((LobbySpieler) spieler).packetSenden(new PacketSound(name));
+	}
+
 	protected abstract PaketManager paketManagerErstellen(Spieler spieler);
 	
 	protected abstract void starten();
@@ -161,6 +173,14 @@ public abstract class ServerSpiel {
 		beendet = true;
 		if (!beendenSperre)
 			server.spielLöschen(this);
+	}
+	
+	final void spielEndeSounds(Spieler gewinner) {
+		for (Spieler spieler : teilnehmer)
+			if (spieler == gewinner)
+				soundAnSpieler(spieler, "genericWin");
+			else
+				soundAnSpieler(spieler, "genericFail");
 	}
 	
 	public final int getSpielId() {

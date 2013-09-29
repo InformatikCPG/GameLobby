@@ -46,6 +46,8 @@ public class BildschirmServerLobby {
 		
 		oberfläche.spielerListeAktualisieren(spielerTabelle.values());
 		spielFormularFüllen();
+		
+		setMusikAn(true);
 	}
 	
 	/**
@@ -67,6 +69,7 @@ public class BildschirmServerLobby {
 	 */
 	public void verlassen() {
 		oberfläche.fensterSchliessen();
+		setMusikAn(false);
 	}
 	
 	/**
@@ -197,6 +200,17 @@ public class BildschirmServerLobby {
 		}
 		
 		client.getVerbindung().sendPacket(new PacketSessionStarten(-1, beschreibungId, spielerNamen, punktelimit));
+	}
+	
+	public void setMusikAn(boolean tonAn) {
+		if (tonAn)
+			Sound.musikServerLobby.play(true);
+		else
+			Sound.musikServerLobby.stop();
+	}
+	
+	public void setTonAn(boolean tonAn) {
+		client.tonAngeschaltet = tonAn;
 	}
 	
 	public ControllerClient getClient() {

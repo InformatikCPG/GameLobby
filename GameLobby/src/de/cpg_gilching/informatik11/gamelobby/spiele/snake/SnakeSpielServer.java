@@ -120,6 +120,7 @@ public class SnakeSpielServer extends ServerSpiel {
 			if (essen.get(i).x == p.x && essen.get(i).y == p.y) {
 				s.wachsen(1);
 				essen.remove(i);
+				soundAnSpieler(s.spielerGeben(), "snakeEat");
 				break;
 			}
 		}

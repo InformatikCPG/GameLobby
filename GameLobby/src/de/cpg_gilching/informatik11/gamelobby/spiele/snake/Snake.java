@@ -75,6 +75,7 @@ public class Snake {
 			tot = true;
 			server.nachrichtSenden(spieler, "Du bist gestorben!");
 			server.toteSnakeEinfügen(this);
+			server.soundAnAlle("snakeDeath");
 			return;
 		}
 		

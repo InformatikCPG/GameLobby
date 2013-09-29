@@ -149,7 +149,9 @@ public class Scoreboard {
 	private void gewinnPrüfen() {
 		for (Entry<Spieler, Integer> entry : punkte.entrySet()) {
 			if (entry.getValue() >= spiel.getPunktelimit()) {
-				spiel.beenden(String.format("%s hat das Spiel mit %d Punkten gewonnen!", entry.getKey().getName(), entry.getValue()));
+				Spieler gewinner = entry.getKey();
+				spiel.spielEndeSounds(gewinner);
+				spiel.beenden(String.format("%s hat das Spiel mit %d Punkten gewonnen!", gewinner.getName(), entry.getValue()));
 				break;
 			}
 		}

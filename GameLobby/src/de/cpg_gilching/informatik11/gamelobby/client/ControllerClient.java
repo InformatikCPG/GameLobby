@@ -30,6 +30,8 @@ public class ControllerClient implements Runnable {
 	private static final int CLIENT_TPS = 30;
 	private static final int MS_PER_TICK = 1000 / CLIENT_TPS;
 	
+	volatile boolean tonAngeschaltet = true;
+
 	private Connection verbindung;
 	private PaketLexikon paketLexikon;
 	/**

@@ -8,6 +8,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Arrays;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -52,6 +53,7 @@ public class FensterAnleitung {
 				überschrift.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 
 				fenster = new JFrame("Anleitung: " + anleitungTitel);
+				fenster.setIconImages(Arrays.asList(Helfer.bildLaden("icon_16.png"), Helfer.bildLaden("icon_32.png")));
 				fenster.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 				fenster.setResizable(false);
 				fenster.setLayout(new BorderLayout());

@@ -77,8 +77,8 @@ public class PongSpielServer extends ServerSpiel {
 	
 	private void ballZurücksetzen() {
 		// Ball zurück in die Mitte bewegen
-		ballX = 300;
-		ballY = 300;
+		ballX = PongBeschreibung.BILDSCHIRM_BREITE / 2;
+		ballY = PongBeschreibung.BILDSCHIRM_HÖHE / 2;
 		
 		// zufällige neue Geschwindigkeit auswählen
 		if (Helfer.zufallsZahl(2) == 0)
@@ -133,13 +133,14 @@ public class PongSpielServer extends ServerSpiel {
 		ballX += ballCustomSpeed * ballGeschwindigkeitX;
 		ballY += ballGeschwindigkeitY;
 		
-		// Ball an oberem und unterem Rand abprallen lassen
-		if (ballY < 0 || ballY > PongBeschreibung.BILDSCHIRM_HÖHE) {
-			ballGeschwindigkeitY *= -1;
-		}
-		
-		// auf Schläger-Kollision testen
 		if (pauseTicks <= 0) {
+			// Ball an oberem und unterem Rand abprallen lassen
+			if (ballY < 0 || ballY > PongBeschreibung.BILDSCHIRM_HÖHE) {
+				ballGeschwindigkeitY *= -1;
+				soundAnAlle("pongWall");
+			}
+			
+			// auf Schläger-Kollision testen
 			if (ballX > PongBeschreibung.GRENZE_RECHTS) {
 				if (schlägerBerührtBall(schlägerRechts)) {
 					// --> rechter Schläger hat getroffen
@@ -148,11 +149,13 @@ public class PongSpielServer extends ServerSpiel {
 					
 					int yDiff = ballY - schlägerRechts;
 					ballGeschwindigkeitY = (20 * yDiff) / PongBeschreibung.SCHLÄGER_HÖHE;
+					soundAnAlle("pongSchlaegerRechts");
 				}
 				else {
 					// --> rechter Schläger hat verfehlt
 					scoreboard.punktHinzufügen(links);
 					pauseTicks = 20;
+					soundAnAlle("pongScore");
 				}
 			}
 			
@@ -164,11 +167,13 @@ public class PongSpielServer extends ServerSpiel {
 					
 					int yDiff = ballY - schlägerLinks;
 					ballGeschwindigkeitY = (20 * yDiff) / PongBeschreibung.SCHLÄGER_HÖHE;
+					soundAnAlle("pongSchlaegerLinks");
 				}
 				else {
 					// --> linker Schläger hat verfehlt
 					scoreboard.punktHinzufügen(rechts);
 					pauseTicks = 20;
+					soundAnAlle("pongScore");
 				}
 			}
 		}

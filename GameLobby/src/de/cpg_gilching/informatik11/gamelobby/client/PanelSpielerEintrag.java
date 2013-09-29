@@ -16,7 +16,7 @@ public class PanelSpielerEintrag extends JPanel implements Runnable {
 	private static final long serialVersionUID = 1L;
 	
 	private Color colorAktiv = new Color(100, 215, 100);
-	private Color colorInaktiv = new Color(200, 200, 200);
+	private Color colorInaktiv = new Color(230, 230, 230);
 	
 	
 	private BildschirmServerLobby serverLobby;

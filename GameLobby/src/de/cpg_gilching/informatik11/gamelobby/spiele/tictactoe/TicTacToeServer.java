@@ -34,12 +34,14 @@ public class TicTacToeServer extends ServerSpiel {
 				felder[feld] = 1;
 				spielerAmZug = spieler2;
 				packetAnAlle(new PacketFeldSetzen(feld, 1));
+				soundAnAlle("tictactoeClick");
 				SiegÜberprüfenNachZug(1);
 			}
 			else if (spieler == spieler2 && spielerAmZug == spieler2) {
 				felder[feld] = 2;
 				spielerAmZug = spieler1;
 				packetAnAlle(new PacketFeldSetzen(feld, 2));
+				soundAnAlle("tictactoeClick");
 				SiegÜberprüfenNachZug(2);
 			}
 		}
@@ -94,10 +96,14 @@ public class TicTacToeServer extends ServerSpiel {
 		if (spieler == 1) {
 			scoreboard.punktHinzufügen(spieler1);
 			chat.nachrichtAnAlleTeilnehmer("X hat gewonnen!");
+			soundAnSpieler(spieler1, "tictactoeWin");
+			soundAnSpieler(spieler2, "tictactoeLose");
 		}
 		else if (spieler == 2) {
 			scoreboard.punktHinzufügen(spieler2);
 			chat.nachrichtAnAlleTeilnehmer("O hat gewonnen!");
+			soundAnSpieler(spieler2, "tictactoeWin");
+			soundAnSpieler(spieler1, "tictactoeLose");
 		}
 		else {
 			chat.nachrichtAnAlleTeilnehmer("Unentschieden!");

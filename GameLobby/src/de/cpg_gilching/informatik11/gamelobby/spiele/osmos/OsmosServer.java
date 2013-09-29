@@ -227,6 +227,7 @@ public class OsmosServer extends ServerSpiel {
 	public void spielerTot(Spieler spieler) {
 		scoreboard.punkteVorbereiten(spieler, toteSpieler);
 		toteSpieler++;
+		soundAnAlle("osmosAbsorbed");
 	}
 	
 	public double getWeltRadius() {

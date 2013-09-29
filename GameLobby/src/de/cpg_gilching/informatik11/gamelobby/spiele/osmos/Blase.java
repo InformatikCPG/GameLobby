@@ -45,6 +45,10 @@ public class Blase {
 			geschwindigkeit.drehen(-kollisionsWinkel);
 			geschwindigkeit.x *= -1;
 			geschwindigkeit.drehen(kollisionsWinkel);
+			
+			if (controller != null) {
+				server.soundAnSpieler(controller.getSpieler(), "osmosBounce");
+			}
 		}
 		
 	}

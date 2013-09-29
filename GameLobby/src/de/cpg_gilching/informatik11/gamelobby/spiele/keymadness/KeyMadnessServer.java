@@ -142,6 +142,8 @@ public class KeyMadnessServer extends ServerSpiel {
 			scoreboard.punkteÄndern(spieler, -1);
 		}
 		
+		soundAnSpieler(spieler, getroffen ? "keymadScore" : "keymadFail");
+		
 		// Bei Tastendruck von einem Spieler wird auch überprüft ob eine gewisse Anzahl von Punkten erreicht wurde, 
 		// damit das Level erhöht wird (Das Level springt nichtmehr zurück!):
 		if(scoreboard.getPunkte(spieler) == 8){
