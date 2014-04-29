@@ -1,5 +1,6 @@
 package de.cpg_gilching.informatik11.gamelobby.shared.net;
 
+import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -19,7 +20,7 @@ public class PacketWriteThread extends Thread {
 
 	public PacketWriteThread(OutputStream outStream, IPacketDictionary packetDictionary, IStatsListener observer, IReadWriteErrorHandler errorHandler, String name) {
 		super(name);
-		this.outStream = new DataOutputStream(outStream);
+		this.outStream = new DataOutputStream(new BufferedOutputStream(outStream));
 		this.packetDictionary = packetDictionary;
 		this.statsObserver = observer;
 		this.errorHandler = errorHandler;

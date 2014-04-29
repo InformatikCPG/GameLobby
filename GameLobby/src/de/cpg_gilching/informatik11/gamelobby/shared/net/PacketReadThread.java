@@ -1,5 +1,6 @@
 package de.cpg_gilching.informatik11.gamelobby.shared.net;
 
+import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class PacketReadThread extends Thread {
 	public PacketReadThread(InputStream inStream, IPacketDictionary packetDictionary, IStatsListener statsObserver, IReadWriteErrorHandler errorHandler, String name) {
 		super(name);
 		this.inStreamCounting = new CountingInputStream(inStream);
-		this.inStream = new DataInputStream(inStreamCounting);
+		this.inStream = new DataInputStream(new BufferedInputStream(inStreamCounting));
 		this.packetDictionary = packetDictionary;
 		this.statsObserver = statsObserver;
 		this.errorHandler = errorHandler;
